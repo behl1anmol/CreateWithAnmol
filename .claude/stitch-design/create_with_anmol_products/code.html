@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Creator Products | Create with Anmol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=Hanken+Grotesk:wght@500;600&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#636565",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary": "#2f3131",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container": "#20201f",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#2f3131",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#b8b8b8",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-container": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#464747",
+                        "primary-container": "#e2e2e2",
+                        "background": "#131313",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#c6c6c7",
+                        "primary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-container": "#484949",
+                        "outline": "#8e9192",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface": "#131313",
+                        "surface-variant": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary": "#c6c6c6",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-primary": "#5d5f5f",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "mono-technical": ["Geist"],
+                        "display-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-technical": ["13px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "display-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .liquid-light {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(18,18,18,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: left 0.5s ease-out, top 0.5s ease-out;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-nav {
+            background: rgba(19, 19, 19, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .hover-liquid {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hover-liquid::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out;
+            pointer-events: none;
+        }
+
+        .hover-liquid:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        /* Hide scrollbar for clean horizontal scroll */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col pt-20">
+<div class="liquid-light" id="liquid-cursor"></div>
+<!-- TopNavBar (JSON Content + Derived Style Execution) -->
+<nav class="fixed top-0 w-full z-50 glass-nav border-b border-white/10 flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<a class="font-display-lg text-headline-md tracking-tight text-primary" href="#">Create with Anmol</a>
+<!-- Web Nav -->
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Gallery</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Studio</a>
+<!-- Active State on Assets as it closely matches Products -->
+<a class="font-body-md text-body-md text-primary border-b border-primary pb-1" href="#">Assets</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Archive</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-DEFAULT hover-liquid transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                Start Creating
+            </button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Hero Section -->
+<section class="py-24 md:py-32 flex flex-col md:flex-row items-end justify-between gap-12 border-b border-white/5">
+<div class="max-w-2xl">
+<p class="font-mono-technical text-mono-technical text-on-surface-variant uppercase tracking-widest mb-6">Premium Assets</p>
+<h1 class="font-display-mobile md:font-display-lg text-display-mobile md:text-display-lg text-primary mb-6">Creator Products</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    A meticulously curated collection of high-end digital assets, presets, and cinematic tools designed to elevate your creative workflow to editorial standards.
+                </p>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="font-mono-technical text-mono-technical">Sort by:</span>
+<select class="bg-transparent border-b border-white/20 text-primary font-body-md text-body-md pb-1 focus:ring-0 focus:border-white transition-colors cursor-pointer outline-none">
+<option class="bg-surface-dim">Featured</option>
+<option class="bg-surface-dim">Newest</option>
+<option class="bg-surface-dim">Price: High to Low</option>
+</select>
+</div>
+</section>
+<!-- Featured Flagship Product -->
+<section class="py-16 md:py-24">
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col md:flex-row group cursor-pointer hover:border-white/20 transition-colors duration-500">
+<!-- Product Artwork -->
+<div class="md:w-2/3 h-96 md:h-[600px] relative overflow-hidden bg-surface-container-low">
+<img alt="Cinematic abstract rendering" class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700 ease-in-out mix-blend-luminosity hover:mix-blend-normal" data-alt="A highly detailed cinematic 3D abstract rendering serving as a premium digital product cover. The image features smooth, sweeping liquid-like metallic forms intersecting with translucent glass materials. Lighting is dramatic and high-contrast, utilizing an editorial light-mode aesthetic with bright white highlights against deep graphite shadows. The overall mood is sophisticated, technical, and expensive, reflecting the high-end nature of professional creator tools." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVIw0lc4xw6TjoPPiYfXe0h7iX75CnV2g9oP57lLR_8sxVElBH5zIEtUo-CNJz8jQmGZLU10wchClCSHnj_VJN6BG2NKUdcxE_QtIVA3ItEUzCJeWkfnAtXQe_cyJ3_sC1_GSbQMCPfwttniSL5vcdW8T7LuElkemr4MqvK-wXyrMGeO0K1MwrSFtAKhVoWDSd4diFloevjwxszer0LSs98AAliPuy9BZoUgkvsoNIlOiCv3Z_oJ8pyzBTa5Ma27KPZ27CNOQ3Bcw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/80 via-transparent to-transparent md:hidden"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-dim/80 via-transparent to-transparent hidden md:block"></div>
+</div>
+<!-- Product Details -->
+<div class="md:w-1/3 p-8 md:p-12 flex flex-col justify-center relative bg-surface-dim/50 backdrop-blur-md">
+<div class="flex items-center justify-between mb-8">
+<span class="font-mono-technical text-mono-technical text-primary bg-white/10 px-3 py-1 rounded-full">Flagship</span>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Update v2.4</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">The Obsidian Preset Pack</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 line-clamp-3">
+                        Our definitive collection of cinematic color grades. Engineered for raw footage, delivering uncompromising editorial contrast and liquid-smooth skin tones.
+                    </p>
+<div class="space-y-4 mb-12">
+<div class="flex justify-between items-center border-b border-white/10 pb-2">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Format</span>
+<span class="font-body-md text-body-md text-primary">.CUBE LUTs</span>
+</div>
+<div class="flex justify-between items-center border-b border-white/10 pb-2">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Compatibility</span>
+<span class="font-body-md text-body-md text-primary">Resolve, Premiere, FCP</span>
+</div>
+<div class="flex justify-between items-center border-b border-white/10 pb-2">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Assets</span>
+<span class="font-body-md text-body-md text-primary">45 Presets</span>
+</div>
+</div>
+<div class="mt-auto flex items-center justify-between gap-6">
+<span class="font-headline-md text-headline-md text-primary">$129</span>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-8 py-4 rounded-DEFAULT hover-liquid transition-transform hover:scale-[1.02] active:scale-[0.98] flex-grow text-center">
+                            Acquire Now
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="py-16 md:py-24 border-t border-white/5">
+<div class="flex justify-between items-end mb-12">
+<h3 class="font-display-mobile md:font-headline-md text-display-mobile md:text-headline-md text-primary">Studio Essentials</h3>
+<div class="hidden md:flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">arrow_back</span></button>
+<button class="text-primary hover:text-primary transition-colors"><span class="material-symbols-outlined">arrow_forward</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Grid Item 1 -->
+<article class="glass-panel rounded-lg overflow-hidden group cursor-pointer flex flex-col h-full">
+<div class="h-64 relative overflow-hidden bg-surface-container">
+<img alt="Cyber security concept" class="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500" data-alt="A macro shot of a sophisticated computer server rack or technical hardware bathed in deep, moody graphite tones with singular, sharp white LED lights piercing through the darkness. The aesthetic is extremely technical, minimalist, and expensive, representing a high-end digital texture pack. The composition relies heavily on negative space and sharp, editorial focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjUblGAh7qo8okfsblYLyXJ8hl6-UwiJCLn82uNcwYrYDS-nS0I6VJRWEULi-R8lEE5VnBKvzsC2LrYDgdfoV-OlhXKFvy-EuxBjqScbBg_PFFKI46TMvJEYx5XV3PLmyNHKT3tpM0Y0zACeqDO1OCG9MPqCjGp4JEBKPH-5bVcdEWYp9SROoSoqumjIAsRdbCPP2LaAlB6zP3pXZG6H0zYs_N38-FyIWt4qFcfsCJP9BOmzX2bEDCnkMsxmWZrNe_mWMDKUFYQfY"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-body-lg text-body-lg text-primary font-medium">Kinetic Typography Engine</h4>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">$49</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                            Procedural text animation templates for After Effects. Clean, aggressive motion curves.
+                        </p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/10">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">AE CC 2024+</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0 duration-300">arrow_right_alt</span>
+</div>
+</div>
+</article>
+<!-- Grid Item 2 -->
+<article class="glass-panel rounded-lg overflow-hidden group cursor-pointer flex flex-col h-full">
+<div class="h-64 relative overflow-hidden bg-surface-container">
+<img alt="Abstract fluid shapes" class="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500" data-alt="Soft, billowing liquid-glass shapes suspended in a void. The visual style features subtle backdrop blurs and moving radial gradients in deep greys and desaturated blues, creating an ambient lighting effect. The overall look is calm, focused, and powerful, representing a high-end UI kit or design system product. Extreme minimalism with razor-sharp editorial contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMHl3iZMhh-3LlBqIXHkw88VI-EjyThM-9OOSWZriIFC5n_1DqAJQDkOqcXXMR17g9Nkd1e7eyDe3qmd1CsfCvWujySOlq11710QuT2yz8n6m1-sFvEqG01ZOXWkSgDOtaZ6M9Z29kVvY-VNVSegOgAQLxZAHbtMapr20_4BbhjfvZ4ywH_OQgJPz31Xbe19won6IjxiJQpB9dgmYzhsM3baKv0B9m7PBeNSkV2H1iAClQt4CroaG7DlwPeAjr_X6kWEbHsFBb_v4"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-body-lg text-body-lg text-primary font-medium">Liquid Glass UI Kit</h4>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">$89</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                            Comprehensive Figma design system featuring our signature translucent materials and depth layers.
+                        </p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/10">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Figma</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0 duration-300">arrow_right_alt</span>
+</div>
+</div>
+</article>
+<!-- Grid Item 3 -->
+<article class="glass-panel rounded-lg overflow-hidden group cursor-pointer flex flex-col h-full">
+<div class="h-64 relative overflow-hidden bg-surface-container">
+<img alt="Dark studio setup" class="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500" data-alt="A minimalist, high-contrast photograph of a professional camera rig or studio lighting setup against a deep black background. The image has a faint grain noise overlay, preventing flat digital blacks. Sharp white highlights outline the edges of the equipment, giving it a technical, precision-tool feel. The mood is authoritative and understated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhsCB0l2o4b580f1ln1ujsP3ynXLvAPhPpac0jZabHFekEjazHUiyggywqftBYUn6Rbz4SrmYAlwnMHRjNK5DKa8XcQqTRWzs0hgZbwvM-xqDWoI9K0S7BmreYT5VUd7xIyP19o0XQHr_2GWn2ZwDedvl-2Md-bftzJhBuPFk-0q7VetvQQ_BlmuDN9nzNR9waWYKqQidT56vs_SDqk7dzjucRqu6tKHkWCxxcDlAhyH4e4O8FbiXdjxgTmndBLvSe3osljUdBJ78"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-body-lg text-body-lg text-primary font-medium">Editorial Soundscapes</h4>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">$35</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                            120+ organic, high-fidelity sound design elements. Impacts, risers, and ambient textures.
+                        </p>
+<div class="mt-auto flex justify-between items-center pt-4 border-t border-white/10">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">.WAV 24-bit</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0 duration-300">arrow_right_alt</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer (JSON Content + Derived Style Execution) -->
+<footer class="mt-auto w-full py-12 bg-surface-dim border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-gutter">
+<div class="font-display-lg text-headline-md text-primary mb-6 md:mb-0">
+                Create with Anmol
+            </div>
+<div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">API Reference</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">System Status</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+<div class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant text-center md:text-right">
+                © 2024 Create with Anmol. Designed for Cinematic Excellence.
+            </div>
+</div>
+</footer>
+<script>
+        // Ambient Liquid Lighting effect following cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('liquid-cursor');
+            if (cursor) {
+                // Add a slight delay/smoothness to the movement
+                setTimeout(() => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                }, 50);
+            }
+        });
+    </script>
+</body></html>

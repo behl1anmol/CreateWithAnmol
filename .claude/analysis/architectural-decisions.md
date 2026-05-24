@@ -1,0 +1,128 @@
+# Architectural Decisions
+
+## Session: 2026-05-24
+
+---
+
+### Decision: Static Export (`output: 'export'`) for Phase 1
+
+**Context:** Cloudflare Pages hosting, static-first philosophy, no backend yet.
+
+**Decision:** Use `output: 'export'` in next.config.ts. This generates pure static HTML/CSS/JS into `/out`.
+
+**Rationale:**
+- Eliminates need for `@cloudflare/next-on-pages` adapter complexity
+- Aligns with Phase 1 constraint: no backend, no API routes
+- Cloudflare Pages supports static site uploads natively
+- Simplest deployment path for a solo creator workflow
+
+**Trade-off:** Phase 2 (CMS integration) will need `next/revalidate` or ISR, which requires switching to `@cloudflare/next-on-pages`. That migration is straightforward but planned.
+
+---
+
+### Decision: Tailwind CSS v4 (latest)
+
+**Context:** Project rule requires latest stable tech. Stitch HTML uses v3 CDN config format but Stitch output is a reference, not implementation source.
+
+**Decision:** Use Tailwind CSS v4 (`tailwindcss@^4`) with `@tailwindcss/postcss`.
+
+**Rationale:**
+- Latest stable version aligns with project tech-stack rule
+- v4 uses CSS `@theme` directives in `globals.css` — no separate `tailwind.config.ts` needed
+- All Stitch design tokens translate directly to CSS custom properties with `--color-*`, `--text-*`, `--radius-*`, `--spacing-*` prefixes
+- Cleaner, more maintainable long-term
+
+**v4 Token Translation Strategy:**
+Stitch v3 `theme.extend.colors.surface: '#131313'` → v4 CSS `--color-surface: #131313;`
+Stitch v3 `theme.extend.fontSize.display-lg: ['72px', {...}]` → v4 CSS:
+```css
+--text-display-lg: 72px;
+--text-display-lg--line-height: 1.1;
+--text-display-lg--letter-spacing: -0.02em;
+--text-display-lg--font-weight: 600;
+```
+Stitch v3 `borderRadius.DEFAULT: 0.25rem` → v4 `--radius: 0.25rem;`
+Stitch v3 `spacing.gutter: 24px` → v4 `--spacing-gutter: 24px;`
+
+**Setup:**
+```bash
+pnpm add tailwindcss @tailwindcss/postcss
+```
+`postcss.config.js`:
+```js
+module.exports = { plugins: { '@tailwindcss/postcss': {} } }
+```
+`globals.css`:
+```css
+@import "tailwindcss";
+@theme { /* all custom tokens */ }
+```
+
+**Trade-off:** Stitch class names like `font-display-lg`, `text-display-lg` map to v4 utilities automatically once `--text-display-lg` and `--font-display-lg` are defined in `@theme`. Minor class renaming may be needed (v4 uses `font-` prefix for font-family utilities; font-size uses `text-` prefix with the semantic name).
+
+---
+
+### Decision: Phase 1 = Static Mock Data (no CMS)
+
+**Context:** Phase 1 explicitly excludes Google Sheets / Apps Script integration.
+
+**Decision:** `lib/data/prompts.ts`, `products.ts`, `blogs.ts` as hardcoded TypeScript arrays matching content model schemas.
+
+**Rationale:**
+- Decouples frontend build from CMS availability
+- Allows visual QA of all layouts before backend exists
+- Schema types defined in `lib/types.ts` will serve as exact contract for Phase 2 API responses
+
+**Note:** Mock data must match field names from `content-model.md` exactly so Phase 2 is a drop-in replacement.
+
+---
+
+### Decision: Navbar Labels from Home Screen (not inner screens)
+
+**Context:** Inner Stitch screens (About, Products, Blogs) have placeholder nav: "Gallery, Studio, Assets, Archive". Home Stitch screen has correct nav: "Prompts, Products, Blogs, About".
+
+**Decision:** Use home-screen nav labels everywhere.
+
+**Rationale:** Inner screen labels are Stitch generation artifacts from different prompts. The architecture doc and home design are authoritative.
+
+---
+
+### Decision: Material Symbols via `<link>` in layout head
+
+**Context:** Stitch uses Google Material Symbols icon font for icons (menu, arrow_forward, account_circle, etc.).
+
+**Decision:** Load via `<link rel="stylesheet">` in root layout head with `strategy="lazyOnload"` behavior pattern — use Next.js `<Script>` for non-critical or just `<link>` in `<head>` since it's display content.
+
+**Rationale:** Keeps icons working without a JS icon library. Acceptable trade-off for Phase 1. Can be replaced with a proper SVG icon system in Phase 2 if needed.
+
+---
+
+### Decision: `images: { unoptimized: true }` with static export
+
+**Context:** `next/image` requires a server or third-party service for optimization when using `output: 'export'`.
+
+**Decision:** Set `unoptimized: true`. Phase 1 uses Cloudinary-hosted images which are pre-optimized at the CDN level.
+
+**Rationale:** Cloudinary handles responsive delivery and format optimization. Next.js image optimization would be redundant overhead.
+
+---
+
+### Decision: No Global State Library
+
+**Context:** Frontend is almost entirely static/read-only content.
+
+**Decision:** Use only React `useState` locally in Navbar for mobile menu state. No Zustand, Redux, Jotai, or similar.
+
+**Rationale:** Over-engineering for content that doesn't change during a session.
+
+---
+
+### Decision: CSS `backdrop-filter` Budget
+
+**Context:** `backdrop-filter: blur()` is expensive on GPU. Design uses it in multiple places.
+
+**Decision:** Allow blur only on:
+1. Navbar (`blur(20px)`) — single fixed element
+2. Glass cards (`blur(12px)`) — but only on hover or always-on for visible cards
+
+**Rationale:** Stacking multiple blur layers degrades scroll performance on mobile. Cards without hover don't need active blur — can reduce to `blur(8px)` if performance issues arise.

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prompt Library - Create with Anmol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=Hanken+Grotesk:wght@500;600&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#131313",
+                    "on-primary-container": "#636565",
+                    "surface-container-highest": "#353535",
+                    "on-tertiary": "#2f3131",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#c4c7c8",
+                    "surface-container": "#20201f",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e5e2e1",
+                    "error-container": "#93000a",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#2f3131",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-primary": "#2f3131",
+                    "secondary-fixed": "#e3e2e2",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "tertiary": "#ffffff",
+                    "on-secondary-container": "#b8b8b8",
+                    "primary-fixed": "#e2e2e2",
+                    "tertiary-container": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#464747",
+                    "primary-container": "#e2e2e2",
+                    "background": "#131313",
+                    "on-primary-fixed": "#1a1c1c",
+                    "surface-bright": "#393939",
+                    "surface-tint": "#c6c6c7",
+                    "primary": "#ffffff",
+                    "outline-variant": "#444748",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-primary-fixed-variant": "#454747",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "secondary-container": "#484949",
+                    "outline": "#8e9192",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface": "#131313",
+                    "surface-variant": "#353535",
+                    "on-tertiary-container": "#636565",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "surface-container-low": "#1c1b1b",
+                    "secondary": "#c6c6c6",
+                    "inverse-surface": "#e5e2e1",
+                    "inverse-primary": "#5d5f5f",
+                    "inverse-on-surface": "#313030",
+                    "tertiary-fixed-dim": "#c6c6c7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "mono-technical": [
+                            "Geist"
+                    ],
+                    "display-mobile": [
+                            "Hanken Grotesk"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Geist"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "mono-technical": [
+                            "13px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-mobile": [
+                            "40px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "72px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+            color: #e5e2e1;
+        }
+        
+        .liquid-light {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(18,18,18,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+        }
+        
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .pill-filter {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+        
+        .pill-filter:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .pill-filter.active {
+            background: #ffffff;
+            color: #121212;
+            border-color: #ffffff;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<div class="liquid-light"></div>
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface/60 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-white/10 flat no shadows flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto left-0 right-0">
+<div class="font-display-lg text-headline-md tracking-tight text-primary">
+            Create with Anmol
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-mono-technical text-mono-technical text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">Gallery</a>
+<a class="font-mono-technical text-mono-technical text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">Studio</a>
+<a class="font-mono-technical text-mono-technical text-primary border-b border-primary pb-1 scale-95 active:scale-90 transition-transform" href="#">Assets</a>
+<a class="font-mono-technical text-mono-technical text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">Archive</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex bg-primary text-surface-dim font-label-caps text-label-caps px-4 py-2 rounded scale-95 active:scale-90 transition-transform hover:scale-100">
+                Start Creating
+            </button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-[160px] pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full relative z-10">
+<!-- Hero Section -->
+<header class="mb-16 md:mb-24 text-center md:text-left flex flex-col items-center md:items-start max-w-3xl">
+<h1 class="font-display-mobile md:font-display-lg text-display-mobile md:text-display-lg text-primary mb-6 tracking-tight">
+                Prompt Library
+            </h1>
+<p class="font-body-md md:font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-2xl">
+                A curated collection of high-fidelity AI prompts designed for cinematic excellence and editorial precision. Elevate your creative output with exact syntax.
+            </p>
+</header>
+<!-- Filter Row -->
+<div class="flex flex-wrap gap-3 mb-16 overflow-x-auto pb-4 scrollbar-hide -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+<button class="pill-filter active font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">All</button>
+<button class="pill-filter text-on-surface font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">AI Visuals</button>
+<button class="pill-filter text-on-surface font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">UI Design</button>
+<button class="pill-filter text-on-surface font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">Cinematic Prompts</button>
+<button class="pill-filter text-on-surface font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">Workflow Prompts</button>
+<button class="pill-filter text-on-surface font-label-caps text-label-caps px-5 py-2.5 rounded-full whitespace-nowrap">ChatGPT Prompts</button>
+</div>
+<!-- Prompt Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<article class="glass-card rounded-xl group flex flex-col h-full cursor-pointer hover:border-white/20 transition-colors duration-300">
+<div class="h-48 md:h-64 w-full overflow-hidden relative border-b border-white/5">
+<img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A striking digital installation art piece featuring glowing, generative geometric shapes suspended in a vast, minimalist gallery space. The room is illuminated by high-key, soft white lighting that creates a bright, modern light-mode aesthetic. The artwork relies on a sophisticated palette of deep blacks and pristine whites, punctuated by intense accents of vibrant red. The mood is serene yet technologically advanced." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOTX8fdE07Xs2xlJrYy8xLXUAE447yLcBV0-Kcylqe9gVAq7Msy9URzj3UH8Lvu7zF3QLE7goW7ze-fYYumrn5xgp_kiVxRy0rSkC5Z7GdtmfKD4ZNrb93d9VzjW6LAh76ckapMjTzCqOCxzw_h9huR0C-DDnIixz2hsv_ImRCs9wEosJC7Hqlsflh8aUIcFLx_dZZUazDjirEgnoZiqqOjD8Y5p5UUGdL4bxEoY1CrYmu_E0qgcuRcVi_hYfwaHT2_hYPyBuIJ6w"/>
+<div class="absolute top-4 left-4 bg-surface-dim/80 backdrop-blur-md px-3 py-1 rounded font-mono-technical text-mono-technical text-primary border border-white/10 uppercase tracking-widest text-[10px]">AI Visuals</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-primary mb-3 text-xl md:text-2xl tracking-tight">Liquid Chrome Geometry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2 flex-grow">
+                        Generate hyper-realistic 3D primitive shapes with liquid chrome materials in a stark, infinite studio environment.
+                    </p>
+<div class="pt-4 border-t border-white/10 flex justify-between items-center mt-auto">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Midjourney v6</span>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                            Get Prompt <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="glass-card rounded-xl group flex flex-col h-full cursor-pointer hover:border-white/20 transition-colors duration-300">
+<div class="h-48 md:h-64 w-full overflow-hidden relative border-b border-white/5">
+<img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A minimalist tech setup featuring a retro computer terminal bathed in deep cinematic blue lighting with sharp magenta accents. The scene is shot from a low, dramatic angle, emphasizing the sleek, dark graphite surfaces of the surrounding environment. The atmosphere is tense, moody, and highly sophisticated, reflecting a premium cyberpunk aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASuSTGzoIxVSowE8ODanJDKi9VK0kVaA6XbVaGSJkT-K7l1mvI-3oyqlKyNmQdt97HBsws3Q2IHcezkSXa3Y2W6UXw457zuLtcMMjox9u-U3e_0pP02yZ4YA1n9C_DRLLl-EGTdpkYaxQePFiDhxfmXw4Ly71N4PnAEajbq7-HeINHjIBH9hfmUeflwuNoRhyfSyDi42bLlxbwPM-ms13dTt7EBF-NOIdRCHbSdrcSVEz0W0bQNKaIpnxEd0ufRd9C1BkN57JPbh8"/>
+<div class="absolute top-4 left-4 bg-surface-dim/80 backdrop-blur-md px-3 py-1 rounded font-mono-technical text-mono-technical text-primary border border-white/10 uppercase tracking-widest text-[10px]">Cinematic Prompts</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-primary mb-3 text-xl md:text-2xl tracking-tight">Neon Noir Terminals</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2 flex-grow">
+                        Moody, high-contrast scenes of retro-futuristic workstations lit by single-source colored neon lights.
+                    </p>
+<div class="pt-4 border-t border-white/10 flex justify-between items-center mt-auto">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Stable Diffusion</span>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                            Get Prompt <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="glass-card rounded-xl group flex flex-col h-full cursor-pointer hover:border-white/20 transition-colors duration-300">
+<div class="h-48 md:h-64 w-full overflow-hidden relative border-b border-white/5">
+<img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A close-up, highly detailed shot of translucent glass architectural elements against a dark, featureless background. Soft, moving radial gradients of desaturated blue light act as ambient illumination behind the glass layers. The image showcases micro-textures and a sense of physical depth without clutter, embodying a calm, focused, and powerful aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGwD7JvXoXcqL4XarGve_vGc9Ebzo9IG0DfcCB9hQbWs6kH8OuE-Ox0RqOt_Ly6RAl-exVoO6lDtMA--xMFDYRalJsaXGbEVcpwZ-Ptjq2bc4swOIDBKvWLo14N_R1cjf91foQ4HuKwjLp82LlIBKJsJ_d-tNganki2No433n4e1rleOvEeHUw5IQdmhQWxa8OX4a7N6JHOrJMJo5UDKlOe74UIKRTT79Qn_saWSsqS5tmIw8LQag5vH9-V3fb5RjI531p0-Z0Zn0"/>
+<div class="absolute top-4 left-4 bg-surface-dim/80 backdrop-blur-md px-3 py-1 rounded font-mono-technical text-mono-technical text-primary border border-white/10 uppercase tracking-widest text-[10px]">UI Design</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-headline-md text-headline-md text-primary mb-3 text-xl md:text-2xl tracking-tight">Frosted Glass Interfaces</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2 flex-grow">
+                        Concepts for spatial computing UIs featuring deep background blurs and razor-sharp white typography.
+                    </p>
+<div class="pt-4 border-t border-white/10 flex justify-between items-center mt-auto">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">DALL-E 3</span>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                            Get Prompt <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-dim w-full py-12 border-t border-white/5 flat flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-container-max mx-auto gap-gutter mt-auto">
+<div class="font-display-lg text-headline-md text-primary tracking-tight mb-6 md:mb-0">
+            Create with Anmol
+        </div>
+<div class="flex flex-wrap justify-center gap-6 md:gap-8 mb-6 md:mb-0">
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">API Reference</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">System Status</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+<div class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant opacity-60 text-center md:text-right">
+            © 2024 Create with Anmol. Designed for Cinematic Excellence.
+        </div>
+</footer>
+<script>
+        // Simple pill filter interaction
+        document.querySelectorAll('.pill-filter').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.pill-filter').forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.remove('text-surface-dim');
+                    b.classList.add('text-on-surface');
+                });
+                this.classList.add('active');
+                this.classList.remove('text-on-surface');
+            });
+        });
+    </script>
+</body></html>

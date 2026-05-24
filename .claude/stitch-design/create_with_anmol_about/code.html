@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Anmol - Create with Anmol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#636565",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary": "#2f3131",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container": "#20201f",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#2f3131",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#b8b8b8",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-container": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#464747",
+                        "primary-container": "#e2e2e2",
+                        "background": "#131313",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#c6c6c7",
+                        "primary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-container": "#484949",
+                        "outline": "#8e9192",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface": "#131313",
+                        "surface-variant": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary": "#c6c6c6",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-primary": "#5d5f5f",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "mono-technical": ["Geist"],
+                        "display-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-technical": ["13px", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "display-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+            opacity: 0.02;
+        }
+        .liquid-light {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(18,18,18,0) 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: drift 20s ease-in-out infinite alternate;
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(10%, 10%); }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+<div class="liquid-light"></div>
+<!-- TopNavBar Component -->
+<nav aria-label="Main Navigation" class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="font-display-lg text-headline-md tracking-tight text-primary" href="#">Create with Anmol</a>
+<!-- Desktop Nav -->
+<ul class="hidden md:flex items-center gap-8">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Gallery</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Studio</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Assets</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Archive</a></li>
+</ul>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="hidden md:block px-6 py-2 bg-primary text-background font-body-md text-body-md rounded-DEFAULT scale-95 active:scale-90 transition-transform hover:scale-100">
+                    Start Creating
+                </button>
+<button aria-label="account_circle" class="text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="flex-grow pt-[160px] pb-[160px] px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-[160px]">
+<!-- Hero Section -->
+<section class="flex flex-col items-start max-w-4xl">
+<h1 class="font-display-mobile md:font-display-lg text-display-mobile md:text-display-lg text-primary tracking-tight leading-tight mb-8">
+                About Anmol
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+                Architecting digital realities. A platform built for the precise translation of imagination into pixel-perfect cinematic assets. Operating at the intersection of generative AI and high-end editorial design.
+            </p>
+</section>
+<!-- Creator Story (Editorial Split Layout) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="col-span-1 md:col-span-5 relative aspect-[3/4] rounded-lg overflow-hidden glass-panel">
+<img alt="Portrait of the creator" class="w-full h-full object-cover mix-blend-luminosity opacity-80" data-alt="A striking cinematic portrait of a visionary digital creator in a minimalist studio. The lighting is dramatic and chiaroscuro, heavily utilizing deep blacks and a single, soft, high-key white light source that catches the edge of their profile. The background is an infinite, dark graphite void. The overall aesthetic is incredibly premium, akin to high-end tech editorial photography, conveying a sense of quiet authority and intense focus. The tones are muted, almost monochromatic, emphasizing texture and form over color." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd5GG4IFFHkgw5cqq7l4LG0uIeVRFSOmHY-_2NMCOV0t1ZRf_8Bm9iNZ8nv4DMmUG8bwy1u9JtPDvifXlgl13Qc6UmQzXYSUtanZVVbeuxVhnkaNOlAC74_jw_xU_fxJMfN6TWFnx53kk03hxyLkr7NyzyWyaen7N0-EVOWfdAASxTuEvY9KYbTDipKFDPF-HprgY7KaWDeATemPNNR4b1VnN1ML1tJkOeCg9oOOtrW6o19yTJwMt6lb0pB1bTEiD7aeYUSvBtcO0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+</div>
+<div class="col-span-1 md:col-span-1"></div>
+<div class="col-span-1 md:col-span-6 flex flex-col gap-8">
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-4">The Architect</h2>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                        The genesis of this platform wasn't born from a desire for automation, but for articulation. AI shouldn't replace the artist's hand; it should serve as an infinitely capable instrument, awaiting absolute direction.
+                    </p>
+</div>
+<div class="w-full h-px bg-white/10"></div>
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-4">The Methodology</h2>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                        Every tool, every slider, and every output is calibrated for cinematic excellence. We discard the noise of the mainstream to focus entirely on signal. The result is a restrained, powerful environment where technical proficiency meets raw creative intent.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Philosophy & Platform Links -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-[120px]">
+<!-- Philosophy -->
+<div class="flex flex-col gap-12">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Core Philosophy</h2>
+<div class="flex flex-col gap-8 border-l border-white/10 pl-8">
+<div>
+<h3 class="font-mono-technical text-mono-technical text-on-surface mb-2">01. Restraint over Abundance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">True power lies in what you choose to omit. We provide the essential variables required for mastery, nothing more.</p>
+</div>
+<div>
+<h3 class="font-mono-technical text-mono-technical text-on-surface mb-2">02. Liquid Lighting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">The interface itself should act as ambient light—unobtrusive but ever-present, supporting the heavy visual weight of the generated assets.</p>
+</div>
+<div>
+<h3 class="font-mono-technical text-mono-technical text-on-surface mb-2">03. Deterministic Outcomes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Creativity requires control. The systems are designed to minimize chaos and maximize intentionality in every generation.</p>
+</div>
+</div>
+</div>
+<!-- Platform Links (Bento-style Cards) -->
+<div class="flex flex-col gap-6">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight mb-6">Network</h2>
+<a class="glass-panel p-6 rounded-lg flex items-center justify-between group hover:bg-white/[0.05] transition-colors duration-300 cursor-pointer" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">photo_camera</span>
+<div>
+<div class="font-mono-technical text-mono-technical text-primary">Instagram</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm">Visual Archive &amp; Process</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+<a class="glass-panel p-6 rounded-lg flex items-center justify-between group hover:bg-white/[0.05] transition-colors duration-300 cursor-pointer" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">article</span>
+<div>
+<div class="font-mono-technical text-mono-technical text-primary">Medium</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm">Technical Dissections &amp; Theory</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+<a class="glass-panel p-6 rounded-lg flex items-center justify-between group hover:bg-white/[0.05] transition-colors duration-300 cursor-pointer" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">shopping_bag</span>
+<div>
+<div class="font-mono-technical text-mono-technical text-primary">Gumroad</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-sm">Premium Prompts &amp; Workflows</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="w-full py-12 bg-surface-dim border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-gutter">
+<div class="font-display-lg text-headline-md text-primary opacity-80 hover:opacity-100 transition-opacity duration-200">
+                Create with Anmol
+            </div>
+<ul class="flex flex-wrap justify-center gap-6">
+<li><a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Documentation</a></li>
+<li><a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">API Reference</a></li>
+<li><a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">System Status</a></li>
+<li><a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Terms of Service</a></li>
+</ul>
+<div class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant text-xs text-center md:text-right">
+                © 2024 Create with Anmol. Designed for Cinematic Excellence.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Create with Anmol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=Hanken+Grotesk:wght@500;600&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#2f3131",
+                        "surface-container": "#20201f",
+                        "surface-variant": "#353535",
+                        "on-primary-container": "#636565",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary": "#c6c6c6",
+                        "surface": "#131313",
+                        "secondary-container": "#484949",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#393939",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-container": "#e2e2e2",
+                        "outline": "#8e9192",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary-fixed": "#e3e2e2",
+                        "surface-tint": "#c6c6c7",
+                        "tertiary": "#ffffff",
+                        "primary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-background": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-dim": "#131313",
+                        "outline-variant": "#444748",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary": "#2f3131",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-primary": "#2f3131",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-fixed": "#e2e2e2",
+                        "background": "#131313",
+                        "on-secondary-container": "#b8b8b8",
+                        "error-container": "#93000a",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Geist"],
+                        "mono-technical": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "display-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "mono-technical": ["13px", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "display-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.02), transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.03), transparent 50%),
+                linear-gradient(to bottom, #121212 0%, #1a1a1a 100%);
+            background-attachment: fixed;
+            color: #e5e2e1;
+        }
+        .liquid-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 60%);
+        }
+        .text-gradient {
+            background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden selection:bg-surface-variant selection:text-primary">
+<!-- Liquid Light Hover Effect -->
+<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden" id="liquid-light" style="background: radial-gradient(600px at 725px 1026px, rgba(255, 255, 255, 0.02) 0%, transparent 100%);"></div>
+<!-- TopNavBar Shared Component -->
+<nav class="fixed top-0 w-full z-50 bg-[#121212]/60 backdrop-blur-2xl border-b border-white/5 shadow-none">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-semibold tracking-tight text-primary">
+                Create with Anmol
+            </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-body-md text-body-md font-medium text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-4 py-2 rounded" href="#">Prompts</a>
+<a class="font-body-md text-body-md font-medium text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-4 py-2 rounded" href="#">Products</a>
+<a class="font-body-md text-body-md font-medium text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-4 py-2 rounded" href="#">Blogs</a>
+<a class="font-body-md text-body-md font-medium text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 transition-all duration-300 px-4 py-2 rounded" href="#">About</a>
+</div>
+<button class="hidden md:block font-body-md text-body-md font-medium text-surface bg-white/80 backdrop-blur-[20px] border border-white/20 border-t-white/50 px-6 py-2 rounded-full hover:bg-white/95 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_4px_20px_rgba(255,255,255,0.1)] hover:shadow-[0_8px_25px_rgba(255,255,255,0.2)]">
+                Sign In
+            </button>
+<!-- Mobile Menu Icon (Placeholder) -->
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+<main class="relative z-10 pt-32 pb-32">
+<!-- Ambient Liquid Lighting -->
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-white/5 blur-[120px] mix-blend-screen"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[100px] mix-blend-screen"></div>
+</div>
+<!-- Hero Section -->
+<section class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto min-h-[716px] flex flex-col justify-center items-center text-center gap-8 mb-40">
+<h1 class="font-display-mobile text-display-mobile md:font-display-lg md:text-display-lg text-gradient max-w-4xl">
+                Create with Anmol
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.
+            </p>
+<div class="mt-8 flex gap-4">
+<button class="font-body-md text-body-md font-medium text-surface bg-white/80 backdrop-blur-[20px] border border-white/20 border-t-white/50 px-8 py-3 rounded-full hover:bg-white/95 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.25)]">
+                    Explore Prompts
+                </button>
+</div>
+</section><section class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-40">
+<div class="flex justify-between items-end mb-12 pb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Gumroad Products</h2>
+<a class="font-body-md text-body-md text-secondary hover:text-primary transition-colors flex items-center gap-2" href="#">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
+<!-- Product 1 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/10">lightbulb</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">Mastering Lighting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">A comprehensive guide to cinematic lighting in AI.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300">View Product</button>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/10">bolt</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">Prompt Engineering Pro</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Advanced techniques for high-fidelity image generation.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300">View Product</button>
+</div>
+</div>
+</div>
+</div>
+</section><section class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-40">
+<div class="flex justify-between items-end mb-12 pb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Medium Blogs</h2>
+<a class="font-body-md text-body-md text-secondary hover:text-primary transition-colors flex items-center gap-2" href="#">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
+<!-- Blog 1 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/10">article</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">The Future of AI Design</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Exploring the intersection of generative AI and traditional design principles.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300">Read Article</button>
+</div>
+</div>
+</div>
+<!-- Blog 2 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-white/10">movie</span>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">Cinematic Prompting 101</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">How to achieve film-like quality in every generation.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300">Read Article</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Instagram Prompts Section -->
+<section class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-40">
+<div class="flex justify-between items-end mb-12 pb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Instagram Prompts</h2>
+<a class="font-body-md text-body-md text-secondary hover:text-primary transition-colors flex items-center gap-2" href="#">
+                    View All <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Horizontal Scroll Grid -->
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
+<!-- Card 1 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<img alt="Cinematic abstract rendering" class="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity" data-alt="A highly detailed, cinematic abstract 3D rendering featuring flowing liquid shapes in deep graphite and pristine white. The lighting is soft and directional, creating a sophisticated 'liquid glass' aesthetic. The mood is calm, modern, and highly technical, reflecting premium AI generated art. No bright neon colors, only refined monochromatic tones with subtle silver highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD26TLTkWNQMpNMXkT61Xvw3jKOZNGCjEEkev_VWuraviUaq8ZKXphXhSYZcnnWRAj1cxgrzTJ7Kj4rOcSfQO7EDXx0jn6QSz0F7mIgA9vv5sqhWAlLi9m3bANlX9OdqthN7xwtBC6VNAmWQ5W-xz4dtWsEAF6eSfBs-AF0aKchAA-YE5WWGcbQHh6b80rX1TsnFQAtAIOxkWEuWWM0GiI1Lfdh0C24yGZVEofRe7CqnfVzGBDlUqYCrt5Dxfi4ZdTazyuWo4A8CtU">
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">Cinematic Midjourney Masters</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">A collection of deeply technical prompts to achieve film-like lighting and composition.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300">Watch Reel</button>
+<button class="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300">Get Full Prompt</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
+<div class="h-64 bg-[#121212] relative overflow-hidden">
+<img alt="Hyper-real lighting rendering" class="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity" data-alt="A macro shot of intricate glass structures illuminated by hyper-real, soft studio lighting against a dark graphite background. The image showcases advanced refraction and subtle caustic light patterns, emphasizing a premium, technical 'Apple' design aesthetic. The composition is minimal and elegant, relying on stark contrasts between deep shadows and crisp white highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaJRV-pVmT9v8HbKQdLFi7io3jL0s_NuE4u2XNJPc8_Ivly6R2Gu-bUVPqjhaPigp2loqOVkzzRUAI-ZsUrKcZGxOqQfeJFxyuJfhWBvE7lgmy288W33gMulxKbTK-dSVZtNcn9sbQPWa31g5OWk-psRaUXSapkhi80rRSKN7JcejDyQgWR3lsS9EgtDfYLt2UlH-IfXUo7hgDxEx6mE6-yhUaX27vuL0a701nRZ92Pg0Y1HTS6lGNsiNWLNnaiWqgvSFhutzwqy8">
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
+<h3 class="font-body-lg text-body-lg text-primary font-medium">Hyper-Real Lighting Prompts</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Master studio lighting setups within AI generation for product-level realism.</p>
+<div class="mt-auto flex gap-3 pt-4 border-t border-white/5">
+<button class="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300">Watch Reel</button>
+<button class="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-primary font-label-caps text-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300">Get Full Prompt</button>
+</div>
+</div>
+</div>
+</div>
+</section><section class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-40">
+</section>
+</main>
+<!-- Footer Shared Component -->
+<footer class="bg-[#121212] w-full py-16 relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-unit max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md text-primary mb-8 md:mb-0">
+                Create with Anmol
+            </div>
+<div class="flex gap-6 mb-8 md:mb-0 font-mono-technical text-mono-technical uppercase tracking-widest text-on-primary-container">
+<a class="hover:text-primary transition-colors duration-200" href="#">Instagram</a>
+<a class="hover:text-primary transition-colors duration-200" href="#">Gumroad</a>
+<a class="hover:text-primary transition-colors duration-200" href="#">Medium</a>
+<a class="hover:text-primary transition-colors duration-200" href="#">Privacy</a>
+</div>
+<div class="font-mono-technical text-mono-technical text-secondary uppercase tracking-widest">
+                © 2024 Create with Anmol. All rights reserved.
+            </div>
+</div>
+</footer>
+<script>
+    const light = document.getElementById('liquid-light');
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    document.addEventListener('mousemove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+    });
+
+    function updateLight() {
+        currentX += (targetX - currentX) * 0.1;
+        currentY += (targetY - currentY) * 0.1;
+        light.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, rgba(255,255,255,0.02) 0%, transparent 100%)`;
+        requestAnimationFrame(updateLight);
+    }
+    
+    updateLight();
+</script>
+
+
+</body></html>

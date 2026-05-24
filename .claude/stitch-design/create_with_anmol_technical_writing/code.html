@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blogs - Create with Anmol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=Hanken+Grotesk:wght@500;600&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#636565",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary": "#2f3131",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container": "#20201f",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#2f3131",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#b8b8b8",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-container": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#464747",
+                        "primary-container": "#e2e2e2",
+                        "background": "#131313",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#c6c6c7",
+                        "primary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-container": "#484949",
+                        "outline": "#8e9192",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface": "#131313",
+                        "surface-variant": "#353535",
+                        "on-tertiary-container": "#636565",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary": "#c6c6c6",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-primary": "#5d5f5f",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "mono-technical": ["Geist"],
+                        "display-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Geist"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-technical": ["13px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "display-mobile": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            /* Micro-texture noise overlay */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+        }
+        
+        .liquid-light {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(18,18,18,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            /* Subtle inner glow on top and left */
+            box-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Ambient Liquid Lighting -->
+<div class="liquid-light top-0 left-[20%]"></div>
+<div class="liquid-light top-[40%] right-[-10%]"></div>
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 flat no shadows">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<a class="font-display-lg text-headline-md tracking-tight text-primary" href="#">Create with Anmol</a>
+<nav class="hidden md:flex gap-8">
+<!-- Navigation intent is not explicitly matching these tabs, but Archive represents history/collection, closely mapping to a Blog/Articles list if we must choose one. However, standard rules state to pick exact match or intent. If none perfectly fit a pure "Blog" reading experience, we'll leave them inactive, or map "Archive" as the closest to past writings. Let's assume none match exactly, applying inactive style. Actually, let's keep them all inactive as the user is reading generic blogs. Wait, the rules state: "Apply the style_active_navigation classes ONLY to that matching item". If none match perfectly, none get it. -->
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Gallery</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Studio</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Assets</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Archive</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="hidden md:block bg-primary text-surface-dim font-label-caps text-label-caps uppercase px-6 py-3 rounded scale-95 active:scale-90 transition-transform hover:scale-100">
+                    Start Creating
+                </button>
+<button class="text-primary hover:text-on-surface-variant transition-colors duration-300 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Hero Section -->
+<section class="mb-24 md:mb-[160px] max-w-3xl">
+<h1 class="font-display-mobile md:font-display-lg text-display-mobile md:text-display-lg text-primary mb-6">Technical Writing</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                A repository of deep dives, architectural decisions, and editorial perspectives on building cinematic AI tooling.
+            </p>
+</section>
+<!-- Featured Article -->
+<section class="mb-24 md:mb-[200px]">
+<div class="glass-card rounded-xl overflow-hidden flex flex-col md:flex-row group cursor-pointer transition-all duration-500 hover:bg-[rgba(255,255,255,0.05)]">
+<div class="md:w-3/5 h-64 md:h-[500px] relative overflow-hidden bg-surface-container-lowest">
+<img alt="Abstract representation of data flow and AI logic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 mix-blend-luminosity group-hover:mix-blend-normal" data-alt="A highly detailed cinematic shot of abstract digital logic and flowing data streams in a dark void. The scene is illuminated by striking liquid light patterns in pristine white and deep graphite. The aesthetic is extremely minimal, technical, and high-end, representing professional AI software architecture. Shallow depth of field with glassmorphism elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD50e6AdcpqIRjFDcE9LDlbWm6Kt5Sb_q01Twjm8L5fpXsUq5-j3iRnL3a0meT6GtWmr1XEjNDNpR7b7nCJmsJO87y8c8u0j7cegMFwPAjYASBKbM2gVnrOqbiqz7iItAkDkVmtS1P7LurmCt2tVb22gqgITbeCn2G6n2RloCh1VCeTfRB5Az-9Dlvei9YV5wNg7x1e6ieHjImnOOP-pVhcdIDh-eMeQqn7l21hU3Io4kmO95o_64Kjf4BJSTKtAuXtR4ofek0s05o"/>
+</div>
+<div class="md:w-2/5 p-8 md:p-12 flex flex-col justify-between border-t md:border-t-0 md:border-l border-white/10">
+<div>
+<div class="flex items-center gap-4 mb-6">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant uppercase tracking-widest">Architecture</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Oct 12, 2024</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-6 group-hover:text-tertiary transition-colors">
+                            Designing the Liquid Glass Rendering Engine
+                        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 line-clamp-4">
+                            Exploring the mathematical foundations and shader optimization techniques required to achieve real-time cinematic glassmorphism in browser-based AI generation tools, without sacrificing frame rates.
+                        </p>
+</div>
+<div>
+<span class="inline-flex items-center gap-2 font-label-caps text-label-caps uppercase text-primary tracking-widest border-b border-primary/30 pb-1 group-hover:border-primary transition-colors">
+                            Read Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Article Grid -->
+<section>
+<div class="flex justify-between items-end mb-12 border-b border-white/10 pb-6">
+<h3 class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant">Latest Publications</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16">
+<!-- Article 1 -->
+<article class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-surface-container-lowest glass-card">
+<img alt="Server rack conceptual visualization" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100" data-alt="A macro photography shot of sophisticated server hardware and optical cables in a dark, high-end data center. Subtle radial gradients of desaturated blue and deep grey provide ambient light. The scene feels premium, technical, and authoritative, emphasizing precision engineering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgVnwG1VVj2KAXqUATf3_gma_3Y64NZgoMMcrBqunJPWn2G218Euam73jYeMw0mSSl9w6qNERrq5JYM4fDadgQhLbhdfmzuWcz_kbbBNP28ujd7vVvIuSUPm6ZgnDvlt3587moNrPuNvode2FOyLztiRY-xMKtqANivacLhSl398WlVilvfoSbBdGAnT335inGLcrnXY7BFWBODzWDkfrd4nuJeT50jz_9zGxzBR2__P8KK2jtL0me0ZShUwivi368S0_JMbH_LNk"/>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Infrastructure</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Sep 28</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-primary mb-3">Scaling Distributed AI Workloads</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                        How we manage cross-region latency when generating high-fidelity assets in real-time.
+                    </p>
+</article>
+<!-- Article 2 -->
+<article class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-surface-container-lowest glass-card">
+<img alt="Abstract code blocks" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100" data-alt="A minimalist, editorial composition showing fragments of computer code overlaid on a dark, textured graphite background. Razor-sharp white text contrasts with deep black voids. Subtle glassmorphism layers create physical depth without clutter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIOO6SgI3QOTISUYv_p8j-jTKzlGsVPikIKbA5or-ZGXkBnyIIfnCyfT-VnaaaXSPiuBv39JzJG0G5BTT58dhuTyIEMySyX0ebiKNngJZ6VenU_QfotszMTiOXtfT46XK8h7wuoEuGfiMfZBSi-UAPwtTzMn9wLFa81cq0pnH_rNtMcKtloyU7oR7xiDfTRJ06SzWq-9a1qV8Qzq7mNZRE7qRWD7okjBJYtbr1BNAkqLH3Fo0t0TkKTFapPEESnJRM2-k-cDKCg8M"/>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Engineering</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Sep 15</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-primary mb-3">Type-Safe Prompt Injection</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                        Securing user inputs while maintaining the expressive power of large language models.
+                    </p>
+</article>
+<!-- Article 3 -->
+<article class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-surface-container-lowest glass-card">
+<img alt="Gradient light passing through glass" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100" data-alt="A cinematic, high-contrast image showing a soft, moving radial gradient of pure white light passing through a translucent glass pane against a pitch-black background. The aesthetic is 'liquid glass', feeling expensive, calm, and powerfully understated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS21_1fTiRTvSHnWj0zBunOie1bcxUC7hwO07OT4e4yjSSFrBhUTdQ06Y0GC-jI8cKulUjG8wjytpxK6g_PIJ6vf3FSF3RU6Y4KMLmobqI2nqqiClIT9uwQd1q6XwyA_P43j90p-3-7PBM2Uda2Bt36KVkctkHyNCwc4RdJZZCPoymY4lKiYP-f5Le1AuwMKAdNyh8K6ZRWRO1P73PM7AIEm90VvoaJqbJZR90ULMxxVbliRQB68ZJH50ugQoef_VjvgJh6WMRIxY"/>
+</div>
+<div class="flex items-center gap-3 mb-3">
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Design</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-mono-technical text-mono-technical text-on-surface-variant">Aug 30</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-primary mb-3">Typography in the Age of AI</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+                        Why monospaced technical fonts are replacing sans-serifs in modern creative interfaces.
+                    </p>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-dim border-t border-white/5 flat">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-gutter">
+<div class="font-display-lg text-headline-md text-primary">
+                Create with Anmol
+            </div>
+<nav class="flex flex-wrap justify-center gap-6 md:gap-8">
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Documentation</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">API Reference</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">System Status</a>
+<a class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant hover:text-primary transition-opacity duration-200 opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</nav>
+<div class="font-mono-technical text-mono-technical uppercase tracking-widest text-on-surface-variant text-center md:text-right mt-8 md:mt-0 opacity-50">
+                © 2024 Create with Anmol. Designed for Cinematic Excellence.
+            </div>
+</div>
+</footer>
+</body></html>
