@@ -1,5 +1,57 @@
 # Session Handoff
 
+## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR Complete
+
+### What Was Done
+- Created `src/lib/api/client.ts` — `fetchFromCMS<T>()` with `revalidate: 3600` and graceful error fallback
+- Created `src/lib/api/normalize.ts` — type-safe normalizers for Prompt, Product, Blog, FeaturedItem
+- Created `src/lib/api/index.ts` — `getPrompts()`, `getProducts()`, `getBlogs()`, `getFeaturedItems()`, `getHomepageData()` with Featured-tab fallback to `featured: true` flag
+- Split `/prompts`, `/products`, `/blogs` into server `page.tsx` wrapper + `[Name]Client.tsx` client component
+- Rewrote `src/app/page.tsx` — async, `revalidate = 3600`, `getHomepageData()`, real image tags for product/blog cards, correct field names (`productLink`, `articleLink`)
+- Installed `@opennextjs/cloudflare` + `wrangler` (not `@cloudflare/next-on-pages` — peer dep blocks Next.js 16)
+- Ran `npx opennextjs-cloudflare migrate` — scaffolded `wrangler.jsonc`, `open-next.config.ts`, `.dev.vars`, `public/_headers`
+- Removed `output: 'export'` from `next.config.ts`
+- Added `APPS_SCRIPT_URL` to `.dev.vars` (migrate does not copy from `.env.local`)
+
+### Phase 2 Status
+- ✅ Google Sheets structure defined (4 tabs: Prompts, Products, Blogs, Featured)
+- ✅ Apps Script deployed as Web App (Execute as Me, Anyone can access)
+- ✅ `.env.local` and `.dev.vars` contain `APPS_SCRIPT_URL`
+- ✅ API layer (`src/lib/api/`) — implemented
+- ✅ All pages wired to live API (mockData.ts no longer imported by any page)
+- ✅ `output: 'export'` removed — `@opennextjs/cloudflare` configured
+- ✅ ISR: `revalidate = 3600` on all 4 content routes
+- ✅ `npm run build` — zero TypeScript errors, all routes show `Revalidate: 1h`
+- ✅ `npx opennextjs-cloudflare build` — `.open-next/worker.js` generated
+- ⬜ Cloudflare Pages dashboard: update build command to `npm run deploy`
+- ⬜ Cloudflare Pages env vars: add `APPS_SCRIPT_URL` for Production + Preview
+- ⬜ Confirm "Featured" tab rename (was "Features") in Google Sheets
+
+### Current File Structure (new files)
+```
+src/lib/api/client.ts
+src/lib/api/normalize.ts
+src/lib/api/index.ts
+src/app/prompts/PromptsClient.tsx
+src/app/products/ProductsClient.tsx
+src/app/blogs/BlogsClient.tsx
+wrangler.jsonc
+open-next.config.ts
+.dev.vars
+public/_headers
+```
+
+### Local Dev Commands
+- `npm run dev` — Next.js dev server (Node.js, reads `.env.local`)
+- `npm run build` — Next.js production build (validates TS + ISR config)
+- `npm run deploy` — OpenNext build + Cloudflare deploy (requires Node ≥22 for wrangler)
+- `npm run preview` — OpenNext build + local Cloudflare preview (requires Node ≥22)
+
+### ISR Behavior
+Sheet update → live on site within max 1 hour. No manual redeploy needed. Cache is per-Worker-instance (no R2 — acceptable for solo creator traffic pattern). To enable persistent cross-instance cache, configure R2 in `wrangler.jsonc` and uncomment `r2IncrementalCache` in `open-next.config.ts`.
+
+---
+
 ## Session: 2026-05-25 — Phase 2 CMS Backend Setup Complete
 
 ### What Was Done

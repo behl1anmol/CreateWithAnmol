@@ -1,5 +1,30 @@
 # Debugging Log
 
+## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR
+
+### Issue: `@cloudflare/next-on-pages` peer dep conflict with Next.js 16
+**Symptom:** `npm install -D @cloudflare/next-on-pages` → `ERESOLVE unable to resolve dependency tree`. Peer dep requires `next@">=14.3.0 && <=15.5.2"`. Project: `next@16.2.6`.
+**Fix:** Used `@opennextjs/cloudflare` instead — no Next.js version ceiling.
+**Rule:** For Next.js 16+, `@opennextjs/cloudflare` is the correct adapter. Do not attempt `@cloudflare/next-on-pages` on this project.
+
+### Issue: `opennextjs-cloudflare migrate` failed to set up ISR cache (Node version)
+**Symptom:** `WARN Failed to set up cache for your project. After migration completes, please manually setup cache in wrangler.jsonc and open-next.config.ts`.
+**Root cause:** wrangler requires Node ≥22; machine runs Node v20.20.2. Cache setup sub-command depends on wrangler CLI.
+**Impact:** Non-blocking. R2-backed ISR cache is not configured; Worker-instance memory cache is used instead. Adequate for a solo creator site with low traffic variance.
+**Fix if needed:** Upgrade to Node 22+ and re-run cache setup, or manually configure R2 binding in `wrangler.jsonc` and uncomment `r2IncrementalCache` in `open-next.config.ts`.
+
+### Issue: `.dev.vars` missing `APPS_SCRIPT_URL` after migrate
+**Symptom:** `opennextjs-cloudflare migrate` generated `.dev.vars` with only `NEXTJS_ENV=development`. `APPS_SCRIPT_URL` not present → would cause runtime error `APPS_SCRIPT_URL environment variable is not set` in wrangler dev.
+**Fix:** Manually appended `APPS_SCRIPT_URL=https://...` to `.dev.vars`.
+**Note:** `.env.local` (used by `next dev`) and `.dev.vars` (used by `wrangler dev`) are separate files. Migrate does not merge them.
+
+### Issue: `next.config.ts` had `output: 'export'` retained after migrate
+**Symptom:** `opennextjs-cloudflare migrate` appended `import('@opennextjs/cloudflare').then(...)` to `next.config.ts` but did NOT remove `output: 'export'`. Build would still generate static export rather than ISR-capable server build.
+**Fix:** Manually removed `output: 'export'` line from `nextConfig` object.
+**Rule:** Always check `next.config.ts` after migrate — the `output: 'export'` line is not automatically removed.
+
+---
+
 ## Session: 2026-05-25 — Phase 2 CMS Backend Setup
 
 ### Issue: cms-schema.md missing 6 fields vs frontend types.ts

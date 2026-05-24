@@ -1,5 +1,61 @@
 # Lessons Learned
 
+## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR
+
+### `@cloudflare/next-on-pages` Locks to Next.js ≤15 — Use `@opennextjs/cloudflare` on Next.js 16
+
+**Situation:** `npm install -D @cloudflare/next-on-pages` failed with `ERESOLVE` — peer dep requires `next@">=14.3.0 && <=15.5.2"`. Project uses Next.js 16.2.6.
+
+**Lesson:** `@cloudflare/next-on-pages` has a hard Next.js version ceiling. For any project on Next.js 16+, use `@opennextjs/cloudflare` instead. It is now the Cloudflare-recommended adapter and has no version ceiling.
+
+**Rule:** Before installing a Cloudflare Next.js adapter, check its peer dep range. Next.js major version bumps routinely break `@cloudflare/next-on-pages` compat. `@opennextjs/cloudflare` is the safe default for latest-stable Next.js.
+
+---
+
+### Run `opennextjs-cloudflare migrate` First — It Does Most of the Config Work
+
+**Situation:** Manually planned wrangler.toml config. The migrate command auto-generated everything correctly.
+
+**Lesson:** `npx opennextjs-cloudflare migrate` scaffolds: `wrangler.jsonc` (with correct `main`, `compatibility_flags`, `assets` binding), `open-next.config.ts`, `.dev.vars`, `public/_headers`, gitignore entries, package.json scripts. Run it before writing any config manually. Only manual step: add project-specific env vars (e.g., `APPS_SCRIPT_URL`) to `.dev.vars`.
+
+---
+
+### `.dev.vars` Needs Project Env Vars Added Manually After Migrate
+
+**Situation:** `opennextjs-cloudflare migrate` created `.dev.vars` with only `NEXTJS_ENV=development`. `APPS_SCRIPT_URL` was missing → `wrangler dev` would fail at runtime.
+
+**Lesson:** The migrate command does not copy vars from `.env.local`. Always check `.dev.vars` after migrate and manually add any project-specific env vars that are needed at runtime. `.env.local` serves `next dev`; `.dev.vars` serves `wrangler dev`.
+
+---
+
+### Home Page Mock Types Diverge From Real Types — Audit Before Migration
+
+**Situation:** `HomeProduct` mock type used `icon` (Material Symbols name) and `link`. Real `Product` type uses `image` (URL) and `productLink`. Home page would have rendered blank image containers and broken links after migration without explicit field renaming.
+
+**Lesson:** Before any mock→live migration, diff the mock type shape against the real TypeScript interface field by field. Even if the visual layout is identical, field name differences will silently break rendering. Write out the mapping table (mock field → real field) before touching code.
+
+---
+
+### Both Fetch-Level and Page-Level `revalidate` Are Required for ISR
+
+**Situation:** Wasn't sure if `export const revalidate = 3600` on each page was needed given `next: { revalidate: 3600 }` was already in `fetchFromCMS()`.
+
+**Lesson:** They control different cache layers:
+- `fetch(..., { next: { revalidate: 3600 } })` → Next.js data cache (the HTTP response from Apps Script)
+- `export const revalidate = 3600` on `page.tsx` → page-level ISR (when Next.js regenerates the HTML)
+
+Both are needed. Omitting the page-level export means the page is treated as fully static with no revalidation schedule, even if the underlying fetch is cached with TTL.
+
+---
+
+### wrangler Requires Node.js ≥22 — On Node 20, Build Works But Local Preview Doesn't
+
+**Situation:** Machine runs Node v20.20.2. `wrangler@4.94.0` emitted `EBADENGINE` warnings. `npx wrangler dev` would not function reliably.
+
+**Lesson:** `opennextjs-cloudflare build` (which calls `next build` under the hood) works on Node 20. The Node ≥22 requirement is only for wrangler's local dev server. For CI/CD on Cloudflare Pages, the build environment uses the correct Node version. Local preview requires a Node version manager upgrade (`nvm use 22` or volta) to use `wrangler dev`. This is a local-only limitation, not a deployment blocker.
+
+---
+
 ## Session: 2026-05-25 — Phase 2 CMS Backend Setup
 
 ### Schema Must Be Validated Against types.ts Before Phase 2
