@@ -146,6 +146,29 @@ Maintain schema consistency.
 
 ---
 
+## cms-appscript-reference.md
+
+Contains:
+
+* exact Google Sheets column headers for all 4 tabs (Prompts, Products, Blogs, Featured)
+* complete Apps Script source code (Code.gs)
+* step-by-step Apps Script deployment guide
+* CORS constraint and server-side fetch requirement
+* troubleshooting section
+
+Use this before:
+
+* setting up Google Sheets tabs for the first time
+* deploying or updating Apps Script
+* implementing Phase 2 fetch layer in Next.js
+* debugging CMS API issues
+
+This is the **implementation-ready reference** — more detailed than cms-schema.md.
+
+Hierarchy priority: cms-appscript-reference.md > cms-schema.md for implementation specifics.
+
+---
+
 ## cms-schema.md
 
 Contains:

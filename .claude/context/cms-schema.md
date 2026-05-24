@@ -71,7 +71,7 @@ Store AI prompt packs and Instagram-related prompt content.
 
 Column order must remain:
 
-| id | title | description | image | category | reelLink | promptLink | featured | order |
+| id | title | description | image | category | tool | reelLink | promptLink | featured | order |
 
 ---
 
@@ -165,6 +165,29 @@ Workflow Prompts
 
 ---
 
+### tool
+
+Type:
+
+* string
+
+Purpose:
+
+* AI tool used to generate this prompt
+
+Example:
+
+```
+Midjourney v6
+Stable Diffusion
+DALL-E 3
+ChatGPT-4o
+```
+
+Rationale: Frontend `Prompt` interface includes `tool` field; rendered as a badge on prompt cards.
+
+---
+
 ### reelLink
 
 Type:
@@ -225,7 +248,7 @@ Store Gumroad creator products.
 
 Column order must remain:
 
-| id | title | description | image | productLink | featured | order |
+| id | title | description | image | productLink | category | price | badge | specs | featured | order |
 
 ---
 
@@ -267,6 +290,94 @@ Gumroad product URL.
 
 ---
 
+### category
+
+Type:
+
+* string
+
+Purpose:
+
+* product categorization for filter pills on /products page
+
+Example:
+
+```
+Preset Packs
+UI Kits
+Typography
+Soundscapes
+Guides
+```
+
+Rationale: Frontend `Product` interface includes `category`; rendered as filter pill system.
+
+---
+
+### price
+
+Type:
+
+* string
+
+Purpose:
+
+* price display on product card image badge
+
+Example:
+
+```
+$129
+$49
+$35
+```
+
+Rationale: Frontend `Product` interface includes `price`; overlaid as badge on card image.
+
+---
+
+### badge
+
+Type:
+
+* string
+
+Purpose:
+
+* premium label shown on featured hero card only
+
+Example:
+
+```
+Flagship · v2.4
+```
+
+Rationale: Frontend renders `badge` in the featured product hero layout only. Leave empty for non-featured products.
+
+---
+
+### specs
+
+Type:
+
+* string
+
+Purpose:
+
+* technical spec row shown below description
+
+Separator convention: use `·` between spec items.
+
+Example:
+
+```
+52 Presets · Lightroom + Capture One · Instant Download
+```
+
+Rationale: Frontend `Product` interface includes `specs`; rendered as spec row in hero and card detail.
+
+---
+
 ### featured
 
 Boolean:
@@ -275,6 +386,8 @@ Boolean:
 TRUE
 FALSE
 ```
+
+Only one product should have `featured=TRUE` — renders as full-width hero on /products page.
 
 ---
 
@@ -291,7 +404,7 @@ Store Medium blog metadata.
 
 Column order must remain:
 
-| id | title | excerpt | image | articleLink | category | readTime | featured | order |
+| id | title | excerpt | image | articleLink | category | readTime | date | featured | order |
 
 ---
 
@@ -359,6 +472,29 @@ Example:
 
 ---
 
+### date
+
+Type:
+
+* string
+
+Purpose:
+
+* publication date display on blog cards
+
+Format: `MMM DD, YYYY`
+
+Example:
+
+```
+Oct 12, 2024
+Sep 28, 2024
+```
+
+Rationale: Frontend `Blog` interface includes `date`; rendered as publication date on blog cards.
+
+---
+
 ### featured
 
 Boolean:
@@ -367,6 +503,8 @@ Boolean:
 TRUE
 FALSE
 ```
+
+Only one blog should have `featured=TRUE` — renders as horizontal hero split on /blogs page.
 
 ---
 

@@ -101,17 +101,18 @@ Prompts
 
 Schema:
 
-| Field       | Type    | Required | Description              |
-| ----------- | ------- | -------- | ------------------------ |
-| id          | string  | Yes      | Stable unique identifier |
-| title       | string  | Yes      | Prompt title             |
-| description | string  | Yes      | Short prompt summary     |
-| image       | string  | Yes      | Thumbnail image URL      |
-| category    | string  | No       | Prompt category          |
-| reelLink    | string  | No       | Instagram reel URL       |
-| promptLink  | string  | Yes      | Google Docs prompt URL   |
-| featured    | boolean | No       | Homepage featured flag   |
-| order       | number  | No       | Sorting order            |
+| Field       | Type    | Required | Description                        |
+| ----------- | ------- | -------- | ---------------------------------- |
+| id          | string  | Yes      | Stable unique identifier           |
+| title       | string  | Yes      | Prompt title                       |
+| description | string  | Yes      | Short prompt summary               |
+| image       | string  | Yes      | Thumbnail image URL                |
+| category    | string  | No       | Prompt category                    |
+| tool        | string  | No       | AI tool name (e.g. Midjourney v6)  |
+| reelLink    | string  | No       | Instagram reel URL                 |
+| promptLink  | string  | Yes      | Gumroad or Google Docs prompt URL  |
+| featured    | boolean | No       | Homepage featured flag             |
+| order       | number  | No       | Sorting order                      |
 
 ---
 
@@ -130,15 +131,19 @@ Products
 
 Schema:
 
-| Field       | Type    | Required | Description              |
-| ----------- | ------- | -------- | ------------------------ |
-| id          | string  | Yes      | Stable unique identifier |
-| title       | string  | Yes      | Product title            |
-| description | string  | Yes      | Product summary          |
-| image       | string  | Yes      | Product cover image URL  |
-| productLink | string  | Yes      | Gumroad product URL      |
-| featured    | boolean | No       | Homepage featured flag   |
-| order       | number  | No       | Sorting order            |
+| Field       | Type    | Required | Description                              |
+| ----------- | ------- | -------- | ---------------------------------------- |
+| id          | string  | Yes      | Stable unique identifier                 |
+| title       | string  | Yes      | Product title                            |
+| description | string  | Yes      | Product summary                          |
+| image       | string  | Yes      | Product cover image URL                  |
+| productLink | string  | Yes      | Gumroad product URL                      |
+| category    | string  | No       | Product category (filter pills)          |
+| price       | string  | No       | Price string e.g. `$129`                 |
+| badge       | string  | No       | Featured hero badge label                |
+| specs       | string  | No       | Spec row, `·` separated                  |
+| featured    | boolean | No       | Homepage featured flag (max one TRUE)    |
+| order       | number  | No       | Sorting order                            |
 
 ---
 
@@ -157,17 +162,18 @@ Blogs
 
 Schema:
 
-| Field       | Type    | Required | Description              |
-| ----------- | ------- | -------- | ------------------------ |
-| id          | string  | Yes      | Stable unique identifier |
-| title       | string  | Yes      | Article title            |
-| excerpt     | string  | Yes      | Short article summary    |
-| image       | string  | Yes      | Blog thumbnail image     |
-| articleLink | string  | Yes      | Medium article URL       |
-| category    | string  | No       | Blog category            |
-| readTime    | string  | No       | Estimated read time      |
-| featured    | boolean | No       | Homepage featured flag   |
-| order       | number  | No       | Sorting order            |
+| Field       | Type    | Required | Description                              |
+| ----------- | ------- | -------- | ---------------------------------------- |
+| id          | string  | Yes      | Stable unique identifier                 |
+| title       | string  | Yes      | Article title                            |
+| excerpt     | string  | Yes      | Short article summary                    |
+| image       | string  | Yes      | Blog thumbnail image                     |
+| articleLink | string  | Yes      | Medium article URL                       |
+| category    | string  | No       | Blog category (filter pills)             |
+| readTime    | string  | No       | Estimated read time e.g. `12 min read`   |
+| date        | string  | No       | Publication date e.g. `Oct 12, 2024`     |
+| featured    | boolean | No       | Homepage featured flag (max one TRUE)    |
+| order       | number  | No       | Sorting order                            |
 
 ---
 
