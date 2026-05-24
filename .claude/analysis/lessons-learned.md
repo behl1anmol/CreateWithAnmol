@@ -1,5 +1,53 @@
 # Lessons Learned
 
+## Session: 2026-05-25 — Phase 2 CMS Backend Setup
+
+### Schema Must Be Validated Against types.ts Before Phase 2
+
+**Situation:** `cms-schema.md` was written during planning, before frontend pages were fully implemented. When pages were built, `types.ts` gained 6 fields not present in the schema (`tool`, `date`, `category`/`price`/`badge`/`specs`).
+
+**Lesson:** At any phase boundary (especially Phase 1 → Phase 2), always diff `src/lib/types.ts` against `cms-schema.md` column definitions. The types file is the authoritative runtime contract — schema must match it, not the other way around.
+
+**Action:** Before implementing Phase 2 fetch layer, run a quick audit: every field in `types.ts` interfaces must exist as a column in the corresponding Google Sheet tab.
+
+---
+
+### `NEXT_PUBLIC_` Prefix Is Wrong for Build-Time Server-Side Fetch
+
+**Situation:** Initially documented env var as `NEXT_PUBLIC_APPS_SCRIPT_URL`. This was incorrect.
+
+**Lesson:** `NEXT_PUBLIC_*` is for values that need to be accessible in client-side JavaScript (embedded into the browser bundle by Next.js at build time). Apps Script URL is only needed server-side during `next build` — it should never appear in the browser bundle. Use `APPS_SCRIPT_URL` (no prefix). Server components and `getStaticProps`-style fetching read it from `process.env` at build time only.
+
+**Rule:** If a value is only read in server components or at build time, no `NEXT_PUBLIC_` prefix.
+
+---
+
+### Apps Script ContentService Has No CORS Headers
+
+**Situation:** Apps Script `ContentService.createTextOutput()` returns JSON without `Access-Control-Allow-Origin` headers. Any browser `fetch()` call to the Apps Script URL will be blocked by CORS.
+
+**Lesson:** Never fetch Apps Script URL from client-side code (`useEffect`, client components, or browser `fetch()`). Always fetch from Next.js server components (build time or ISR). Server-to-server HTTP calls bypass browser CORS enforcement entirely.
+
+**Corollary:** If client-side fetch to Apps Script is ever needed (e.g., form submissions, dynamic filtering without ISR), a proxy server or Cloudflare Worker is required. For this project, server-side build-time fetch is sufficient.
+
+---
+
+### Cloudflare Pages Env Vars Are Injected Into Build Environment
+
+**Situation:** Needed to understand where `APPS_SCRIPT_URL` lives in production since `.env.local` is never committed.
+
+**Lesson:** Cloudflare Pages Dashboard → Settings → Environment Variables injects variables into `npm run build`. Next.js `process.env.APPS_SCRIPT_URL` reads them correctly during build. No special Cloudflare-specific config needed. Set for both `Production` and `Preview` environments independently.
+
+---
+
+### Apps Script: Read by Column Header Name, Not Column Index
+
+**Situation:** Could have mapped sheet columns by position (index 0 = id, index 1 = title, etc.).
+
+**Lesson:** Reading by header name (find index of `'id'` in row 1, map by name) makes the script resilient to column reordering in the sheet. A creator managing the sheet might drag columns around — positional reading would silently corrupt all data. Header-name reading is always safer for human-managed spreadsheets.
+
+---
+
 ## Session: 2026-05-24 — Phase 1 Foundation Bootstrap
 
 ### Tailwind v4 @theme — Font Family Semantic Naming

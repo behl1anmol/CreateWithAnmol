@@ -1,5 +1,79 @@
 # Architectural Decisions
 
+## Session: 2026-05-25
+
+---
+
+### Decision: Apps Script Deployment — Bound Script, `?path=` Routing
+
+**Context:** Phase 2 CMS backend. Google Apps Script needed to expose content from Google Sheets as JSON API.
+
+**Decision:** Bound script (attached to the Google Sheet via Extensions → Apps Script), not standalone. Route on `?path=` query parameter in `doGet(e)`.
+
+**Rationale:**
+- Bound scripts automatically have read access to the sheet — no OAuth or spreadsheet ID configuration needed
+- `SpreadsheetApp.getActiveSpreadsheet()` works without credentials
+- `?path=` routing is the simplest Apps Script routing pattern — no URL path parsing, no regex
+- Single `Code.gs` file — easy to read, update, redeploy
+
+**Trade-off:** Bound scripts are locked to one spreadsheet. If the spreadsheet is ever migrated to a new file, the script must be re-attached. For a solo creator workflow, acceptable.
+
+---
+
+### Decision: `APPS_SCRIPT_URL` Env Var — No `NEXT_PUBLIC_` Prefix
+
+**Context:** Apps Script deployment URL must be available to Next.js at build time for server-side fetching.
+
+**Decision:** Use `APPS_SCRIPT_URL` without `NEXT_PUBLIC_` prefix.
+
+**Rationale:**
+- URL is only consumed in server components at build time — not in browser JavaScript
+- `NEXT_PUBLIC_*` embeds values into the client bundle — exposes URL in browser DevTools unnecessarily
+- Apps Script URLs are effectively public (deployed as "Anyone can access") but embedding them in client JS is poor hygiene
+- Server-side-only env vars are the correct pattern for build-time API credentials
+
+**Local:** `.env.local` → `APPS_SCRIPT_URL=...`
+**Production:** Cloudflare Pages Dashboard → Settings → Environment Variables
+
+---
+
+### Decision: CORS Mitigation — Server-Side Fetch Only
+
+**Context:** Apps Script `ContentService` does not emit `Access-Control-Allow-Origin` headers. Browser fetch will be blocked.
+
+**Decision:** Fetch Apps Script exclusively from Next.js server components (at build time). No client-side fetch to Apps Script.
+
+**Rationale:**
+- Server-to-server HTTP requests bypass browser CORS enforcement
+- Content is read-only and non-realtime — no need for client-side dynamic fetch
+- Build-time static generation (or ISR) is sufficient for this content type
+
+**Implication for Phase 2:** Pages must be server components fetching at build time. Any page that needs to be a client component (e.g., with `useState` filters) must receive data as props from a parent server component, not fetch independently.
+
+---
+
+### Decision: Phase 2 Requires Migration from `output: 'export'` to `@cloudflare/next-on-pages`
+
+**Context:** `output: 'export'` (Phase 1) generates pure static HTML with no server at runtime. Phase 2 needs ISR to keep content fresh without manual rebuilds.
+
+**Decision:** Planned migration to `@cloudflare/next-on-pages` for Phase 2 deployment.
+
+**Rationale:**
+- ISR (`revalidate`) requires a server process to check freshness and re-render — not possible with static export
+- `@cloudflare/next-on-pages` runs Next.js App Router on Cloudflare Workers, enabling ISR
+- Suggested revalidation: `revalidate = 3600` (1 hour) — matches content update frequency for a solo creator
+
+**Migration steps (when ready):**
+1. Remove `output: 'export'` from `next.config.ts`
+2. `npm install @cloudflare/next-on-pages`
+3. Add `wrangler.toml` for Cloudflare Workers deployment
+4. Update Cloudflare Pages build settings to use Workers mode
+5. Add `export const revalidate = 3600` to each page file
+
+**Note:** This migration is NOT needed until Phase 2 frontend wire-up begins. Phase 1 static export continues to work for current deployment.
+
+---
+
 ## Session: 2026-05-24
 
 ---

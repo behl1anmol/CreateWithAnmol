@@ -1,5 +1,30 @@
 # Debugging Log
 
+## Session: 2026-05-25 — Phase 2 CMS Backend Setup
+
+### Issue: cms-schema.md missing 6 fields vs frontend types.ts
+**Symptom:** Schema drafted during planning phase did not reflect fields added during frontend implementation.
+**Affected tabs:**
+- Prompts: missing `tool`
+- Products: missing `category`, `price`, `badge`, `specs`
+- Blogs: missing `date`
+**Fix:** Updated `cms-schema.md`, `content-model.md`, and `cms-appscript-reference.md` with all missing fields.
+**Prevention:** Before Phase 2 fetch integration, diff `types.ts` against schema. Types are authoritative.
+
+### Issue: Wrong env var name recommended initially
+**Symptom:** Guide initially documented `NEXT_PUBLIC_APPS_SCRIPT_URL`. Corrected after user asked about Cloudflare deployment.
+**Root cause:** Defaulted to `NEXT_PUBLIC_` prefix without considering fetch is server-side only.
+**Fix:** Renamed to `APPS_SCRIPT_URL` in guide, `cms-appscript-reference.md`, and memory files.
+**Rule:** Only use `NEXT_PUBLIC_*` when value must be accessible in browser JS bundle.
+
+### Issue: "Features" tab vs "Featured" tab naming discrepancy
+**Symptom:** User created tab named "Features" — schema contract requires "Featured".
+**Risk:** Apps Script `getSheetByName('Featured')` throws `Tab not found: "Featured"` if tab is named "Features".
+**Fix:** Flagged before any data entry. User confirmed rename to "Featured".
+**Note:** Apps Script tab name lookups are exact-match, case-sensitive. Tab name = code contract.
+
+---
+
 ## Session: 2026-05-24 — Phase 1 Foundation Bootstrap
 
 ### Issue: pnpm not installed

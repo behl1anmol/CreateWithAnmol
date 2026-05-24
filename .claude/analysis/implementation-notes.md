@@ -110,6 +110,72 @@ All foundation items COMPLETE. Static build passes, all 5 routes generated. Visu
 
 ---
 
+## Session: 2026-05-25 — Phase 2 CMS Backend Setup
+
+### Schema Gap Discovery
+`cms-schema.md` was written before full Phase 1 frontend implementation.
+When frontend pages were built, 6 fields were added to `types.ts` that were never added to the schema.
+Always validate schema against `src/lib/types.ts` before Phase 2 integration — they must match exactly.
+
+Gaps found and resolved:
+| Tab | Missing Field | Frontend Usage |
+|-----|--------------|----------------|
+| Prompts | `tool` | Badge label on prompt card (`Midjourney v6`) |
+| Products | `category` | Filter pill system on /products |
+| Products | `price` | Price badge overlaid on card image |
+| Products | `badge` | Label in featured hero card only |
+| Products | `specs` | Spec row in hero + card detail |
+| Blogs | `date` | Publication date on blog card (`Oct 12, 2024`) |
+
+### Apps Script Architecture (Phase 2 Backend)
+
+**Script type:** Bound to Google Sheet (Extensions → Apps Script)
+**Advantages over standalone:** No spreadsheet ID needed, simpler auth, easier to maintain.
+
+**Routing:** `?path=` query parameter switch in `doGet(e)`.
+Endpoint format: `https://script.google.com/macros/s/SCRIPT_ID/exec?path=prompts`
+
+**Key implementation patterns in `getSheetRows(tabName)`:**
+- Read column headers from row 1 — map by name not index (resilient to column reorder)
+- Skip rows where `id` column is empty (allows blank separator rows in sheet)
+- Normalize booleans: `true`/`'TRUE'` → `true`, `false`/`'FALSE'` → `false`
+- Normalize `order` column to JS number; defaults to 999 if missing
+- Omit empty cells entirely from output object (preserves optional field semantics)
+- Sort ascending by `order` before returning
+
+**Response envelope:**
+```json
+{ "data": [...] }
+{ "data": [], "error": "message" }
+```
+
+### Environment Variable Naming
+`APPS_SCRIPT_URL` — no `NEXT_PUBLIC_` prefix.
+
+Rationale: URL consumed server-side only at build time.
+`NEXT_PUBLIC_*` embeds value into client JS bundle — unnecessary and exposes URL publicly.
+
+**Local dev:** `.env.local` → `APPS_SCRIPT_URL=https://...`
+**Production:** Cloudflare Pages Dashboard → Settings → Environment Variables → `APPS_SCRIPT_URL`
+Cloudflare injects into build environment during `npm run build`. No other config needed.
+
+### CORS Constraint
+Apps Script `ContentService` does NOT set `Access-Control-Allow-Origin` headers.
+Browser `fetch()` to Apps Script URL will fail with CORS error.
+Mitigation: fetch only from Next.js server components (build-time or ISR) — server-to-server, no CORS check.
+
+### Phase 2 Frontend Migration Required
+Current `output: 'export'` in `next.config.ts` creates pure static HTML.
+Static export has no server at runtime → can only fetch at `npm run build` time.
+Limitation: content updates require rebuild to propagate.
+
+For ISR (stale-while-revalidate) content freshness:
+- Must switch to `@cloudflare/next-on-pages` adapter
+- Enables server-side rendering + ISR revalidation on Cloudflare Workers
+- Migration: remove `output: 'export'`, install `@cloudflare/next-on-pages`, update `wrangler.toml`
+
+---
+
 ## Session: 2026-05-24 — Homepage Full Implementation
 
 ### Files Created/Modified

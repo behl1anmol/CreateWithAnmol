@@ -1,5 +1,53 @@
 # Session Handoff
 
+## Session: 2026-05-25 — Phase 2 CMS Backend Setup Complete
+
+### What Was Done
+- Audited `cms-schema.md` against `src/lib/types.ts` — found 6 field gaps (schema predates full frontend implementation)
+- Updated `cms-schema.md` with missing fields:
+  - Prompts tab: added `tool` (AI tool name — renders as badge on prompt cards)
+  - Products tab: added `category`, `price`, `badge`, `specs` (filter pills, price overlay, hero card detail)
+  - Blogs tab: added `date` (publication date display)
+- Updated `content-model.md` schema tables to match
+- Created `.claude/context/cms-appscript-reference.md` — implementation-ready reference:
+  - Exact column headers for all 4 tabs with rationale + example values
+  - Complete `Code.gs` Apps Script source
+  - Step-by-step deployment guide (6 steps)
+  - CORS constraint + Cloudflare Pages env var setup
+- Updated `CLAUDE.md` Context Hierarchy to include `cms-appscript-reference.md`
+- Corrected env var naming: `APPS_SCRIPT_URL` (not `NEXT_PUBLIC_APPS_SCRIPT_URL`)
+- User confirmed: Google Sheet populated, Apps Script deployed, `.env.local` created
+
+### Phase 2 Status
+- ✅ Google Sheets structure defined (4 tabs: Prompts, Products, Blogs, Featured)
+- ✅ Apps Script deployed as Web App (Execute as Me, Anyone can access)
+- ✅ `.env.local` created with `APPS_SCRIPT_URL`
+- ✅ Cloudflare Pages env var setup documented
+- ⬜ Next.js fetch layer (`lib/api/`) — not yet implemented
+- ⬜ Pages wired to live API (replacing mock data in `mockData.ts`)
+- ⬜ Switch from `output: 'export'` → `@cloudflare/next-on-pages` for ISR support
+
+### Critical Architecture Note for Phase 2 Frontend
+Fetch Apps Script from **server components only** (build time).
+`ContentService` on Apps Script has no CORS headers → browser fetch will fail.
+Phase 2 requires switching from `output: 'export'` to `@cloudflare/next-on-pages`
+to enable server-side rendering and build-time fetch in server components.
+
+### Tab Rename Required
+User created "Features" tab — must be renamed to **"Featured"** in Google Sheets.
+Apps Script references tab by exact name → `'Features'` throws `Tab not found` error.
+
+### Next Steps: Phase 2 Frontend (CMS Wire-Up)
+1. Rename "Features" → "Featured" tab in Google Sheets (if not done)
+2. Switch `next.config.ts`: remove `output: 'export'`, add `@cloudflare/next-on-pages` adapter
+3. Create `src/lib/api/index.ts` — fetch functions for each endpoint
+4. Create `src/lib/api/normalize.ts` — response normalization (matches `lib/types.ts` exactly)
+5. Update `src/app/page.tsx`, `/prompts`, `/products`, `/blogs` to fetch from API instead of mockData
+6. Add `revalidate` strategy (ISR) — suggested: 3600s (1 hour) for content that changes infrequently
+7. Test build with live data
+
+---
+
 ## Session: 2026-05-24 (Update) — /about Page Full Implementation Complete
 
 ### What Was Done
