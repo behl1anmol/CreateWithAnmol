@@ -1,4 +1,5 @@
 import type { Prompt, Product, Blog, FeaturedItem } from '@/lib/types'
+import { toEmbeddableImageUrl } from '@/lib/utils/imageUrl'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizePrompt(raw: any): Prompt {
@@ -6,7 +7,7 @@ export function normalizePrompt(raw: any): Prompt {
     id: String(raw.id ?? ''),
     title: String(raw.title ?? ''),
     description: String(raw.description ?? ''),
-    image: String(raw.image ?? ''),
+    image: toEmbeddableImageUrl(String(raw.image ?? '')),
     promptLink: String(raw.promptLink ?? ''),
     category: raw.category ? String(raw.category) : undefined,
     tool: raw.tool ? String(raw.tool) : undefined,
@@ -22,7 +23,7 @@ export function normalizeProduct(raw: any): Product {
     id: String(raw.id ?? ''),
     title: String(raw.title ?? ''),
     description: String(raw.description ?? ''),
-    image: String(raw.image ?? ''),
+    image: toEmbeddableImageUrl(String(raw.image ?? '')),
     productLink: String(raw.productLink ?? ''),
     category: raw.category ? String(raw.category) : undefined,
     price: raw.price ? String(raw.price) : undefined,
@@ -39,7 +40,7 @@ export function normalizeBlog(raw: any): Blog {
     id: String(raw.id ?? ''),
     title: String(raw.title ?? ''),
     excerpt: String(raw.excerpt ?? ''),
-    image: String(raw.image ?? ''),
+    image: toEmbeddableImageUrl(String(raw.image ?? '')),
     articleLink: String(raw.articleLink ?? ''),
     category: raw.category ? String(raw.category) : undefined,
     readTime: raw.readTime ? String(raw.readTime) : undefined,

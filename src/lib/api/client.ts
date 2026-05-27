@@ -9,7 +9,7 @@ export async function fetchFromCMS<T>(path: string): Promise<T[]> {
 
   try {
     const res = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 3600 },
     })
 
     if (!res.ok) {

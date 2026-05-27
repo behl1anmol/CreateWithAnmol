@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { hostname: 'res.cloudinary.com' },
       { hostname: 'lh3.googleusercontent.com' },
+      { hostname: 'drive.google.com' },
     ],
   },
 }

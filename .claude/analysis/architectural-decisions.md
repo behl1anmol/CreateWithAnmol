@@ -27,6 +27,54 @@
 
 ---
 
+### Decision: Server-Side Proxy for Google Drive Images
+
+**Session:** 2026-05-27
+
+**Context:** Google Drive's CDN ("fife" server, lh3.googleusercontent.com) returns HTTP 429 Too Many Requests when a browser makes concurrent image requests. This affects any direct browser-to-Drive URL regardless of format (thumbnail, lh3, uc). Root cause confirmed empirically via browser DevTools — 429 with `Content-Type: text/html` body.
+
+**Decision:** Route all Drive image requests through a Next.js Route Handler at `/api/drive-image?id={FILE_ID}`. Server fetches Drive image server-side, returns to browser with 24-hour cache headers.
+
+**Why proxy works:** Server-to-server fetches don't carry browser origin headers and are not subject to Google's per-origin concurrency limits.
+
+**Alternatives rejected:**
+- `drive.google.com/thumbnail?id={ID}&sz=w1000` — browser requests still hit 429 via redirect
+- `lh3.googleusercontent.com/d/{ID}` — direct 429, no redirect bypass
+- `loading="lazy"` on img tags — reduces concurrency but doesn't eliminate 429 for visible cards
+
+**Security:** File ID validated with `/^[a-zA-Z0-9_\-]{10,80}$/` before use in fetch URL. Prevents SSRF.
+
+**Trade-off:** First image load adds one server hop. Mitigated by `Cache-Control: public, max-age=86400` (24-hour browser cache). Subsequent page loads serve from browser cache instantly.
+
+**Cloudflare Workers compatibility:** Route Handler uses only `fetch()` and `Response` — both available in Workers edge runtime. No Node.js-specific APIs used.
+
+---
+
+### Decision: Google Drive Image URL Normalization via `thumbnail` Endpoint
+
+**Session:** 2026-05-27
+
+**Context:** Google Sheets CMS stores images as Google Drive shareable links (`drive.google.com/file/d/{ID}/view?usp=sharing`). Plain `<img src>` against these URLs receives an HTML page, not image binary → broken images in all card components.
+
+**Decision:** Transform Drive shareable links to `thumbnail` endpoint at normalization layer (`src/lib/api/normalize.ts`), using utility `src/lib/utils/imageUrl.ts`.
+
+**Transform:** `drive.google.com/file/d/{ID}/view?usp=sharing` → `drive.google.com/thumbnail?id={ID}&sz=w1000`
+
+**Why `thumbnail` over `uc?export=view`:**
+- `uc?export=view` triggers Google virus scan page for large files; increasingly rate-limited
+- `thumbnail?id={ID}&sz=w1000` returns image binary directly, stable, honours public share permission
+- `sz=w1000` sufficient quality for card images (typically 300–600px wide)
+
+**Why normalize.ts, not Client components:**
+- Centralized — one change covers all current and future consumers
+- Matches existing normalization philosophy: clients receive clean, ready-to-use data
+
+**Passthrough behaviour:** Non-Drive URLs (Cloudinary, `lh3.googleusercontent.com`) pass through unchanged — zero regression on existing data.
+
+**Files touched:** `src/lib/utils/imageUrl.ts` (new), `src/lib/api/normalize.ts`, `next.config.ts`, `.claude/context/content-model.md`
+
+---
+
 ### Decision: Server Component Wrapper + Client Component Pattern for ISR + Interactivity
 
 **Context:** Inner pages (`/prompts`, `/products`, `/blogs`) need both ISR (server-side fetch) and client-side `useState` for category filtering.

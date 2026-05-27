@@ -1,5 +1,83 @@
 # Implementation Notes
 
+## Session: 2026-05-27 — Drive Image Proxy (Final Fix)
+
+### Problem
+Browser requests to `lh3.googleusercontent.com` return HTTP 429. Google's "fife" CDN throttles concurrent browser-origin image requests. No URL format bypasses this.
+
+### Fix
+New Route Handler: `src/app/api/drive-image/route.ts`
+- Server-side proxy: fetches `drive.google.com/uc?export=view&id={ID}` then returns image
+- Cache-Control: public, max-age=86400 (24hr browser cache)
+- ID validation regex prevents SSRF
+
+`src/lib/utils/imageUrl.ts` now outputs `/api/drive-image?id={ID}` for all Drive URLs.
+
+### Files Changed
+- `src/app/api/drive-image/route.ts` — new proxy route
+- `src/lib/utils/imageUrl.ts` — output changed to proxy URL
+- `.claude/analysis/cache-clearing-guide.md` — new guide
+
+---
+
+## Session: 2026-05-27 — Drive CDN Rate-Limit Fix
+
+### Problem
+`drive.google.com/thumbnail` CDN rate-limits concurrent browser requests. 6 simultaneous card image loads → only 1 gets through. Random per refresh.
+
+### Fix
+`src/lib/utils/imageUrl.ts`: changed output URL from `drive.google.com/thumbnail?id={ID}&sz=w1000` → `lh3.googleusercontent.com/d/{ID}`. Google's image CDN, no per-burst throttle. Already in `next.config.ts` remotePatterns.
+
+### Impact
+Fixes all pages using `toEmbeddableImageUrl`: Prompts, Products, Blogs, Homepage featured. About page (hardcoded lh3 URL) unaffected.
+
+---
+
+## Session: 2026-05-27 — Stale Fetch Cache Fix + Dev Mode Cache Bypass
+
+### Problem
+Prompts page showed stale data ("Carousel Ideas", "Caption Starters" with `example.com` images) instead of live Sheets data. Root cause: `.next/cache/fetch-cache/` on-disk cache from May 25 persisted past its 1-hour TTL in dev mode — Next.js dev mode doesn't auto-invalidate disk cache between restarts.
+
+### Fix
+1. Deleted all stale `.next/cache/fetch-cache/` entries
+2. Changed `client.ts` fetch revalidate: `0` in dev (always fresh), `3600` in prod (ISR 1-hour)
+
+### Drive Image Permissions Note
+After cache cleared, Drive thumbnails only render for publicly shared files. Users must set each Drive image file to "Anyone with the link can view". First image (Luxury Portrait, file ID `1GJswgI0DOXDcDuuo1nNdeHMAso3SilFB`) confirmed working — others need same setting.
+
+### Files Changed
+- `src/lib/api/client.ts` — conditional `revalidate`
+- `.next/cache/fetch-cache/` — deleted (manual step)
+
+---
+
+## Session: 2026-05-27 — Google Drive Image URL Fix
+
+### Problem
+Google Sheets CMS returns Google Drive shareable links for `image` fields. Plain `<img src="drive.google.com/file/d/{ID}/view">` loads an HTML page, not image binary → broken cards in Prompts, Products, Blogs.
+
+### Fix
+Created `src/lib/utils/imageUrl.ts` with `toEmbeddableImageUrl(url)`:
+- Regex-extracts `FILE_ID` from Drive file URLs
+- Rewrites to `drive.google.com/thumbnail?id={ID}&sz=w1000`
+- Passes through non-Drive URLs unchanged
+
+Applied in `src/lib/api/normalize.ts` to `image` field in `normalizePrompt`, `normalizeProduct`, `normalizeBlog`.
+
+### Files Changed
+- `src/lib/utils/imageUrl.ts` — new utility
+- `src/lib/api/normalize.ts` — import + apply transform to all 3 image fields
+- `next.config.ts` — added `drive.google.com` to `remotePatterns`
+- `.claude/context/content-model.md` — Image Rules section updated
+- `.claude/analysis/architectural-decisions.md` — decision recorded
+
+### Key Notes
+- `*Client.tsx` files unchanged — receive pre-transformed URLs
+- Passthrough logic preserves `lh3.googleusercontent.com` and Cloudinary URLs
+- `sz=w1000` chosen for card quality/performance balance
+
+---
+
 ## Session: 2026-05-24 — Phase 1 Frontend Planning
 
 ### Project State at Session Start

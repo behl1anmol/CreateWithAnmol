@@ -293,6 +293,23 @@ Avoid:
 * oversized files
 * cluttered thumbnails
 
+Supported image URL sources:
+
+* Cloudinary-hosted assets (preferred)
+* Google Drive shareable links — auto-proxied through `/api/drive-image?id={ID}` at normalization layer
+* lh3.googleusercontent.com direct URLs (for non-Drive Google-hosted images)
+
+Google Drive links stored in Sheets (`drive.google.com/file/d/{ID}/view`) are
+automatically rewritten to `/api/drive-image?id={ID}` by
+`src/lib/utils/imageUrl.ts` during normalization. Do not transform the URL manually in Sheets — store the raw shareable link as-is.
+
+**Why proxy, not direct CDN URL:**
+Google's "fife" CDN (lh3.googleusercontent.com) returns HTTP 429 when a browser
+fires concurrent image requests (e.g., 6 cards loading at once). All direct Drive
+URL formats are affected. The Next.js Route Handler at `src/app/api/drive-image/`
+fetches Drive images server-side, bypassing the browser-origin rate limit.
+Images are served with `Cache-Control: public, max-age=86400` for 24-hour browser caching.
+
 ---
 
 # URL Rules

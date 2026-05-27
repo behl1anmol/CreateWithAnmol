@@ -1,5 +1,65 @@
 # Debugging Log
 
+## 2026-05-27 — HTTP 429 from lh3.googleusercontent.com — Proxy Fix
+
+**Symptom:** All Drive images blank after switching to `lh3.googleusercontent.com/d/{ID}` URL format.
+
+**Root cause confirmed (browser DevTools):**
+- Status: **429 Too Many Requests**
+- Server: `fife` (Google's image CDN)
+- Content-Type: `text/html` (rate-limit response body, not image)
+- Referrer: `http://localhost:3000/` (browser-origin request)
+
+Google's "fife" CDN rate-limits concurrent browser requests per origin. With 6 simultaneous `<img src>` requests, all 6 hit 429. No URL format (thumbnail, lh3, uc) avoids this — the throttle is applied at the CDN layer for browser-origin requests.
+
+**Why server-side doesn't hit 429:** Server requests don't carry browser origin headers. Curl tests confirmed all formats return 200 from server context.
+
+**Fix implemented:** Next.js Route Handler at `src/app/api/drive-image/route.ts`
+- Browser requests `/api/drive-image?id={FILE_ID}` (same-origin, no rate limit)
+- Next.js server fetches `drive.google.com/uc?export=view&id={ID}` server-side
+- Returns image with `Cache-Control: public, max-age=86400` (browser caches 24hr)
+- `toEmbeddableImageUrl` now outputs `/api/drive-image?id={ID}` for all Drive URLs
+
+**Security:** File ID validated with regex `/^[a-zA-Z0-9_\-]{10,80}$/` to prevent SSRF.
+
+**Affected pages fixed:** Prompts, Products, Blogs, Homepage featured (all use same utility).
+
+---
+
+## 2026-05-27 — Random Drive Thumbnails Fail on Concurrent Load
+
+**Symptom:** On each page refresh, a random 1 out of 6 Drive images loads; others blank. Non-deterministic per refresh. All files confirmed publicly shared. URLs correct in inspect element.
+
+**Root cause:** `drive.google.com/thumbnail?id={ID}&sz=w1000` CDN rate-limits concurrent requests from same browser origin. Browser fires 6 simultaneous image requests → Google's thumbnail CDN throttles → only 1-2 get through per burst. Which one "wins" is random per refresh.
+
+**Affected:** All pages using `toEmbeddableImageUrl` — Prompts, Products, Blogs, Homepage featured. About page uses hardcoded `lh3.googleusercontent.com` — not affected.
+
+**Fix:** Changed `src/lib/utils/imageUrl.ts` to output `lh3.googleusercontent.com/d/{FILE_ID}` instead of `drive.google.com/thumbnail?id={ID}&sz=w1000`. `lh3.googleusercontent.com` is Google's image CDN (same as Google Photos), designed for high-concurrency serving. Already whitelisted in `next.config.ts`.
+
+**Trade-off:** No `sz=w1000` size constraint — serves original file resolution. Acceptable for card thumbnails when images are reasonably sized on upload.
+
+---
+
+## 2026-05-27 — Prompts Page Showing Wrong Titles + Missing Images
+
+**Symptom:** /prompts page showed "Carousel Ideas", "Caption Starters" with blank images. Live API (`?path=prompts`) returned correct 6 prompts with Drive URLs.
+
+**Investigation:**
+- PromptsClient.tsx: no hardcoded data, purely uses `initialData` prop ✓
+- `getPrompts()` → `fetchFromCMS()` → fetch with `next: { revalidate: 3600 }` ✓
+- Checked `.next/cache/fetch-cache/`: 4 stale entries from 2026-05-25 01:20 IST (48hrs stale)
+- File `96c8ad2e...` decoded: `{"data":[{"title":"Viral Hooks Pack"},{"title":"Carousel Ideas"},{"title":"Caption Starters"}]}` — placeholder entries with `example.com` image URLs
+- Root cause: Next.js dev mode persists on-disk fetch cache past TTL between server restarts
+
+**Fix:**
+1. `rm -rf .next/cache/fetch-cache/` — cleared stale entries
+2. `src/lib/api/client.ts`: `revalidate: 0` in dev, `3600` in prod — prevents recurrence
+
+**Secondary issue (Drive image permissions):**
+Drive thumbnail endpoint only works for publicly shared files. File `1GJswgI0DOXDcDuuo1nNdeHMAso3SilFB` (Luxury Portrait) confirmed public. Other 5 Drive file IDs from Sheets need "Anyone with the link can view" set in Google Drive.
+
+---
+
 ## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR
 
 ### Issue: `@cloudflare/next-on-pages` peer dep conflict with Next.js 16
