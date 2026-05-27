@@ -1,5 +1,19 @@
 # Lessons Learned
 
+## Session: 2026-05-28 — `mix-blend-luminosity` Over Dark Backgrounds = Grayscale
+
+**Situation:** All homepage card images and blog page images rendered as black-and-white despite being full-color source images.
+
+**Root cause:** `mix-blend-luminosity` CSS blend mode composites ONLY the luminosity (brightness) channel of an element against its background. When the background is near-black (`#121212`), there is no color information in the backdrop to blend with — only the lightness value of the image survives. Result is visually identical to a grayscale filter.
+
+**Secondary cause:** `grayscale` Tailwind utility class on BlogCard images — explicit desaturation.
+
+**Fix:** Remove `mix-blend-luminosity` / `grayscale` classes from `<img>` tags. Depth/contrast preserved via gradient overlays and opacity alone.
+
+**Rule:** Never apply `mix-blend-luminosity` or `mix-blend-color` to images on dark/black backgrounds unless intentional desaturation is the design goal. These blend modes are only safe over colorful/light backgrounds.
+
+---
+
 ## Session: 2026-05-27 — Universal Search Architecture
 
 ### Never Assume Low Data Volume on a Growing Content Site

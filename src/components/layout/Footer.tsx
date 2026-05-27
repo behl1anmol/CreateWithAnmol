@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 const FOOTER_LINKS = [
-  { href: 'https://www.instagram.com/createwithanmol', label: 'Instagram', external: true },
-  { href: 'https://gumroad.com', label: 'Gumroad', external: true },
-  { href: 'https://medium.com', label: 'Medium', external: true },
+  { href: 'https://www.instagram.com/thestudioprompts.ai/', label: 'Instagram', external: true },
+  { href: 'https://behlanmol.gumroad.com/', label: 'Gumroad', external: true },
+  { href: 'https://medium.com/@behl1anmol', label: 'Medium', external: true },
   { href: '/about', label: 'About', external: false },
 ]
 

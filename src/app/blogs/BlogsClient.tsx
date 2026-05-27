@@ -18,7 +18,7 @@ function FeaturedBlogCard({ blog }: { blog: Blog }) {
         <img
           src={blog.image}
           alt={blog.title}
-          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-80 mix-blend-luminosity group-hover:mix-blend-normal"
+          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-80"
         />
       </div>
 
@@ -70,7 +70,7 @@ function BlogCard({ blog }: { blog: Blog }) {
         <img
           src={blog.image}
           alt={blog.title}
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
+          className="w-full h-full object-cover transition-all duration-500 opacity-70 group-hover:opacity-100"
         />
       </div>
       <div className="flex items-center gap-3 mb-3">

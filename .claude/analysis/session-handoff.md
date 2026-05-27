@@ -1,5 +1,53 @@
 # Session Handoff
 
+## Session: 2026-05-28 (Update) — Social Media Icons Integration
+
+### What Was Done
+Added all 6 social media handles (LinkedIn, GitHub, Medium, Gumroad, Instagram, X) to the website.
+
+**Change A — Main page hero:** Replaced "Explore Prompts" pill button with a row of 6 brand icons. Grayscale (`text-white/30`) by default; hover reveals brand color via CSS custom property (`--brand`) + Tailwind v4 `hover:text-(--brand)`. Server Component safe — no `useState` needed.
+
+**Change B — About page "Find the Work" section:** Expanded from 3 cards (Instagram/Medium/Gumroad) to 6 cards (LinkedIn/GitHub/Medium/Gumroad/Instagram/X). Icons migrated from Material Symbols generic strings to `react-icons/si` + `react-icons/fa6` brand SVGs. Brand color on card hover via `group-hover:text-(--brand)` with scoped CSS custom property per card.
+
+**Also fixed:** All wrong social URLs across `about/page.tsx`, `Footer.tsx` (Instagram was `createwithanmol`, Medium was bare `medium.com`, Gumroad was bare `gumroad.com`).
+
+**Files created:**
+- `src/lib/social.tsx` — shared social platform config (key, label, href, brandColor, Icon, description)
+- `e2e/social-icons.spec.ts` — 4 Playwright tests (all passing)
+
+**Files modified:**
+- `src/app/page.tsx` — hero button → social icons row
+- `src/app/about/page.tsx` — removed local PLATFORMS const, imported SOCIAL_PLATFORMS, updated card JSX
+- `src/components/layout/Footer.tsx` — fixed 3 wrong social URLs
+- `package.json` — added `react-icons` (v5.6.0)
+
+**Verified:** TypeScript clean, `npm run build` passes, 4/4 Playwright tests pass.
+
+### Key Technical Details
+- LinkedIn not in `react-icons/si` v5 — use `FaLinkedin` from `react-icons/fa6`
+- Gumroad not in `react-icons/fa6` — use `SiGumroad` from `react-icons/si`
+- Tailwind v4 CSS variable syntax for hover colors: `hover:text-(--brand)` and `group-hover:text-(--brand)` → generates `color: var(--brand)`. Verified working in generated CSS.
+- Cast for CSS custom property in style prop: `style={{ '--brand': color } as CSSProperties}` (import `CSSProperties` from `'react'`)
+
+---
+
+## Session: 2026-05-28 (Update) — Fix B&W Images
+
+### What Was Done
+Removed desaturation CSS from all homepage card image tags and Blogs page cards.
+
+**Root cause:** `mix-blend-luminosity` on images over dark `#121212` backgrounds strips color (only luminosity channel composites against a near-black surface → grayscale). `grayscale` Tailwind class on blog grid cards was explicit desaturation.
+
+**Files changed:**
+- `src/app/page.tsx` — removed `mix-blend-luminosity` from 3 `<img>` classNames (Products carousel L57, Blogs carousel L102, Prompts carousel L147)
+- `src/app/blogs/BlogsClient.tsx` — removed `mix-blend-luminosity group-hover:mix-blend-normal` from FeaturedBlogCard (L21); removed `grayscale group-hover:grayscale-0` from BlogCard grid (L73)
+
+**Preserved:** opacity transitions, scale-105 hover, gradient overlays — all depth/interaction effects intact.
+
+**Verified:** Playwright screenshots confirmed color images on `/` (all 3 sections) and `/blogs`.
+
+---
+
 ## Session: 2026-05-28 — Universal Search Feature
 
 ### What Was Done

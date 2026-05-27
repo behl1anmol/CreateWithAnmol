@@ -1,5 +1,23 @@
 # Implementation Notes
 
+## Session: 2026-05-28 — Social Icons & react-icons Integration
+
+### LinkedIn Missing from react-icons/si v5
+`react-icons/si` (Simple Icons) v5.6.0 does not include LinkedIn. Use `FaLinkedin` from `react-icons/fa6`. Gumroad is only in `react-icons/si` (not in fa6). Mixed imports from `si` and `fa6` in same component are fine — both tree-shake.
+
+### Tailwind v4 CSS Variable Hover Color Pattern
+To apply per-element brand colors on hover without a client component:
+1. Set CSS variable on parent: `style={{ '--brand': color } as CSSProperties}`
+2. Apply on hover: `hover:text-(--brand)` (generates `color: var(--brand)`)
+3. For card group hover: `group-hover:text-(--brand)` (generates group hover rule)
+
+Verified in `.next/dev/static/chunks/src_app_globals_css_*.css` — Tailwind v4 generates these rules correctly.
+
+### CSSProperties Cast for Custom CSS Properties
+`style={{ '--brand': color } as CSSProperties}` — TypeScript needs the cast. Import `CSSProperties` from `'react'` with `import type { CSSProperties } from 'react'`. Do NOT use `React.CSSProperties` without importing React (fine with `react-jsx` automatic transform but requires React namespace).
+
+---
+
 ## Session: 2026-05-28 — Universal Search
 
 ### Playwright: Import from `playwright/test` not `@playwright/test`

@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react'
 import { getHomepageData } from '@/lib/api'
 import type { Product, Blog, Prompt } from '@/lib/types'
+import { SOCIAL_PLATFORMS } from '@/lib/social'
 
 export const revalidate = 3600
 
@@ -22,13 +24,20 @@ export default async function Home() {
         <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-2xl">
           Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.
         </p>
-        <div className="mt-8 flex gap-4">
-          <a
-            href="/prompts"
-            className="type-body-md font-medium text-[var(--color-surface)] bg-white/80 backdrop-blur-[20px] border border-white/20 border-t-white/50 px-8 py-3 rounded-full hover:bg-white/95 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.25)]"
-          >
-            Explore Prompts
-          </a>
+        <div className="mt-8 flex items-center gap-6">
+          {SOCIAL_PLATFORMS.map(({ key, href, label, brandColor, Icon }) => (
+            <a
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="text-white/30 transition-colors duration-300 hover:text-(--brand)"
+              style={{ '--brand': brandColor } as CSSProperties}
+            >
+              <Icon size={22} />
+            </a>
+          ))}
         </div>
       </section>
 
@@ -54,7 +63,7 @@ export default async function Home() {
                 <img
                   src={product.image}
                   alt={product.title}
-                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity"
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
               </div>
@@ -99,7 +108,7 @@ export default async function Home() {
                 <img
                   src={blog.image}
                   alt={blog.title}
-                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity"
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
               </div>
@@ -144,7 +153,7 @@ export default async function Home() {
                 <img
                   src={prompt.image}
                   alt={prompt.title}
-                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity"
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80" />
               </div>
