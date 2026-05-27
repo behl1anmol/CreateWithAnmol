@@ -1,5 +1,21 @@
 # Implementation Notes
 
+## Session: 2026-05-28 — Universal Search
+
+### Playwright: Import from `playwright/test` not `@playwright/test`
+Project has `playwright` package (not `@playwright/test`). The `playwright` package ships `test.js`/`test.d.ts`. Import: `import { test, expect } from 'playwright/test'` and `import { defineConfig, devices } from 'playwright/test'`.
+
+### `useSearchParams` Always Needs Suspense Boundary
+Any client component calling `useSearchParams()` must be wrapped in `<Suspense>` in the parent server component. Without it, Next.js App Router throws at build time. Put Suspense in `page.tsx`, not inside the client component itself.
+
+### Navbar Search Icon: `data-testid` Required for Reliable Test Selection
+Two search icon elements exist in Navbar DOM: one desktop (`hidden md:inline-flex`), one mobile (inside `md:hidden` container). Generic `a[aria-label="Search"]` selectors are fragile — first match returns the hidden desktop icon on mobile tests. Use `data-testid="search-icon-desktop"` and `data-testid="search-icon-mobile"`.
+
+### Search Result Design: Compact Rows, Not Full Cards
+Full card components (h-48+ images, multi-section content) are inappropriate for search results. At 10+ results across 3 sections, full cards cause excessive scroll. Use compact horizontal rows: 64px thumbnail + text + arrow icon. ~80px height, `flex flex-col gap-2` list.
+
+---
+
 ## Session: 2026-05-27 — Fix Featured Grid Exclusion Bug
 
 ### Problem

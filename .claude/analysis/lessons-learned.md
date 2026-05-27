@@ -1,5 +1,21 @@
 # Lessons Learned
 
+## Session: 2026-05-27 — Universal Search Architecture
+
+### Never Assume Low Data Volume on a Growing Content Site
+
+**Situation:** Planned client-side search (all data loaded into browser, filtered in JS) based on current data count (7 prompts, 3 blogs, 2 products).
+
+**Why wrong:** The creator explicitly stated data volume will grow. Client-side search has hard scaling problems: memory grows with dataset size, full dataset transferred on every search page load, no upgrade path without full rearchitecture.
+
+**Correct default:** Any search feature on a content site should be server-side by default. For this project: create a `/api/search?q=` Next.js API route that fetches data server-side (leveraging existing ISR Data Cache in `fetchFromCMS`), filters in Node.js, returns only matching items to client. Apps Script hit rate stays at once per hour regardless of search volume.
+
+**Rule:** Assume the dataset will be 10–100x its current size. Design search around server-side filtering. Client-side filtering is only appropriate for known, bounded, static datasets (e.g., a fixed config list).
+
+**Future path if dataset grows to 1000+:** Move filtering to Apps Script by adding `?path=search&q=query` endpoint. The Next.js API route interface stays unchanged.
+
+---
+
 ## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR
 
 ### `@cloudflare/next-on-pages` Locks to Next.js ≤15 — Use `@opennextjs/cloudflare` on Next.js 16

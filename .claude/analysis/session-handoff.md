@@ -1,5 +1,31 @@
 # Session Handoff
 
+## Session: 2026-05-28 — Universal Search Feature
+
+### What Was Done
+Implemented full universal search feature from scratch.
+
+**Files created:**
+- `src/app/api/search/route.ts` — server-side search endpoint. Fetches all 3 content types in parallel via existing `getPrompts/getProducts/getBlogs` (leverages ISR Data Cache — Apps Script hit at most once/hour). Filters in Node.js. Min query length 2 chars. Returns only matching records.
+- `src/app/search/page.tsx` — minimal server component with Suspense boundary (required for `useSearchParams`)
+- `src/app/search/SearchClient.tsx` — client component: debounced fetch (300ms), loading state, result rows for all 3 types, 4 states (landing/loading/no-results/results), URL sync on submit
+- `playwright.config.ts` — Playwright config using `playwright/test` (NOT `@playwright/test` — project has `playwright` pkg not `@playwright/test`)
+- `e2e/search.spec.ts` — 12 tests, all passing
+
+**Files modified:**
+- `src/components/layout/Navbar.tsx` — search icon added to desktop nav (between nav links and CTA) and mobile header (alongside hamburger). Also added to mobile menu dropdown. Uses `data-testid="search-icon-desktop"` and `data-testid="search-icon-mobile"`.
+
+### Current State
+All 12 Playwright tests pass. Feature complete. Ready for manual verification and deployment.
+
+### Key Implementation Details
+- Search is server-side filtered, not client-side — scalable as content grows
+- `useSearchParams()` requires `<Suspense>` in `page.tsx`
+- Import Playwright from `playwright/test` (not `@playwright/test`) — this project has `playwright` package
+- Result rows are compact horizontal items (thumbnail + text + arrow), not full cards
+
+---
+
 ## Session: 2026-05-27 — Google Drive Image Pipeline Complete
 
 ### What Was Done

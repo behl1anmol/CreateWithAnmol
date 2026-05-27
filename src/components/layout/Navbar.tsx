@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+const NAV_SEARCH = { href: '/search', label: 'Search' }
+
 const NAV_LINKS = [
   { href: '/prompts', label: 'Prompts' },
   { href: '/products', label: 'Products' },
@@ -49,6 +51,21 @@ export default function Navbar() {
           })}
         </nav>
 
+        {/* Desktop Search */}
+        <Link
+          href={NAV_SEARCH.href}
+          aria-label="Search"
+          data-testid="search-icon-desktop"
+          className={[
+            'hidden md:inline-flex items-center p-2 transition-colors duration-300',
+            pathname === NAV_SEARCH.href
+              ? 'text-[var(--color-primary)]'
+              : 'text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)]',
+          ].join(' ')}
+        >
+          <span className="material-symbols-outlined text-[22px]">search</span>
+        </Link>
+
         {/* Desktop CTA */}
         <a
           href="https://www.instagram.com/createwithanmol"
@@ -59,23 +76,38 @@ export default function Navbar() {
           Follow on Instagram
         </a>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden text-[var(--color-primary)] p-2"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileOpen}
-        >
-          <span className="material-symbols-outlined">
-            {mobileOpen ? 'close' : 'menu'}
-          </span>
-        </button>
+        {/* Mobile actions */}
+        <div className="md:hidden flex items-center gap-1">
+          <Link
+            href={NAV_SEARCH.href}
+            aria-label="Search"
+            data-testid="search-icon-mobile"
+            className={[
+              'p-2 transition-colors duration-300',
+              pathname === NAV_SEARCH.href
+                ? 'text-[var(--color-primary)]'
+                : 'text-[var(--color-on-surface-variant)]',
+            ].join(' ')}
+          >
+            <span className="material-symbols-outlined">search</span>
+          </Link>
+          <button
+            className="text-[var(--color-primary)] p-2"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+          >
+            <span className="material-symbols-outlined">
+              {mobileOpen ? 'close' : 'menu'}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden glass-nav border-t border-white/10 px-[var(--spacing-margin-mobile)] py-6 flex flex-col gap-4">
-          {NAV_LINKS.map(({ href, label }) => {
+          {[...NAV_LINKS, NAV_SEARCH].map(({ href, label }) => {
             const active = pathname === href || pathname.startsWith(href + '/')
             return (
               <Link

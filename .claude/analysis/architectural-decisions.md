@@ -1,5 +1,97 @@
 # Architectural Decisions
 
+## Session: 2026-05-28 — Universal Search Architecture
+
+### Decision: Server-Side Search via Next.js API Route (Not Client-Side)
+
+**Context:** Implementing universal search across prompts, products, blogs.
+
+**Decision:** Created `/api/search` route that fetches and filters server-side. Client sends debounced requests; receives only matching records.
+
+**Rationale:**
+- Data volume grows over time — client-side (load all → filter in JS) doesn't scale
+- `fetchFromCMS` uses `next: { revalidate: 3600 }` which applies to API route handlers too (Next.js Data Cache) — Apps Script hit at most once/hour regardless of search volume
+- Client payload = only matches, not full dataset
+
+**Future upgrade path:**
+If dataset grows to 1000+ items, add `?path=search&q=query` to Apps Script. API route interface stays unchanged — swap `getPrompts/getProducts/getBlogs + filter` with a single `getSearchResults(q)` call.
+
+**Rejected alternative:** Pure client-side (all data as props to SearchClient). Fast to build, wrong default for growing content site.
+
+---
+
+## FUTURE CONSIDERATION — Apps Script Server-Side Search Filtering
+
+**Status:** Not implemented. Document kept here for future sessions.
+
+### What it is
+Move search filtering from Node.js (current) into Apps Script itself. Currently the `/api/search` route fetches all rows of all 3 tabs, then filters in Node. As row count grows, the fetch payload from Apps Script grows even though ISR caches it server-side.
+
+### When to implement
+Trigger this when:
+- Any single tab (Prompts/Products/Blogs) exceeds ~500 rows, OR
+- Cold ISR cache misses cause noticeable latency on the search endpoint
+
+### How to implement
+
+**Apps Script side (`Code.gs`):**
+Add a `search` case to the existing `path` switch:
+
+```javascript
+case 'search':
+  var q = (params.q || '').toLowerCase().trim();
+  if (q.length < 2) {
+    output = { data: { prompts: [], products: [], blogs: [] } };
+    break;
+  }
+  var promptRows = getSheetData('Prompts');
+  var productRows = getSheetData('Products');
+  var blogRows = getSheetData('Blogs');
+  output = {
+    data: {
+      prompts: promptRows.filter(function(r) {
+        return matches(q, r.title, r.description, r.category, r.tool);
+      }),
+      products: productRows.filter(function(r) {
+        return matches(q, r.title, r.description, r.category, r.badge, r.specs);
+      }),
+      blogs: blogRows.filter(function(r) {
+        return matches(q, r.title, r.excerpt, r.category);
+      }),
+    }
+  };
+  break;
+
+// helper — add once at top level:
+function matches(q) {
+  var fields = Array.prototype.slice.call(arguments, 1);
+  return fields.some(function(f) { return f && String(f).toLowerCase().indexOf(q) !== -1; });
+}
+```
+
+**Next.js side (`src/app/api/search/route.ts`):**
+Replace the 3 separate fetches + filter with a single call:
+
+```typescript
+// Replace this:
+const [prompts, products, blogs] = await Promise.all([getPrompts(), getProducts(), getBlogs()])
+return NextResponse.json({ prompts: prompts.filter(...), ... })
+
+// With this:
+const results = await fetchFromCMS<{ prompts: unknown[], products: unknown[], blogs: unknown[] }>(`search&q=${encodeURIComponent(q)}`)
+return NextResponse.json({
+  prompts: (results[0]?.prompts ?? []).map(normalizePrompt).filter(p => p.id),
+  products: (results[0]?.products ?? []).map(normalizeProduct).filter(p => p.id),
+  blogs: (results[0]?.blogs ?? []).map(normalizeBlog).filter(b => b.id),
+})
+```
+
+**Important:** Apps Script deployment required after any `Code.gs` change. Re-deploy as new version and update the deployed URL if it changes. See `cms-appscript-reference.md` for deployment steps.
+
+**Trade-off:** Apps Script has execution time limits (6 min) and daily quotas. At moderate scale (< 10k rows), server-side filtering in Apps Script is fine. At very high scale, a dedicated search service (Algolia, Typesense, pg full-text) would be needed.
+
+---
+
 ## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR
 
 ---
