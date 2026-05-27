@@ -137,12 +137,12 @@ export default function ProductsClient({ initialData }: { initialData: Product[]
   const [activeCategory, setActiveCategory] = useState('All')
 
   const featured = initialData.find(p => p.featured)
-  const allFiltered = activeCategory === 'All'
-    ? initialData.filter(p => !p.featured)
-    : initialData.filter(p => p.category === activeCategory && !p.featured)
   const featuredFiltered = activeCategory === 'All'
     ? featured
-    : (featured && featured.category === activeCategory ? featured : undefined)
+    : (featured?.category === activeCategory ? featured : undefined)
+  const allFiltered = activeCategory === 'All'
+    ? initialData.filter(p => p.id !== featured?.id)
+    : initialData.filter(p => p.category === activeCategory && p.id !== featuredFiltered?.id)
 
   return (
     <main className="pt-[160px] pb-32 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto w-full relative z-10">

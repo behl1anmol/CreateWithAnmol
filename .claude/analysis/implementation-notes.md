@@ -1,5 +1,32 @@
 # Implementation Notes
 
+## Session: 2026-05-27 — Fix Featured Grid Exclusion Bug
+
+### Problem
+`BlogsClient.tsx` and `ProductsClient.tsx` grid filter used `!b.featured` — excludes ALL items with `featured: true`. When Sheets has multiple `featured: true` entries, only the first (hero) renders; rest vanish from grid.
+
+### Fix
+Changed to `b.id !== featured?.id` — excludes only the specific item currently occupying the hero slot.
+
+### Files Changed
+- `src/app/blogs/BlogsClient.tsx` — `gridItems` filter
+- `src/app/products/ProductsClient.tsx` — `allFiltered` filter + moved `featuredFiltered` before `allFiltered`
+
+---
+
+## Session: 2026-05-27 — Image Validation: Blogs, Products, About, Homepage
+
+### Findings
+All pages using CMS data (blogs, products, homepage) already covered by proxy fix:
+- `normalizeBlog()`, `normalizeProduct()`, `normalizePrompt()` all call `toEmbeddableImageUrl()`
+- Drive URLs → `/api/drive-image?id={ID}` → server proxy → no 429
+
+About page: single hardcoded `lh3.googleusercontent.com/aida-public/...` image. Not Drive. Not concurrent. No fix needed.
+
+### No code changes made — validation only.
+
+---
+
 ## Session: 2026-05-27 — Drive Image Proxy (Final Fix)
 
 ### Problem

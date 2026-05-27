@@ -1,5 +1,38 @@
 # Session Handoff
 
+## Session: 2026-05-27 — Google Drive Image Pipeline Complete
+
+### What Was Done
+Full Drive image pipeline built and stabilized across 3 debugging iterations.
+
+**Root cause confirmed:** Google's "fife" CDN (lh3.googleusercontent.com) returns HTTP 429 Too Many Requests on concurrent browser requests regardless of URL format.
+
+**Final fix:** Server-side proxy at `src/app/api/drive-image/route.ts`
+- Browser requests `/api/drive-image?id={FILE_ID}` (same-origin)
+- Next.js server fetches `drive.google.com/uc?export=view&id={ID}` server-side
+- Returns image with `Cache-Control: public, max-age=86400`
+- File ID validated: `/^[a-zA-Z0-9_\-]{10,80}$/`
+
+**Normalization:** `src/lib/utils/imageUrl.ts` → all Drive URLs output `/api/drive-image?id={ID}`
+**Applied to:** All 3 content types (Prompt, Product, Blog) via `normalize.ts`
+
+**Scope of coverage:**
+- `/prompts` — fixed ✅
+- `/blogs` — fixed (normalize path identical) ✅
+- `/products` — fixed (normalize path identical) ✅
+- `/` (homepage) — fixed (uses same normalized data via getHomepageData()) ✅
+- `/about` — hardcoded `lh3.googleusercontent.com/aida-public/...` — NOT Drive, single image, no fix needed ✅
+
+**Dev mode stale cache also fixed:**
+- `src/lib/api/client.ts`: `revalidate: 0` in dev, `3600` in prod
+- Cache guide created: `.claude/analysis/cache-clearing-guide.md`
+
+### Current Known Issues / TODOs
+- About page hero image is a hardcoded `aida-public` URL — not permanent, should be replaced with a real photo in future
+- Filter pills in Prompts/Blogs/Products are hardcoded category arrays — do not match live Sheets categories
+
+---
+
 ## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR Complete
 
 ### What Was Done

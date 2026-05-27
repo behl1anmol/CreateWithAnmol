@@ -104,10 +104,10 @@ export default function BlogsClient({ initialData }: { initialData: Blog[] }) {
   const featured = initialData.find(b => b.featured)
   const featuredFiltered = activeCategory === 'All'
     ? featured
-    : (featured && featured.category === activeCategory ? featured : undefined)
+    : (featured?.category === activeCategory ? featured : undefined)
   const gridItems = activeCategory === 'All'
-    ? initialData.filter(b => !b.featured)
-    : initialData.filter(b => b.category === activeCategory && !b.featured)
+    ? initialData.filter(b => b.id !== featured?.id)
+    : initialData.filter(b => b.category === activeCategory && b.id !== featuredFiltered?.id)
 
   return (
     <main className="pt-[160px] pb-32 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto w-full relative z-10">

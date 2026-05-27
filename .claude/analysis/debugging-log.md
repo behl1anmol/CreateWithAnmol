@@ -1,5 +1,28 @@
 # Debugging Log
 
+## 2026-05-27 — Blogs/Products Grid Missing Items When Multiple featured:true
+
+**Symptom:** Blogs page shows hero card (order 1) but grid below is empty. Homepage shows both blogs correctly. API returns 2 blogs, both `featured: true`.
+
+**Root cause:**
+```typescript
+const featured = initialData.find(b => b.featured)          // takes order-1 blog as hero
+const gridItems = initialData.filter(b => !b.featured)      // excludes ALL featured:true → empty []
+```
+When multiple items have `featured: true`, the grid filter `!b.featured` removes ALL of them. Only the first one renders as hero; the rest disappear entirely.
+
+**Why homepage worked:** Homepage renders a flat horizontal scroll of ALL featured items via `featuredBlogs` array from `getHomepageData()` — no hero/grid split.
+
+**Fix:** Changed grid filter from `!b.featured` (flag-based) to `b.id !== featured?.id` (ID-based). Grid now excludes only the specific item in the hero slot, not all items with `featured: true`.
+
+Applied to:
+- `src/app/blogs/BlogsClient.tsx`
+- `src/app/products/ProductsClient.tsx`
+
+Also reordered `featuredFiltered` declaration before `allFiltered`/`gridItems` in ProductsClient to fix variable reference order.
+
+---
+
 ## 2026-05-27 — HTTP 429 from lh3.googleusercontent.com — Proxy Fix
 
 **Symptom:** All Drive images blank after switching to `lh3.googleusercontent.com/d/{ID}` URL format.
