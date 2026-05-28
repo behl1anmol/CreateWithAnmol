@@ -1,5 +1,48 @@
 # Lessons Learned
 
+## Session: 2026-05-28 — PR #1 Review Fixes
+
+### Never Throw at Module Level for Missing Env Vars in Next.js
+
+**Situation:** `src/lib/api/client.ts` threw `Error('APPS_SCRIPT_URL environment variable is not set')` at module load time. Any file importing `@/lib/api` crashed on startup in envs without the var (CI, fresh clone, Playwright web server via `npm run dev`).
+
+**Root cause:** Module-level `throw` executes when the module is first imported, not when the function is called. Next.js eagerly imports route modules, so crash happens before any request is served.
+
+**Fix:** Moved env guard inside `fetchFromCMS`. Uses `console.warn` + `return []`. Pages render empty states; no crash.
+
+**Rule:** Never throw for missing env vars at module top-level in Next.js. Guard inside the function that needs the var. Throw is only appropriate when the missing var makes the entire process non-functional (e.g., DB connection string at server startup), not for optional data sources that can gracefully degrade.
+
+---
+
+### AbortController Pattern for Debounced Search Inputs
+
+**Situation:** `SearchClient.tsx` debounced fetch with 300ms timer but never aborted in-flight requests. A slower response for an earlier query could arrive after a newer one, overwriting results with stale data.
+
+**Scenario:** User types "de" (fetch starts), types "design" (new fetch starts) — if "de" response arrives last, user sees results for "de" while input shows "design".
+
+**Fix pattern:**
+```tsx
+const abortRef = useRef<AbortController | null>(null)
+
+// In debounced callback:
+abortRef.current?.abort()
+const controller = new AbortController()
+abortRef.current = controller
+
+fetch(url, { signal: controller.signal })
+  .catch(err => { if (err.name === 'AbortError') return; ... })
+  .finally(() => { if (!controller.signal.aborted) setLoading(false) })
+
+// In cleanup:
+return () => { clearTimeout(timer); abortRef.current?.abort() }
+```
+
+**Key detail:** `finally` always runs even when `catch` returns early — check `controller.signal.aborted` in `finally` to avoid setting `loading=false` when a newer request has already set `loading=true`.
+
+**Rule:** Any `useEffect` that fires async fetches on user input needs both debounce (prevent excess requests) AND AbortController (cancel stale in-flight requests). Debounce alone is insufficient.
+
+---
+
 ## Session: 2026-05-28 — `mix-blend-luminosity` Over Dark Backgrounds = Grayscale
 
 **Situation:** All homepage card images and blog page images rendered as black-and-white despite being full-color source images.

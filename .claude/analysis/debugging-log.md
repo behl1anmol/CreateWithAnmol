@@ -1,5 +1,25 @@
 # Debugging Log
 
+## 2026-05-28 — PR #1 Review: Module-Level Throw + Search Race Condition
+
+### Fix 1 — `client.ts` crash on missing `APPS_SCRIPT_URL`
+
+**File:** `src/lib/api/client.ts`
+**Symptom:** Importing `@/lib/api` in any env without `APPS_SCRIPT_URL` set throws at module load, turning page loads into 500 errors instead of empty states.
+**Root cause:** `if (!APPS_SCRIPT_URL) throw new Error(...)` at module top-level — executes at import time, not call time.
+**Fix:** Removed module-level throw. Moved guard inside `fetchFromCMS`: `console.warn + return []`.
+**Result:** All pages render empty gracefully on missing env.
+
+### Fix 2 — `SearchClient.tsx` stale fetch race condition
+
+**File:** `src/app/search/SearchClient.tsx`
+**Symptom:** On slow networks, results for a shorter query ("de") could overwrite results for a newer query ("design") because the earlier fetch resolved last.
+**Root cause:** Debounce prevents extra fetch triggers but doesn't cancel already-in-flight requests.
+**Fix:** `abortRef = useRef<AbortController | null>(null)`. Each new fetch aborts previous controller. `signal` passed to `fetch()`. Catch ignores `AbortError`. `finally` checks `controller.signal.aborted` before `setLoading(false)`.
+**Result:** Stale responses discarded. Loading state consistent under rapid typing.
+
+---
+
 ## 2026-05-27 — Blogs/Products Grid Missing Items When Multiple featured:true
 
 **Symptom:** Blogs page shows hero card (order 1) but grid below is empty. Homepage shows both blogs correctly. API returns 2 blogs, both `featured: true`.
