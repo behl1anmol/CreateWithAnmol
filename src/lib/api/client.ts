@@ -1,10 +1,11 @@
 const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL
 
-if (!APPS_SCRIPT_URL) {
-  throw new Error('APPS_SCRIPT_URL environment variable is not set')
-}
-
 export async function fetchFromCMS<T>(path: string): Promise<T[]> {
+  if (!APPS_SCRIPT_URL) {
+    console.warn(`CMS fetch skipped for "${path}": APPS_SCRIPT_URL is not set`)
+    return []
+  }
+
   const url = `${APPS_SCRIPT_URL}?path=${path}`
 
   try {

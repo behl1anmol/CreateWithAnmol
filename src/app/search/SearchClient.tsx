@@ -148,12 +148,15 @@ export default function SearchClient() {
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
 
     const q = inputValue.trim()
     if (q.length < 2) {
+      abortRef.current?.abort()
+      abortRef.current = null
       setResults(null)
       setLoading(false)
       return
@@ -161,19 +164,29 @@ export default function SearchClient() {
 
     setLoading(true)
     debounceRef.current = setTimeout(async () => {
+      abortRef.current?.abort()
+      const controller = new AbortController()
+      abortRef.current = controller
+
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, {
+          signal: controller.signal,
+        })
         const data: SearchResults = await res.json()
         setResults(data)
-      } catch {
+      } catch (err) {
+        if ((err as Error).name === 'AbortError') return
         setResults({ prompts: [], products: [], blogs: [] })
       } finally {
-        setLoading(false)
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
       }
     }, 300)
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current)
+      abortRef.current?.abort()
     }
   }, [inputValue])
 
