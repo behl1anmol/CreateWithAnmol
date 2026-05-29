@@ -1,5 +1,42 @@
 # Lessons Learned
 
+## Session: 2026-05-29 — PR #1 Comment Security + Performance Fixes
+
+### Google Drive Proxy — Use `thumbnail` Endpoint, Not `uc?export=view`
+
+`uc?export=view` triggers a virus-scan redirect page for large files and is increasingly
+rate-limited by Google. The `thumbnail?id={ID}&sz=w1000` endpoint returns image binary
+directly with no redirect. Use this in all server-side Drive proxy fetches.
+
+**Rule:** `drive.google.com/thumbnail?id={ID}&sz=w1000` → always. Never `uc?export=view`.
+
+---
+
+### Proxy Routes Must Validate Content-Type (Defense-in-Depth)
+
+A server-side proxy forwarding Drive responses with no content-type check is a stored
+XSS vector: a crafted Drive file returning `text/html` with `<script>` executes under
+your origin. Always validate that the content-type starts with `image/` before forwarding.
+Also add `X-Content-Type-Options: nosniff` and `Content-Security-Policy: default-src 'none'`
+to the response headers.
+
+**Rule:** Never forward upstream content-type without validating the MIME family. Fail
+closed (return 400) rather than defaulting to `image/jpeg` on missing content-type.
+
+---
+
+### Stream Proxy Responses — Never Buffer with `arrayBuffer()`
+
+Buffering an image with `arrayBuffer()` in a Next.js route handler (or Cloudflare Worker)
+loads the entire file into memory before sending. Cloudflare Workers have a 128 MB memory
+limit — large images can hit the ceiling. `res.body` is a `ReadableStream` in both Node
+and Edge runtimes; pass it directly to `new Response(res.body, ...)`.
+
+**Rule:** In proxy route handlers, always stream with `res.body`. `arrayBuffer()` is only
+appropriate when you need to inspect/transform the body bytes.
+
+---
+
 ## Session: 2026-05-28 — PR #1 Review Fixes
 
 ### Never Throw at Module Level for Missing Env Vars in Next.js

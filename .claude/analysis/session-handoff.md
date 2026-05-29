@@ -1,5 +1,32 @@
 # Session Handoff
 
+## Session: 2026-05-29 — PR #1 Comment Fixes (Bug + Security + Performance + Hygiene)
+
+### What Was Done
+Addressed all remaining items from PR #1 review comment (#4561943827).
+
+**`src/app/api/drive-image/route.ts` — 3 changes:**
+- URL: `uc?export=view` → `thumbnail?id=${id}&sz=w1000` (no virus-scan redirect, no rate-limit)
+- Security: added content-type validation (reject non-`image/*`), removed `?? 'image/jpeg'` fallback,
+  added `X-Content-Type-Options: nosniff` + `Content-Security-Policy: default-src 'none'`
+- Performance: replaced `arrayBuffer()` buffering with `res.body` streaming
+
+**`.gitignore` — 1 change:**
+- Added `test-results/` (Playwright run artifacts)
+- `git rm --cached test-results/.last-run.json` to untrack already-committed file
+
+**Not actioned:** SearchClient.tsx cleanup — already fixed in commit `f610040`.
+
+### Current Branch State
+Changes committed on `pr-bugfix-fixes` and merged (fast-forward) to `pr-bugfix-performance-improvement`.
+
+### Verification Status
+- TypeScript build: run `npm run build` to confirm
+- Playwright: run `npx playwright test` to confirm
+- Drive images: requires live Google Drive ID to test proxy response headers
+
+---
+
 ## Session: 2026-05-28 (Update) — Social Media Icons Integration
 
 ### What Was Done

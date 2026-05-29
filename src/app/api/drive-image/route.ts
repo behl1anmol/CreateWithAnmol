@@ -6,21 +6,25 @@ export async function GET(request: Request) {
     return new Response('Invalid ID', { status: 400 })
   }
 
-  const driveUrl = `https://drive.google.com/uc?export=view&id=${id}`
-
+  const driveUrl = `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
   const res = await fetch(driveUrl)
 
   if (!res.ok) {
     return new Response('Failed to fetch image', { status: res.status })
   }
 
-  const contentType = res.headers.get('content-type') ?? 'image/jpeg'
-  const body = await res.arrayBuffer()
+  const contentType = res.headers.get('content-type') ?? ''
 
-  return new Response(body, {
+  if (!contentType.startsWith('image/')) {
+    return new Response('Not an image', { status: 400 })
+  }
+
+  return new Response(res.body, {
     headers: {
       'Content-Type': contentType,
       'Cache-Control': 'public, max-age=86400',
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Security-Policy': "default-src 'none'",
     },
   })
 }

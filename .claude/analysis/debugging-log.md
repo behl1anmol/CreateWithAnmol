@@ -1,5 +1,38 @@
 # Debugging Log
 
+## 2026-05-29 — PR #1 Comment: drive-image Route Bugs + Security + Performance
+
+**File:** `src/app/api/drive-image/route.ts`
+
+### Bug: Wrong upstream URL
+`uc?export=view&id=${id}` triggers Google virus-scan redirect page for large files and
+is rate-limited. Architectural decisions doc already noted this as rejected format.
+**Fix:** Changed to `thumbnail?id=${id}&sz=w1000` — returns binary directly, no redirect.
+
+### Security: No content-type validation
+Route forwarded whatever content-type Drive returned, including `text/html`. A crafted
+Drive file with script payload would execute under the site's origin (stored XSS).
+**Fix:** Added `if (!contentType.startsWith('image/')) return new Response('Not an image', { status: 400 })`.
+Also removed `?? 'image/jpeg'` fallback — unknown content-type must fail closed.
+Added `X-Content-Type-Options: nosniff` and `Content-Security-Policy: default-src 'none'` headers.
+
+### Performance: arrayBuffer() memory buffering
+`await res.arrayBuffer()` loaded full image into Worker memory before response sent.
+Cloudflare Workers have 128 MB limit — large images could breach it.
+**Fix:** Replaced `arrayBuffer()` + buffer body with `res.body` (`ReadableStream`) passed
+directly to `new Response(res.body, ...)`. Zero memory overhead for image data.
+
+### Hygiene: test-results/ not gitignored
+`test-results/.last-run.json` (Playwright run state) was tracked in git.
+**Fix:** Added `test-results/` to `.gitignore`. Ran `git rm --cached test-results/.last-run.json`.
+
+### Already Fixed (by commit f610040): SearchClient cleanup function
+PR comment noted missing `useEffect` cleanup function. Was already addressed in f610040
+(`git show f610040 -- SearchClient.tsx` confirms `abortRef.current?.abort()` added to cleanup).
+No action taken.
+
+---
+
 ## 2026-05-28 — PR #1 Review: Module-Level Throw + Search Race Condition
 
 ### Fix 1 — `client.ts` crash on missing `APPS_SCRIPT_URL`
