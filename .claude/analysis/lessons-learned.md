@@ -1,5 +1,21 @@
 # Lessons Learned
 
+## Session: 2026-05-30 — UI Bug Fixes
+
+### Always `whitespace-nowrap` Brand Links
+Any text link acting as a logo/brand should have `whitespace-nowrap`. Without it, even short brand names wrap on small screens when the font size is large.
+
+### Consistent Card Architecture Across All Listing Pages
+All listing pages (prompts, blogs, products) must use the same full-wrapper `glass-card` pattern. Applying `glass-card` only to the image container leaves content floating below with no visual grouping. Rule: the anchor element is the card — it gets `glass-card` + `flex flex-col` + `h-full`.
+
+### Avoid Mixed `gap-x`/`gap-y` Unless Intentional
+Using different `gap-x` and `gap-y` values on a grid creates visual inconsistency vs other pages. Default to `gap-[var(--spacing-gutter)]` unless there's an explicit design reason to differ.
+
+### CDN URLs Are Fragile for Static Assets
+Profile images and other owned static assets should never depend on third-party CDN URLs (e.g., Google CDN `lh3.googleusercontent.com`). These URLs can expire or be rate-limited. Always store owned images locally in `public/images/`.
+
+---
+
 ## Session: 2026-05-29 — PR #1 Comment Security + Performance Fixes
 
 ### Google Drive Proxy — Use `thumbnail` Endpoint, Not `uc?export=view`

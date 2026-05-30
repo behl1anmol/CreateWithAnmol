@@ -70,9 +70,9 @@ export default function AboutPage() {
           <div className="glass-panel rounded-2xl overflow-hidden h-[360px] md:h-[480px] relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD26TLTkWNQMpNMXkT61Xvw3jKOZNGCjEEkev_VWuraviUaq8ZKXphXhSYZcnnWRAj1cxgrzTJ7Kj4rOcSfQO7EDXx0jn6QSz0F7mIgA9vv5sqhWAlLi9m3bANlX9OdqthN7xwtBC6VNAmWQ5W-xz4dtWsEAF6eSfBs-AF0aKchAA-YE5WWGcbQHh6b80rX1TsnFQAtAIOxkWEuWWM0GiI1Lfdh0C24yGZVEofRe7CqnfVzGBDlUqYCrt5Dxfi4ZdTazyuWo4A8CtU"
+              src="/images/anmol-profile.jpg"
               alt="Anmol — AI Creator and Digital Architect"
-              className="w-full h-full object-cover mix-blend-luminosity opacity-80"
+              className="w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           </div>

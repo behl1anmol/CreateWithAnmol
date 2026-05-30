@@ -25,7 +25,7 @@ export default function Navbar() {
         {/* Brand */}
         <Link
           href="/"
-          className="type-headline-md text-[var(--color-primary)] tracking-tight hover:opacity-80 transition-opacity"
+          className="type-headline-md text-[var(--color-primary)] tracking-tight hover:opacity-80 transition-opacity whitespace-nowrap"
         >
           Create with Anmol
         </Link>

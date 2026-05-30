@@ -64,36 +64,44 @@ function BlogCard({ blog }: { blog: Blog }) {
       href={blog.articleLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="group cursor-pointer block"
+      className="group glass-card rounded-xl overflow-hidden flex flex-col h-full cursor-pointer hover:border-white/20 transition-colors duration-300"
     >
-      <div className="aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-[var(--color-surface-container-lowest)] glass-card">
+      <div className="h-48 md:h-56 w-full overflow-hidden relative border-b border-white/5">
         <img
           src={blog.image}
           alt={blog.title}
-          className="w-full h-full object-cover transition-all duration-500 opacity-70 group-hover:opacity-100"
+          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out opacity-80"
         />
       </div>
-      <div className="flex items-center gap-3 mb-3">
-        {blog.category && (
-          <span className="type-mono-technical text-[var(--color-on-surface-variant)] text-xs">
-            {blog.category}
+      <div className="p-6 flex flex-col flex-grow gap-3">
+        <div className="flex items-center gap-3">
+          {blog.category && (
+            <span className="type-mono-technical text-[var(--color-on-surface-variant)] text-xs">
+              {blog.category}
+            </span>
+          )}
+          {blog.category && blog.date && (
+            <span className="w-1 h-1 rounded-full bg-[var(--color-outline)]" />
+          )}
+          {blog.date && (
+            <span className="type-mono-technical text-[var(--color-on-surface-variant)] text-xs">
+              {blog.date}
+            </span>
+          )}
+        </div>
+        <h4 className="type-body-lg text-[var(--color-primary)] font-medium leading-snug">
+          {blog.title}
+        </h4>
+        <p className="type-body-md text-[var(--color-on-surface-variant)] text-sm line-clamp-2 leading-relaxed flex-grow">
+          {blog.excerpt}
+        </p>
+        <div className="mt-auto pt-4 border-t border-white/5">
+          <span className="inline-flex items-center gap-2 type-label-caps text-[var(--color-primary)] text-[10px] tracking-widest">
+            Read Article
+            <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
           </span>
-        )}
-        {blog.category && blog.date && (
-          <span className="w-1 h-1 rounded-full bg-[var(--color-outline)]" />
-        )}
-        {blog.date && (
-          <span className="type-mono-technical text-[var(--color-on-surface-variant)] text-xs">
-            {blog.date}
-          </span>
-        )}
+        </div>
       </div>
-      <h4 className="font-[family-name:var(--font-hanken)] text-body-lg text-[var(--color-primary)] mb-3 font-medium leading-snug group-hover:text-[var(--color-on-surface)] transition-colors">
-        {blog.title}
-      </h4>
-      <p className="type-body-md text-[var(--color-on-surface-variant)] text-sm line-clamp-2 leading-relaxed">
-        {blog.excerpt}
-      </p>
     </a>
   )
 }
@@ -154,7 +162,7 @@ export default function BlogsClient({ initialData }: { initialData: Blog[] }) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[var(--spacing-gutter)] gap-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-gutter)]">
             {gridItems.map(blog => (
               <BlogCard key={blog.id} blog={blog} />
             ))}

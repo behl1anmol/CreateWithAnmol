@@ -1,5 +1,25 @@
 # Implementation Notes
 
+## Session: 2026-05-30 — UI Bug Fixes
+
+### Navbar Brand: Always Use `whitespace-nowrap`
+Brand/logo text links must have `whitespace-nowrap` to prevent line breaks on narrow viewports. Without it, a 32px font wraps on screens narrower than ~320px. Fix: add `whitespace-nowrap` to the `<Link>` className in `Navbar.tsx`.
+
+### BlogCard Glass-Card Pattern
+All listing cards (prompts, blogs, products) should follow the same pattern:
+- Outer anchor: `glass-card rounded-xl overflow-hidden flex flex-col h-full cursor-pointer hover:border-white/20 transition-colors duration-300`
+- Image div: `h-48 md:h-56 w-full overflow-hidden relative border-b border-white/5`
+- Content div: `p-6 flex flex-col flex-grow gap-3`
+The `h-full flex flex-col` on the outer container ensures uniform card heights within CSS grid rows.
+
+### Profile Image Sourcing
+The user's profile photo was retrieved from Google Drive via the Drive MCP (`download_file_content`, fileId `12NfrR18glrhkgX86EyuYyTAgqArylBs-`, title `ProfileImage.PNG`). It was saved to `public/images/anmol-profile.jpg`. Always use local paths (`/images/...`) for static assets to avoid CDN dependency.
+
+### Blog Grid Gap
+Use a single `gap-[var(--spacing-gutter)]` (not split `gap-x` + `gap-y` with different values) for consistent grid spacing that matches the prompts and products pages.
+
+---
+
 ## Session: 2026-05-28 — Social Icons & react-icons Integration
 
 ### LinkedIn Missing from react-icons/si v5
