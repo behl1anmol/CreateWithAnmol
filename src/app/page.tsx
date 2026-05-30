@@ -41,43 +41,53 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* Instagram Prompts */}
       <section className="relative z-10 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto mb-40">
         <div className="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
-          <h2 className="type-headline-md text-[var(--color-primary)]">Gumroad Products</h2>
+          <h2 className="type-headline-md text-[var(--color-primary)]">Instagram Prompts</h2>
           <a
-            href="/products"
+            href="/prompts"
             className="type-body-md text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-2"
           >
             View All <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
         <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
-          {featuredProducts.map((product: Product) => (
+          {featuredPrompts.map((prompt: Prompt) => (
             <div
-              key={product.id}
+              key={prompt.id}
               className="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
             >
               <div className="h-64 bg-[#121212] relative overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={product.image}
-                  alt={product.title}
+                  src={prompt.image}
+                  alt={prompt.title}
                   className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80" />
               </div>
               <div className="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
-                <h3 className="type-body-lg text-[var(--color-primary)] font-medium">{product.title}</h3>
-                <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{product.description}</p>
+                <h3 className="type-body-lg text-[var(--color-primary)] font-medium">{prompt.title}</h3>
+                <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{prompt.description}</p>
                 <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
+                  {prompt.reelLink && (
+                    <a
+                      href={prompt.reelLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300 text-center"
+                    >
+                      Watch Reel
+                    </a>
+                  )}
                   <a
-                    href={product.productLink}
+                    href={prompt.promptLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 text-center"
                   >
-                    View Product
+                    Get Full Prompt
                   </a>
                 </div>
               </div>
@@ -131,53 +141,43 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Instagram Prompts */}
+      {/* Featured Products */}
       <section className="relative z-10 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto mb-40">
         <div className="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
-          <h2 className="type-headline-md text-[var(--color-primary)]">Instagram Prompts</h2>
+          <h2 className="type-headline-md text-[var(--color-primary)]">Gumroad Products</h2>
           <a
-            href="/prompts"
+            href="/products"
             className="type-body-md text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-2"
           >
             View All <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
         <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
-          {featuredPrompts.map((prompt: Prompt) => (
+          {featuredProducts.map((product: Product) => (
             <div
-              key={prompt.id}
+              key={product.id}
               className="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
             >
               <div className="h-64 bg-[#121212] relative overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={prompt.image}
-                  alt={prompt.title}
+                  src={product.image}
+                  alt={product.title}
                   className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
               </div>
               <div className="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
-                <h3 className="type-body-lg text-[var(--color-primary)] font-medium">{prompt.title}</h3>
-                <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{prompt.description}</p>
+                <h3 className="type-body-lg text-[var(--color-primary)] font-medium">{product.title}</h3>
+                <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{product.description}</p>
                 <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
-                  {prompt.reelLink && (
-                    <a
-                      href={prompt.reelLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300 text-center"
-                    >
-                      Watch Reel
-                    </a>
-                  )}
                   <a
-                    href={prompt.promptLink}
+                    href={product.productLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 text-center"
                   >
-                    Get Full Prompt
+                    View Product
                   </a>
                 </div>
               </div>
