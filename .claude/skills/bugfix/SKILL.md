@@ -1,3 +1,13 @@
+---
+name: bugfix
+description: |
+  Systematic bug-fix workflow for the Create with Anmol project.
+  Reads debugging history, reproduces the bug, performs 5-point root cause analysis,
+  applies a minimal targeted fix, writes a Playwright regression test, and documents
+  the fix in debugging-log.md. Use when something is broken, a test is failing, or
+  the reviewer has flagged a CRITICAL or HIGH issue.
+---
+
 # /bugfix — Bug Fix Workflow
 
 Invoke with: `/bugfix [description of the bug]`

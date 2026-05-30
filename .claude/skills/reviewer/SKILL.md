@@ -1,3 +1,14 @@
+---
+name: reviewer
+description: |
+  Thorough code review workflow for the Create with Anmol project.
+  Loads all project rules (frontend, backend, design system, architecture), diffs
+  the current changes, and reports findings categorized as CRITICAL / HIGH / MEDIUM /
+  LOW with exact file:line references. Supports --pr (full branch vs main), --fix
+  (auto-apply fixable findings), and --comment (inline PR comment format).
+  Use after feature implementation or before merging PRs.
+---
+
 # /reviewer — Code Review Workflow
 
 Invoke with: `/reviewer [optional flags]`

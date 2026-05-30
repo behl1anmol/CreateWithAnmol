@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /home/user/CreateWithAnmol/.claude/hooks/session-start.sh 2>&1 || true"
+            "command": "bash .claude/hooks/session-start.sh 2>&1 || true"
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /home/user/CreateWithAnmol/.claude/hooks/post-session-update.sh 2>&1 || true"
+            "command": "bash .claude/hooks/post-session-update.sh 2>&1 || true"
           }
         ]
       }
@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /home/user/CreateWithAnmol/.claude/hooks/pre-tool-validation.sh 2>&1 || true"
+            "command": "bash .claude/hooks/pre-tool-validation.sh 2>&1 || true"
           }
         ]
       }

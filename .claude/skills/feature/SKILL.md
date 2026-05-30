@@ -1,3 +1,13 @@
+---
+name: feature
+description: |
+  Structured feature development workflow for the Create with Anmol project.
+  Reads all relevant context files, writes a plan, implements the feature following
+  design system and architecture rules, validates with TypeScript build, and runs
+  Playwright E2E tests. Use when adding new UI, pages, components, API routes, or
+  CMS integrations.
+---
+
 # /feature — Feature Development Workflow
 
 Invoke with: `/feature [description of feature to build]`

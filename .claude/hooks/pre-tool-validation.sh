@@ -13,12 +13,12 @@ if command -v python3 &>/dev/null; then
 import sys, json
 try:
     data = json.load(sys.stdin)
-    print(data.get('command', ''))
+    print(data.get('tool_input', {}).get('command', ''))
 except Exception:
     print('')
 " 2>/dev/null)
 elif command -v jq &>/dev/null; then
-  COMMAND=$(echo "$INPUT" | jq -r '.command // ""' 2>/dev/null)
+  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // ""' 2>/dev/null)
 fi
 
 [ -z "$COMMAND" ] && exit 0

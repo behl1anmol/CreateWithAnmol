@@ -1,3 +1,14 @@
+---
+name: tester
+description: |
+  Playwright E2E testing workflow for the Create with Anmol project.
+  Runs existing tests, diagnoses failures (distinguishing code bugs from stale tests),
+  and writes new test coverage for user-visible features. Supports --spec (single file),
+  --write (write tests for a named feature), --coverage (audit and fill gaps), and
+  --debug (headed browser). Uses 'playwright/test' package — not '@playwright/test'.
+  Use after implementing features or fixes to verify nothing regressed.
+---
+
 # /tester — Playwright E2E Testing Workflow
 
 Invoke with: `/tester [optional flags]`
