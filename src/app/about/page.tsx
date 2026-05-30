@@ -70,7 +70,7 @@ export default function AboutPage() {
           <div className="glass-panel rounded-2xl overflow-hidden h-[360px] md:h-[480px] relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/anmol-profile.jpg"
+              src="/images/anmol-profile.png"
               alt="Anmol — AI Creator and Digital Architect"
               className="w-full h-full object-cover object-top"
             />
