@@ -1,3 +1,6 @@
+import type { CSSProperties } from 'react'
+import { SOCIAL_PLATFORMS } from '@/lib/social'
+
 const STATS = [
   { value: '2.4M+', label: 'Total Views' },
   { value: '12+', label: 'Digital Products' },
@@ -25,29 +28,6 @@ const PRINCIPLES = [
   },
 ]
 
-const PLATFORMS = [
-  {
-    platform: 'INSTAGRAM',
-    icon: 'photo_camera',
-    href: 'https://www.instagram.com/createwithanmol',
-    description:
-      'Reels, prompt breakdowns, and cinematic AI visuals. The primary channel for new work and process documentation.',
-  },
-  {
-    platform: 'MEDIUM',
-    icon: 'article',
-    href: 'https://medium.com/@createwithanmol',
-    description:
-      'In-depth technical articles on AI, design systems, and editorial workflows. Published regularly for builders who think deeply.',
-  },
-  {
-    platform: 'GUMROAD',
-    icon: 'storefront',
-    href: 'https://gumroad.com',
-    description:
-      'Premium digital products: preset packs, UI kits, guides, and prompt libraries engineered for professional creative output.',
-  },
-]
 
 export default function AboutPage() {
   return (
@@ -75,7 +55,7 @@ export default function AboutPage() {
           </p>
           <div className="pt-2">
             <a
-              href="https://www.instagram.com/createwithanmol"
+              href="https://www.instagram.com/thestudioprompts.ai/"
               target="_blank"
               rel="noopener noreferrer"
               className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap inline-flex items-center gap-2 hover:gap-3 transition-all duration-300"
@@ -178,20 +158,21 @@ export default function AboutPage() {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-gutter)]">
-          {PLATFORMS.map((pl) => (
+          {SOCIAL_PLATFORMS.map((pl) => (
             <a
-              key={pl.platform}
+              key={pl.key}
               href={pl.href}
               target="_blank"
               rel="noopener noreferrer"
               className="group block glass-card glass-card-hover rounded-xl p-8 flex flex-col gap-5"
+              style={{ '--brand': pl.brandColor } as CSSProperties}
             >
               <span className="self-start pill-filter type-label-caps px-4 py-1.5 rounded-full text-[10px] text-[var(--color-on-surface-variant)]">
-                {pl.platform}
+                {pl.label}
               </span>
-              <span className="material-symbols-outlined text-4xl text-[var(--color-primary)] opacity-70">
-                {pl.icon}
-              </span>
+              <div className="text-white/50 group-hover:text-(--brand) transition-colors duration-300">
+                <pl.Icon size={36} />
+              </div>
               <p className="type-body-md text-[var(--color-on-surface-variant)] leading-relaxed flex-grow">
                 {pl.description}
               </p>
@@ -222,7 +203,7 @@ export default function AboutPage() {
           </p>
         </div>
         <a
-          href="https://www.instagram.com/createwithanmol"
+          href="https://www.instagram.com/thestudioprompts.ai/"
           target="_blank"
           rel="noopener noreferrer"
           className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap flex items-center gap-2 hover:gap-3 transition-all duration-300"

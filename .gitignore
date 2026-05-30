@@ -48,3 +48,14 @@ Thumbs.db
 *.swp
 *~
 .env.local
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+# Playwright test artifacts
+test-results/

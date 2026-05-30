@@ -1,5 +1,191 @@
 # Session Handoff
 
+## Session: 2026-05-29 — PR #1 Comment Fixes (Bug + Security + Performance + Hygiene)
+
+### What Was Done
+Addressed all remaining items from PR #1 review comment (#4561943827).
+
+**`src/app/api/drive-image/route.ts` — 3 changes:**
+- URL: `uc?export=view` → `thumbnail?id=${id}&sz=w1000` (no virus-scan redirect, no rate-limit)
+- Security: added content-type validation (reject non-`image/*`), removed `?? 'image/jpeg'` fallback,
+  added `X-Content-Type-Options: nosniff` + `Content-Security-Policy: default-src 'none'`
+- Performance: replaced `arrayBuffer()` buffering with `res.body` streaming
+
+**`.gitignore` — 1 change:**
+- Added `test-results/` (Playwright run artifacts)
+- `git rm --cached test-results/.last-run.json` to untrack already-committed file
+
+**Not actioned:** SearchClient.tsx cleanup — already fixed in commit `f610040`.
+
+### Current Branch State
+Changes committed on `pr-bugfix-fixes` and merged (fast-forward) to `pr-bugfix-performance-improvement`.
+
+### Verification Status
+- TypeScript build: run `npm run build` to confirm
+- Playwright: run `npx playwright test` to confirm
+- Drive images: requires live Google Drive ID to test proxy response headers
+
+---
+
+## Session: 2026-05-28 (Update) — Social Media Icons Integration
+
+### What Was Done
+Added all 6 social media handles (LinkedIn, GitHub, Medium, Gumroad, Instagram, X) to the website.
+
+**Change A — Main page hero:** Replaced "Explore Prompts" pill button with a row of 6 brand icons. Grayscale (`text-white/30`) by default; hover reveals brand color via CSS custom property (`--brand`) + Tailwind v4 `hover:text-(--brand)`. Server Component safe — no `useState` needed.
+
+**Change B — About page "Find the Work" section:** Expanded from 3 cards (Instagram/Medium/Gumroad) to 6 cards (LinkedIn/GitHub/Medium/Gumroad/Instagram/X). Icons migrated from Material Symbols generic strings to `react-icons/si` + `react-icons/fa6` brand SVGs. Brand color on card hover via `group-hover:text-(--brand)` with scoped CSS custom property per card.
+
+**Also fixed:** All wrong social URLs across `about/page.tsx`, `Footer.tsx` (Instagram was `createwithanmol`, Medium was bare `medium.com`, Gumroad was bare `gumroad.com`).
+
+**Files created:**
+- `src/lib/social.tsx` — shared social platform config (key, label, href, brandColor, Icon, description)
+- `e2e/social-icons.spec.ts` — 4 Playwright tests (all passing)
+
+**Files modified:**
+- `src/app/page.tsx` — hero button → social icons row
+- `src/app/about/page.tsx` — removed local PLATFORMS const, imported SOCIAL_PLATFORMS, updated card JSX
+- `src/components/layout/Footer.tsx` — fixed 3 wrong social URLs
+- `package.json` — added `react-icons` (v5.6.0)
+
+**Verified:** TypeScript clean, `npm run build` passes, 4/4 Playwright tests pass.
+
+### Key Technical Details
+- LinkedIn not in `react-icons/si` v5 — use `FaLinkedin` from `react-icons/fa6`
+- Gumroad not in `react-icons/fa6` — use `SiGumroad` from `react-icons/si`
+- Tailwind v4 CSS variable syntax for hover colors: `hover:text-(--brand)` and `group-hover:text-(--brand)` → generates `color: var(--brand)`. Verified working in generated CSS.
+- Cast for CSS custom property in style prop: `style={{ '--brand': color } as CSSProperties}` (import `CSSProperties` from `'react'`)
+
+---
+
+## Session: 2026-05-28 (Update) — Fix B&W Images
+
+### What Was Done
+Removed desaturation CSS from all homepage card image tags and Blogs page cards.
+
+**Root cause:** `mix-blend-luminosity` on images over dark `#121212` backgrounds strips color (only luminosity channel composites against a near-black surface → grayscale). `grayscale` Tailwind class on blog grid cards was explicit desaturation.
+
+**Files changed:**
+- `src/app/page.tsx` — removed `mix-blend-luminosity` from 3 `<img>` classNames (Products carousel L57, Blogs carousel L102, Prompts carousel L147)
+- `src/app/blogs/BlogsClient.tsx` — removed `mix-blend-luminosity group-hover:mix-blend-normal` from FeaturedBlogCard (L21); removed `grayscale group-hover:grayscale-0` from BlogCard grid (L73)
+
+**Preserved:** opacity transitions, scale-105 hover, gradient overlays — all depth/interaction effects intact.
+
+**Verified:** Playwright screenshots confirmed color images on `/` (all 3 sections) and `/blogs`.
+
+---
+
+## Session: 2026-05-28 — Universal Search Feature
+
+### What Was Done
+Implemented full universal search feature from scratch.
+
+**Files created:**
+- `src/app/api/search/route.ts` — server-side search endpoint. Fetches all 3 content types in parallel via existing `getPrompts/getProducts/getBlogs` (leverages ISR Data Cache — Apps Script hit at most once/hour). Filters in Node.js. Min query length 2 chars. Returns only matching records.
+- `src/app/search/page.tsx` — minimal server component with Suspense boundary (required for `useSearchParams`)
+- `src/app/search/SearchClient.tsx` — client component: debounced fetch (300ms), loading state, result rows for all 3 types, 4 states (landing/loading/no-results/results), URL sync on submit
+- `playwright.config.ts` — Playwright config using `playwright/test` (NOT `@playwright/test` — project has `playwright` pkg not `@playwright/test`)
+- `e2e/search.spec.ts` — 12 tests, all passing
+
+**Files modified:**
+- `src/components/layout/Navbar.tsx` — search icon added to desktop nav (between nav links and CTA) and mobile header (alongside hamburger). Also added to mobile menu dropdown. Uses `data-testid="search-icon-desktop"` and `data-testid="search-icon-mobile"`.
+
+### Current State
+All 12 Playwright tests pass. Feature complete. Ready for manual verification and deployment.
+
+### Key Implementation Details
+- Search is server-side filtered, not client-side — scalable as content grows
+- `useSearchParams()` requires `<Suspense>` in `page.tsx`
+- Import Playwright from `playwright/test` (not `@playwright/test`) — this project has `playwright` package
+- Result rows are compact horizontal items (thumbnail + text + arrow), not full cards
+
+---
+
+## Session: 2026-05-27 — Google Drive Image Pipeline Complete
+
+### What Was Done
+Full Drive image pipeline built and stabilized across 3 debugging iterations.
+
+**Root cause confirmed:** Google's "fife" CDN (lh3.googleusercontent.com) returns HTTP 429 Too Many Requests on concurrent browser requests regardless of URL format.
+
+**Final fix:** Server-side proxy at `src/app/api/drive-image/route.ts`
+- Browser requests `/api/drive-image?id={FILE_ID}` (same-origin)
+- Next.js server fetches `drive.google.com/uc?export=view&id={ID}` server-side
+- Returns image with `Cache-Control: public, max-age=86400`
+- File ID validated: `/^[a-zA-Z0-9_\-]{10,80}$/`
+
+**Normalization:** `src/lib/utils/imageUrl.ts` → all Drive URLs output `/api/drive-image?id={ID}`
+**Applied to:** All 3 content types (Prompt, Product, Blog) via `normalize.ts`
+
+**Scope of coverage:**
+- `/prompts` — fixed ✅
+- `/blogs` — fixed (normalize path identical) ✅
+- `/products` — fixed (normalize path identical) ✅
+- `/` (homepage) — fixed (uses same normalized data via getHomepageData()) ✅
+- `/about` — hardcoded `lh3.googleusercontent.com/aida-public/...` — NOT Drive, single image, no fix needed ✅
+
+**Dev mode stale cache also fixed:**
+- `src/lib/api/client.ts`: `revalidate: 0` in dev, `3600` in prod
+- Cache guide created: `.claude/analysis/cache-clearing-guide.md`
+
+### Current Known Issues / TODOs
+- About page hero image is a hardcoded `aida-public` URL — not permanent, should be replaced with a real photo in future
+- Filter pills in Prompts/Blogs/Products are hardcoded category arrays — do not match live Sheets categories
+
+---
+
+## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up + ISR Complete
+
+### What Was Done
+- Created `src/lib/api/client.ts` — `fetchFromCMS<T>()` with `revalidate: 3600` and graceful error fallback
+- Created `src/lib/api/normalize.ts` — type-safe normalizers for Prompt, Product, Blog, FeaturedItem
+- Created `src/lib/api/index.ts` — `getPrompts()`, `getProducts()`, `getBlogs()`, `getFeaturedItems()`, `getHomepageData()` with Featured-tab fallback to `featured: true` flag
+- Split `/prompts`, `/products`, `/blogs` into server `page.tsx` wrapper + `[Name]Client.tsx` client component
+- Rewrote `src/app/page.tsx` — async, `revalidate = 3600`, `getHomepageData()`, real image tags for product/blog cards, correct field names (`productLink`, `articleLink`)
+- Installed `@opennextjs/cloudflare` + `wrangler` (not `@cloudflare/next-on-pages` — peer dep blocks Next.js 16)
+- Ran `npx opennextjs-cloudflare migrate` — scaffolded `wrangler.jsonc`, `open-next.config.ts`, `.dev.vars`, `public/_headers`
+- Removed `output: 'export'` from `next.config.ts`
+- Added `APPS_SCRIPT_URL` to `.dev.vars` (migrate does not copy from `.env.local`)
+
+### Phase 2 Status
+- ✅ Google Sheets structure defined (4 tabs: Prompts, Products, Blogs, Featured)
+- ✅ Apps Script deployed as Web App (Execute as Me, Anyone can access)
+- ✅ `.env.local` and `.dev.vars` contain `APPS_SCRIPT_URL`
+- ✅ API layer (`src/lib/api/`) — implemented
+- ✅ All pages wired to live API (mockData.ts no longer imported by any page)
+- ✅ `output: 'export'` removed — `@opennextjs/cloudflare` configured
+- ✅ ISR: `revalidate = 3600` on all 4 content routes
+- ✅ `npm run build` — zero TypeScript errors, all routes show `Revalidate: 1h`
+- ✅ `npx opennextjs-cloudflare build` — `.open-next/worker.js` generated
+- ⬜ Cloudflare Pages dashboard: update build command to `npm run deploy`
+- ⬜ Cloudflare Pages env vars: add `APPS_SCRIPT_URL` for Production + Preview
+- ⬜ Confirm "Featured" tab rename (was "Features") in Google Sheets
+
+### Current File Structure (new files)
+```
+src/lib/api/client.ts
+src/lib/api/normalize.ts
+src/lib/api/index.ts
+src/app/prompts/PromptsClient.tsx
+src/app/products/ProductsClient.tsx
+src/app/blogs/BlogsClient.tsx
+wrangler.jsonc
+open-next.config.ts
+.dev.vars
+public/_headers
+```
+
+### Local Dev Commands
+- `npm run dev` — Next.js dev server (Node.js, reads `.env.local`)
+- `npm run build` — Next.js production build (validates TS + ISR config)
+- `npm run deploy` — OpenNext build + Cloudflare deploy (requires Node ≥22 for wrangler)
+- `npm run preview` — OpenNext build + local Cloudflare preview (requires Node ≥22)
+
+### ISR Behavior
+Sheet update → live on site within max 1 hour. No manual redeploy needed. Cache is per-Worker-instance (no R2 — acceptable for solo creator traffic pattern). To enable persistent cross-instance cache, configure R2 in `wrangler.jsonc` and uncomment `r2IncrementalCache` in `open-next.config.ts`.
+
+---
+
 ## Session: 2026-05-25 — Phase 2 CMS Backend Setup Complete
 
 ### What Was Done

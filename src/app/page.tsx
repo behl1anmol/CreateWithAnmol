@@ -1,6 +1,13 @@
-import { FEATURED_PRODUCTS, FEATURED_BLOGS, FEATURED_PROMPTS } from '@/lib/data/mockData'
+import type { CSSProperties } from 'react'
+import { getHomepageData } from '@/lib/api'
+import type { Product, Blog, Prompt } from '@/lib/types'
+import { SOCIAL_PLATFORMS } from '@/lib/social'
 
-export default function Home() {
+export const revalidate = 3600
+
+export default async function Home() {
+  const { featuredPrompts, featuredProducts, featuredBlogs } = await getHomepageData()
+
   return (
     <div className="relative z-10 pt-32 pb-32">
       {/* Ambient liquid lighting */}
@@ -17,13 +24,20 @@ export default function Home() {
         <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-2xl">
           Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.
         </p>
-        <div className="mt-8 flex gap-4">
-          <a
-            href="/prompts"
-            className="type-body-md font-medium text-[var(--color-surface)] bg-white/80 backdrop-blur-[20px] border border-white/20 border-t-white/50 px-8 py-3 rounded-full hover:bg-white/95 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.25)]"
-          >
-            Explore Prompts
-          </a>
+        <div className="mt-8 flex items-center gap-6">
+          {SOCIAL_PLATFORMS.map(({ key, href, label, brandColor, Icon }) => (
+            <a
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="text-white/30 transition-colors duration-300 hover:text-(--brand)"
+              style={{ '--brand': brandColor } as CSSProperties}
+            >
+              <Icon size={22} />
+            </a>
+          ))}
         </div>
       </section>
 
@@ -39,15 +53,18 @@ export default function Home() {
           </a>
         </div>
         <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
-          {FEATURED_PRODUCTS.map((product) => (
+          {featuredProducts.map((product: Product) => (
             <div
               key={product.id}
               className="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
             >
               <div className="h-64 bg-[#121212] relative overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
-                  <span className="material-symbols-outlined text-6xl text-white/10">{product.icon}</span>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
               </div>
               <div className="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
@@ -55,7 +72,7 @@ export default function Home() {
                 <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{product.description}</p>
                 <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
                   <a
-                    href={product.link}
+                    href={product.productLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-3 rounded-xl bg-white/10 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/15 hover:border-white/20 hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 text-center"
@@ -81,15 +98,18 @@ export default function Home() {
           </a>
         </div>
         <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
-          {FEATURED_BLOGS.map((blog) => (
+          {featuredBlogs.map((blog: Blog) => (
             <div
               key={blog.id}
               className="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
             >
               <div className="h-64 bg-[#121212] relative overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
-                  <span className="material-symbols-outlined text-6xl text-white/10">{blog.icon}</span>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/80 to-transparent opacity-80" />
               </div>
               <div className="p-6 flex flex-col gap-4 flex-grow relative z-10 bg-gradient-to-b from-white/5 to-transparent">
@@ -97,7 +117,7 @@ export default function Home() {
                 <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{blog.excerpt}</p>
                 <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
                   <a
-                    href={blog.link}
+                    href={blog.articleLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300 text-center"
@@ -123,7 +143,7 @@ export default function Home() {
           </a>
         </div>
         <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide">
-          {FEATURED_PROMPTS.map((prompt) => (
+          {featuredPrompts.map((prompt: Prompt) => (
             <div
               key={prompt.id}
               className="snap-start shrink-0 w-[85vw] md:w-[400px] bg-[#1a1a1a]/40 backdrop-blur-2xl border border-white/5 border-t-white/15 hover:bg-[#1a1a1a]/60 hover:border-white/10 hover:border-t-white/25 hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col group rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
@@ -133,7 +153,7 @@ export default function Home() {
                 <img
                   src={prompt.image}
                   alt={prompt.title}
-                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 mix-blend-luminosity"
+                  className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-transparent to-transparent opacity-80" />
               </div>
@@ -141,14 +161,16 @@ export default function Home() {
                 <h3 className="type-body-lg text-[var(--color-primary)] font-medium">{prompt.title}</h3>
                 <p className="type-body-md text-[var(--color-on-surface-variant)] line-clamp-2">{prompt.description}</p>
                 <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
-                  <a
-                    href={prompt.reelLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300 text-center"
-                  >
-                    Watch Reel
-                  </a>
+                  {prompt.reelLink && (
+                    <a
+                      href={prompt.reelLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3 rounded-xl bg-white/5 backdrop-blur-[20px] border border-white/10 border-t-white/20 text-[var(--color-primary)] type-label-caps font-semibold tracking-wider hover:bg-white/10 hover:border-white/15 transition-all duration-300 text-center"
+                    >
+                      Watch Reel
+                    </a>
+                  )}
                   <a
                     href={prompt.promptLink}
                     target="_blank"

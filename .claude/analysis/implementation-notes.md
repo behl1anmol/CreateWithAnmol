@@ -1,5 +1,144 @@
 # Implementation Notes
 
+## Session: 2026-05-28 — Social Icons & react-icons Integration
+
+### LinkedIn Missing from react-icons/si v5
+`react-icons/si` (Simple Icons) v5.6.0 does not include LinkedIn. Use `FaLinkedin` from `react-icons/fa6`. Gumroad is only in `react-icons/si` (not in fa6). Mixed imports from `si` and `fa6` in same component are fine — both tree-shake.
+
+### Tailwind v4 CSS Variable Hover Color Pattern
+To apply per-element brand colors on hover without a client component:
+1. Set CSS variable on parent: `style={{ '--brand': color } as CSSProperties}`
+2. Apply on hover: `hover:text-(--brand)` (generates `color: var(--brand)`)
+3. For card group hover: `group-hover:text-(--brand)` (generates group hover rule)
+
+Verified in `.next/dev/static/chunks/src_app_globals_css_*.css` — Tailwind v4 generates these rules correctly.
+
+### CSSProperties Cast for Custom CSS Properties
+`style={{ '--brand': color } as CSSProperties}` — TypeScript needs the cast. Import `CSSProperties` from `'react'` with `import type { CSSProperties } from 'react'`. Do NOT use `React.CSSProperties` without importing React (fine with `react-jsx` automatic transform but requires React namespace).
+
+---
+
+## Session: 2026-05-28 — Universal Search
+
+### Playwright: Import from `playwright/test` not `@playwright/test`
+Project has `playwright` package (not `@playwright/test`). The `playwright` package ships `test.js`/`test.d.ts`. Import: `import { test, expect } from 'playwright/test'` and `import { defineConfig, devices } from 'playwright/test'`.
+
+### `useSearchParams` Always Needs Suspense Boundary
+Any client component calling `useSearchParams()` must be wrapped in `<Suspense>` in the parent server component. Without it, Next.js App Router throws at build time. Put Suspense in `page.tsx`, not inside the client component itself.
+
+### Navbar Search Icon: `data-testid` Required for Reliable Test Selection
+Two search icon elements exist in Navbar DOM: one desktop (`hidden md:inline-flex`), one mobile (inside `md:hidden` container). Generic `a[aria-label="Search"]` selectors are fragile — first match returns the hidden desktop icon on mobile tests. Use `data-testid="search-icon-desktop"` and `data-testid="search-icon-mobile"`.
+
+### Search Result Design: Compact Rows, Not Full Cards
+Full card components (h-48+ images, multi-section content) are inappropriate for search results. At 10+ results across 3 sections, full cards cause excessive scroll. Use compact horizontal rows: 64px thumbnail + text + arrow icon. ~80px height, `flex flex-col gap-2` list.
+
+---
+
+## Session: 2026-05-27 — Fix Featured Grid Exclusion Bug
+
+### Problem
+`BlogsClient.tsx` and `ProductsClient.tsx` grid filter used `!b.featured` — excludes ALL items with `featured: true`. When Sheets has multiple `featured: true` entries, only the first (hero) renders; rest vanish from grid.
+
+### Fix
+Changed to `b.id !== featured?.id` — excludes only the specific item currently occupying the hero slot.
+
+### Files Changed
+- `src/app/blogs/BlogsClient.tsx` — `gridItems` filter
+- `src/app/products/ProductsClient.tsx` — `allFiltered` filter + moved `featuredFiltered` before `allFiltered`
+
+---
+
+## Session: 2026-05-27 — Image Validation: Blogs, Products, About, Homepage
+
+### Findings
+All pages using CMS data (blogs, products, homepage) already covered by proxy fix:
+- `normalizeBlog()`, `normalizeProduct()`, `normalizePrompt()` all call `toEmbeddableImageUrl()`
+- Drive URLs → `/api/drive-image?id={ID}` → server proxy → no 429
+
+About page: single hardcoded `lh3.googleusercontent.com/aida-public/...` image. Not Drive. Not concurrent. No fix needed.
+
+### No code changes made — validation only.
+
+---
+
+## Session: 2026-05-27 — Drive Image Proxy (Final Fix)
+
+### Problem
+Browser requests to `lh3.googleusercontent.com` return HTTP 429. Google's "fife" CDN throttles concurrent browser-origin image requests. No URL format bypasses this.
+
+### Fix
+New Route Handler: `src/app/api/drive-image/route.ts`
+- Server-side proxy: fetches `drive.google.com/uc?export=view&id={ID}` then returns image
+- Cache-Control: public, max-age=86400 (24hr browser cache)
+- ID validation regex prevents SSRF
+
+`src/lib/utils/imageUrl.ts` now outputs `/api/drive-image?id={ID}` for all Drive URLs.
+
+### Files Changed
+- `src/app/api/drive-image/route.ts` — new proxy route
+- `src/lib/utils/imageUrl.ts` — output changed to proxy URL
+- `.claude/analysis/cache-clearing-guide.md` — new guide
+
+---
+
+## Session: 2026-05-27 — Drive CDN Rate-Limit Fix
+
+### Problem
+`drive.google.com/thumbnail` CDN rate-limits concurrent browser requests. 6 simultaneous card image loads → only 1 gets through. Random per refresh.
+
+### Fix
+`src/lib/utils/imageUrl.ts`: changed output URL from `drive.google.com/thumbnail?id={ID}&sz=w1000` → `lh3.googleusercontent.com/d/{ID}`. Google's image CDN, no per-burst throttle. Already in `next.config.ts` remotePatterns.
+
+### Impact
+Fixes all pages using `toEmbeddableImageUrl`: Prompts, Products, Blogs, Homepage featured. About page (hardcoded lh3 URL) unaffected.
+
+---
+
+## Session: 2026-05-27 — Stale Fetch Cache Fix + Dev Mode Cache Bypass
+
+### Problem
+Prompts page showed stale data ("Carousel Ideas", "Caption Starters" with `example.com` images) instead of live Sheets data. Root cause: `.next/cache/fetch-cache/` on-disk cache from May 25 persisted past its 1-hour TTL in dev mode — Next.js dev mode doesn't auto-invalidate disk cache between restarts.
+
+### Fix
+1. Deleted all stale `.next/cache/fetch-cache/` entries
+2. Changed `client.ts` fetch revalidate: `0` in dev (always fresh), `3600` in prod (ISR 1-hour)
+
+### Drive Image Permissions Note
+After cache cleared, Drive thumbnails only render for publicly shared files. Users must set each Drive image file to "Anyone with the link can view". First image (Luxury Portrait, file ID `1GJswgI0DOXDcDuuo1nNdeHMAso3SilFB`) confirmed working — others need same setting.
+
+### Files Changed
+- `src/lib/api/client.ts` — conditional `revalidate`
+- `.next/cache/fetch-cache/` — deleted (manual step)
+
+---
+
+## Session: 2026-05-27 — Google Drive Image URL Fix
+
+### Problem
+Google Sheets CMS returns Google Drive shareable links for `image` fields. Plain `<img src="drive.google.com/file/d/{ID}/view">` loads an HTML page, not image binary → broken cards in Prompts, Products, Blogs.
+
+### Fix
+Created `src/lib/utils/imageUrl.ts` with `toEmbeddableImageUrl(url)`:
+- Regex-extracts `FILE_ID` from Drive file URLs
+- Rewrites to `drive.google.com/thumbnail?id={ID}&sz=w1000`
+- Passes through non-Drive URLs unchanged
+
+Applied in `src/lib/api/normalize.ts` to `image` field in `normalizePrompt`, `normalizeProduct`, `normalizeBlog`.
+
+### Files Changed
+- `src/lib/utils/imageUrl.ts` — new utility
+- `src/lib/api/normalize.ts` — import + apply transform to all 3 image fields
+- `next.config.ts` — added `drive.google.com` to `remotePatterns`
+- `.claude/context/content-model.md` — Image Rules section updated
+- `.claude/analysis/architectural-decisions.md` — decision recorded
+
+### Key Notes
+- `*Client.tsx` files unchanged — receive pre-transformed URLs
+- Passthrough logic preserves `lh3.googleusercontent.com` and Cloudinary URLs
+- `sz=w1000` chosen for card quality/performance balance
+
+---
+
 ## Session: 2026-05-24 — Phase 1 Frontend Planning
 
 ### Project State at Session Start
@@ -107,6 +246,73 @@ All foundation items COMPLETE. Static build passes, all 5 routes generated. Visu
 - `darkMode` class handling: set `html.dark` always (site is dark-only) or use `@variant dark`
 - Font family utilities: `font-display` → maps to `--font-display` CSS var
 - Class names from Stitch (e.g., `font-display-lg`, `text-display-lg`) still work in v4 once tokens are defined
+
+---
+
+## Session: 2026-05-25 (Update) — Phase 2 CMS Wire-Up Complete
+
+### What Was Built
+
+**API layer — `src/lib/api/`:**
+- `client.ts` — `fetchFromCMS<T>(path)`: fetch with `next: { revalidate: 3600 }`, graceful error→`[]`
+- `normalize.ts` — `normalizePrompt`, `normalizeProduct`, `normalizeBlog`, `normalizeFeaturedItem`
+- `index.ts` — `getPrompts()`, `getProducts()`, `getBlogs()`, `getFeaturedItems()`, `getHomepageData()`
+
+**Page split pattern (all 3 inner pages):**
+```
+src/app/[route]/page.tsx          ← async server component, export const revalidate = 3600
+src/app/[route]/[Name]Client.tsx  ← 'use client', useState, receives initialData prop
+```
+
+**Home page (`src/app/page.tsx`):**
+- Made `async`, added `revalidate = 3600`
+- Replaced mock imports with `getHomepageData()`
+- Product/blog card image containers: replaced `<span className="material-symbols-outlined">{icon}</span>` with `<img src={item.image} .../>` (same treatment as prompts section)
+- Fixed field names: `product.link` → `product.productLink`, `blog.link` → `blog.articleLink`
+- Prompt section unchanged (fields already matched real `Prompt` type)
+
+### Cloudflare / ISR Setup
+
+**Adapter:** `@opennextjs/cloudflare` (not `@cloudflare/next-on-pages` — blocked by Next.js 16 peer dep)
+
+**Files generated by `npx opennextjs-cloudflare migrate`:**
+- `wrangler.jsonc` — Workers config (main: `.open-next/worker.js`, nodejs_compat flag, ASSETS binding)
+- `open-next.config.ts` — OpenNext config (R2 cache commented out — not needed for basic ISR)
+- `.dev.vars` — local Cloudflare dev env vars (must add `APPS_SCRIPT_URL` manually — migrate only sets `NEXTJS_ENV`)
+- `public/_headers` — security headers for static assets
+- `.gitignore` updated to include `.dev.vars*` and `.open-next/`
+
+**Build commands:**
+- Local Next.js dev: `npm run dev` (Node.js runtime, no ISR, hits Apps Script every request)
+- Local Cloudflare preview: `npx opennextjs-cloudflare build && npx wrangler dev` (requires Node ≥22)
+- Deploy: `npm run deploy` (= `opennextjs-cloudflare build && opennextjs-cloudflare deploy`)
+
+**Cloudflare Pages dashboard settings to update:**
+- Build command: `npm run deploy` (or `npm run upload` if using CLI deploy separately)
+- Environment Variables: add `APPS_SCRIPT_URL` for both Production and Preview environments
+
+### Build Output Confirmation
+
+```
+Route (app)      Revalidate  Expire
+┌ ○ /                    1h      1y
+├ ○ /about
+├ ○ /blogs               1h      1y
+├ ○ /products            1h      1y
+└ ○ /prompts             1h      1y
+```
+
+Zero TypeScript errors. `.open-next/worker.js` generated.
+
+### Normalize Layer Key Guards
+
+- `featured: raw.featured === true` — strict bool equality, not truthy (prevents `'FALSE'` string → true)
+- Optional fields: `raw.field ? String(raw.field) : undefined` — preserves undefined semantics
+- `order`: `typeof raw.order === 'number' ? raw.order : undefined` — 999 default in FeaturedItem normalizer
+
+### Home Page Mock Shape vs Real Type (Field Mapping)
+
+Mock `HomeProduct` / `HomeBlog` shapes used `icon` (Material icon name) and `link`. Real `Product`/`Blog` types use `image` (URL) and `productLink`/`articleLink`. This divergence was handled in `page.tsx` update — not a bug, just a planned migration.
 
 ---
 
