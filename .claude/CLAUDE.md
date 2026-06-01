@@ -521,3 +521,43 @@ The implementation should feel:
 
 Do not treat Stitch designs as loose inspiration.
 Treat them as implementation references.
+
+---
+
+## Workspace Automation
+
+The `.claude/` directory contains a full suite of development automation:
+
+### Slash Commands (Skills)
+| Command | Purpose |
+|---------|---------|
+| `/feature` | Structured feature development: read context → plan → implement → validate → test |
+| `/bugfix` | Bug diagnosis: reproduce → 5-point root cause → minimal fix → regression test |
+| `/reviewer` | Code review: CRITICAL/HIGH/MEDIUM/LOW findings with exact file:line references |
+| `/tester` | Playwright E2E: run tests, diagnose failures, write new coverage |
+| `/deploy-cloudflare` | Step-by-step Cloudflare Pages deployment guide |
+
+### Custom Agents
+| Agent | Invoke with | Purpose |
+|-------|------------|---------|
+| `feature-agent` | Agent tool | Frontend/backend feature implementation specialist |
+| `bugfix-agent` | Agent tool | 5-point root cause analysis + minimal fix specialist |
+| `reviewer-agent` | Agent tool | Code review against all project rules |
+| `tester-agent` | Agent tool | Playwright testing and coverage specialist |
+| `orchestrator-agent` | Agent tool | Multi-phase coordinator: spawns all agents in sequence |
+
+### Hooks (Automated)
+| Hook | Event | Purpose |
+|------|-------|---------|
+| `session-start.sh` | SessionStart | Shows branch, status, recent commits, quick reference |
+| `post-session-update.sh` | Stop | Reminds about analysis file updates |
+| `pre-tool-validation.sh` | PreToolUse (Bash) | Warns on destructive patterns |
+
+### Multi-Phase Orchestration
+For complete feature pipelines, use `orchestrator-agent`:
+```
+feature-agent → reviewer-agent → bugfix-agent (if issues) → tester-agent
+```
+
+All agents read `.claude/context/` files before making decisions.
+All agents update `.claude/analysis/` files after completing work.
