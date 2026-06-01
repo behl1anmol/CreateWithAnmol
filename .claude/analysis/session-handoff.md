@@ -62,6 +62,46 @@ No blocking items. Project is in Phase 2 completion state.
 
 ---
 
+## Session: 2026-05-30 — UI Bug Fixes (Navbar, Section Order, Profile Image, Blog Cards)
+
+### Branch
+`claude/app-ui-fixes-reorder-M70GP`
+
+### What Was Done
+Fixed four UI bugs reported via screenshots:
+
+**Bug A — Navbar mobile wrapping (Navbar.tsx)**
+- Added `whitespace-nowrap` to brand `<Link>` className.
+- Root cause: `type-headline-md` = 32px font, no wrapping prevention. Fixed with a single class.
+
+**Bug B — Homepage section order (app/page.tsx)**
+- Reordered sections: Prompts → Medium Blogs → Gumroad Products (was Products → Blogs → Prompts).
+- Pure JSX block reordering; no data or logic changes.
+
+**Bug C — About page profile image (about/page.tsx)**
+- Replaced Google CDN placeholder URL with `/images/anmol-profile.png` (local file).
+- Image source: The user's profile photo was retrieved provided by the user with the prompt.
+- Removed `mix-blend-luminosity opacity-80` so portrait displays in full color.
+- Added `object-top` to keep face/upper body in frame within the fixed-height container.
+
+**Bug D — Blog page card UI (blogs/BlogsClient.tsx)**
+- Refactored `BlogCard` to wrap image + content in a full `glass-card rounded-xl` container.
+- Added `h-full flex flex-col` for uniform card heights in the grid.
+- Fixed gap: `gap-x-[var(--spacing-gutter)] gap-y-16` → `gap-[var(--spacing-gutter)]`.
+- `FeaturedBlogCard` (horizontal hero layout) left unchanged.
+
+### Files Changed
+- `src/components/layout/Navbar.tsx`
+- `src/app/page.tsx`
+- `src/app/about/page.tsx`
+- `src/app/blogs/BlogsClient.tsx`
+- `public/images/anmol-profile.png` (new)
+
+### Verification
+- `npm run build` passed cleanly (10/10 pages generated, 0 errors).
+
+---
+
 ## Session: 2026-05-29 — PR #1 Comment Fixes (Bug + Security + Performance + Hygiene)
 
 ### What Was Done
