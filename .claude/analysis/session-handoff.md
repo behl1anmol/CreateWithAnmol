@@ -17,8 +17,8 @@ Fixed four UI bugs reported via screenshots:
 - Pure JSX block reordering; no data or logic changes.
 
 **Bug C — About page profile image (about/page.tsx)**
-- Replaced Google CDN placeholder URL with `/images/anmol-profile.jpg` (local file).
-- Image source: `ProfileImage.PNG` downloaded from user's Google Drive (ID: `12NfrR18glrhkgX86EyuYyTAgqArylBs-`) via Drive MCP.
+- Replaced Google CDN placeholder URL with `/images/anmol-profile.png` (local file).
+- Image source: The user's profile photo was retrieved provided by the user with the prompt.
 - Removed `mix-blend-luminosity opacity-80` so portrait displays in full color.
 - Added `object-top` to keep face/upper body in frame within the fixed-height container.
 
@@ -33,7 +33,7 @@ Fixed four UI bugs reported via screenshots:
 - `src/app/page.tsx`
 - `src/app/about/page.tsx`
 - `src/app/blogs/BlogsClient.tsx`
-- `public/images/anmol-profile.jpg` (new)
+- `public/images/anmol-profile.png` (new)
 
 ### Verification
 - `npm run build` passed cleanly (10/10 pages generated, 0 errors).

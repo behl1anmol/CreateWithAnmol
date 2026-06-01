@@ -13,7 +13,7 @@ All listing cards (prompts, blogs, products) should follow the same pattern:
 The `h-full flex flex-col` on the outer container ensures uniform card heights within CSS grid rows.
 
 ### Profile Image Sourcing
-The user's profile photo was retrieved from Google Drive via the Drive MCP (`download_file_content`, fileId `12NfrR18glrhkgX86EyuYyTAgqArylBs-`, title `ProfileImage.PNG`). It was saved to `public/images/anmol-profile.jpg`. Always use local paths (`/images/...`) for static assets to avoid CDN dependency.
+The user's profile photo was retrieved provided by the user with the prompt. It was saved to `public/images/anmol-profile.png`. Always use local paths (`/images/...`) for static assets to avoid CDN dependency.
 
 ### Blog Grid Gap
 Use a single `gap-[var(--spacing-gutter)]` (not split `gap-x` + `gap-y` with different values) for consistent grid spacing that matches the prompts and products pages.
