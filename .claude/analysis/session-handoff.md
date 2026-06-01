@@ -1,5 +1,107 @@
 # Session Handoff
 
+## Session: 2026-05-30 — Claude Code Workspace Automation Setup
+
+### What Was Done
+Full workspace automation setup: 4 slash commands, 5 custom agents, 3 lifecycle hooks, settings.json.
+
+**Files Created:**
+
+Skills (slash commands):
+- `.claude/skills/feature/SKILL.md` → `/feature` command
+- `.claude/skills/bugfix/SKILL.md` → `/bugfix` command
+- `.claude/skills/reviewer/SKILL.md` → `/reviewer` command
+- `.claude/skills/tester/SKILL.md` → `/tester` command
+
+Custom Agents:
+- `.claude/agents/feature-agent.md` — feature implementation specialist
+- `.claude/agents/bugfix-agent.md` — 5-point root cause + minimal fix specialist
+- `.claude/agents/reviewer-agent.md` — CRITICAL/HIGH/MEDIUM/LOW code reviewer
+- `.claude/agents/tester-agent.md` — Playwright testing specialist
+- `.claude/agents/orchestrator-agent.md` — multi-phase coordinator (feature→review→fix→test)
+
+Hooks:
+- `.claude/hooks/session-start.sh` — SessionStart: branch/status/quick reference
+- `.claude/hooks/post-session-update.sh` — Stop: analysis file update reminder
+- `.claude/hooks/pre-tool-validation.sh` — PreToolUse(Bash): destructive pattern warnings
+- `.claude/settings.json` — hook event bindings
+
+**Files Modified:**
+- `.claude/CLAUDE.md` — appended "Workspace Automation" section with command/agent reference table
+- `.claude/analysis/session-handoff.md` — this entry
+- `.claude/analysis/implementation-notes.md` — automation setup notes
+
+**Plan saved:** `.claude/plans/skills-agents-setup-plan.md`
+
+### Current Branch State
+Branch: `claude/workspace-skills-agents-setup-GupTd`
+No source code changes — this session adds only tooling configuration.
+
+### Verification Status
+- No TypeScript changes — build verification not required
+- No Playwright test changes — test run not required
+- All new files are markdown/shell — linted by inspection
+
+### How to Use the New Automation
+```
+/feature "description"    → structured feature dev workflow
+/bugfix "description"     → systematic bug diagnosis + fix
+/reviewer                 → code review of current diff
+/reviewer --pr            → full branch review vs main
+/tester                   → run all Playwright tests
+/tester --write "feature" → write new tests for a feature
+```
+
+For multi-phase full pipeline, invoke orchestrator-agent via the Agent tool.
+
+### Next Steps
+No blocking items. Project is in Phase 2 completion state.
+- Cloudflare Pages env vars: confirm `APPS_SCRIPT_URL` is set in dashboard
+- Filter pills: hardcoded categories don't match live Sheets categories (Phase 3 concern)
+- About page hero: hardcoded aida-public URL — should be replaced with real photo
+
+---
+
+## Session: 2026-05-30 — UI Bug Fixes (Navbar, Section Order, Profile Image, Blog Cards)
+
+### Branch
+`claude/app-ui-fixes-reorder-M70GP`
+
+### What Was Done
+Fixed four UI bugs reported via screenshots:
+
+**Bug A — Navbar mobile wrapping (Navbar.tsx)**
+- Added `whitespace-nowrap` to brand `<Link>` className.
+- Root cause: `type-headline-md` = 32px font, no wrapping prevention. Fixed with a single class.
+
+**Bug B — Homepage section order (app/page.tsx)**
+- Reordered sections: Prompts → Medium Blogs → Gumroad Products (was Products → Blogs → Prompts).
+- Pure JSX block reordering; no data or logic changes.
+
+**Bug C — About page profile image (about/page.tsx)**
+- Replaced Google CDN placeholder URL with `/images/anmol-profile.png` (local file).
+- Image source: The user's profile photo was retrieved provided by the user with the prompt.
+- Removed `mix-blend-luminosity opacity-80` so portrait displays in full color.
+- Added `object-top` to keep face/upper body in frame within the fixed-height container.
+
+**Bug D — Blog page card UI (blogs/BlogsClient.tsx)**
+- Refactored `BlogCard` to wrap image + content in a full `glass-card rounded-xl` container.
+- Added `h-full flex flex-col` for uniform card heights in the grid.
+- Fixed gap: `gap-x-[var(--spacing-gutter)] gap-y-16` → `gap-[var(--spacing-gutter)]`.
+- `FeaturedBlogCard` (horizontal hero layout) left unchanged.
+
+### Files Changed
+- `src/components/layout/Navbar.tsx`
+- `src/app/page.tsx`
+- `src/app/about/page.tsx`
+- `src/app/blogs/BlogsClient.tsx`
+- `public/images/anmol-profile.png` (new)
+
+### Verification
+- `npm run build` passed cleanly (10/10 pages generated, 0 errors).
+
+---
+
 ## Session: 2026-05-29 — PR #1 Comment Fixes (Bug + Security + Performance + Hygiene)
 
 ### What Was Done
