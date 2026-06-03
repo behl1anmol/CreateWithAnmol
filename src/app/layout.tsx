@@ -27,10 +27,10 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   title: 'Create with Anmol',
-  description: 'Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.',
+  description: 'Software Engineer. AI Builder. Turning complex technology into things people can understand and use.',
   openGraph: {
     title: 'Create with Anmol',
-    description: 'Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.',
+    description: 'Software Engineer. AI Builder. Turning complex technology into things people can understand and use.',
     type: 'website',
   },
 }

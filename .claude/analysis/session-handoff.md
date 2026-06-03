@@ -1,5 +1,45 @@
 # Session Handoff
 
+## Session: 2026-06-03 — Brand Messaging Pivot (Copy-Only)
+
+### Branch
+`Dev`
+
+### What Changed
+Pure content/copy rebrand. Zero structural or code changes. Three files affected.
+
+**`src/app/layout.tsx`**
+- `metadata.description` + `openGraph.description`: "Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design." → "Software Engineer. AI Builder. Turning complex technology into things people can understand and use."
+
+**`src/app/page.tsx`**
+- Hero subtitle: same description swap
+- About Teaser `<h2>`: "Building at the intersection of AI and cinematic design" → "Engineer first. Creator always."
+- About Teaser body: AI/design framing → software engineer/educator framing
+
+**`src/app/about/page.tsx`**
+- Hero `<h1>`: "Architecting digital realities" → "Building things that teach"
+- Hero subtitle: cinematic AI positioning → developer/educator positioning
+- "The Architect" heading: "Designer. Engineer. Creator." → "Engineer. Builder. Creator."
+- Bio paragraphs: 3rd-person AI creator framing → 1st-person software engineer framing
+- PRINCIPLES titles + descriptions (all 3 replaced):
+  - "Restraint over Abundance" → "Build to Understand"
+  - "Liquid Lighting" → "Share the Journey"
+  - "Deterministic Outcomes" → "Simplicity Scales"
+
+### Brand Direction
+Old: "Technical AI Creator / cinematic design / prompt engineering" — aesthete/auteur angle
+New: "Software Engineer / AI Builder / helps people understand tech" — educator/practitioner angle
+
+### Verification
+No build needed — no TypeScript changes. Copy-only diff. SEO metadata updated via `layout.tsx`.
+
+### Files Changed
+- `src/app/layout.tsx`
+- `src/app/page.tsx`
+- `src/app/about/page.tsx`
+
+---
+
 ## Session: 2026-05-30 — Claude Code Workspace Automation Setup
 
 ### What Was Done

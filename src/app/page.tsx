@@ -22,7 +22,7 @@ export default async function Home() {
           Create with Anmol
         </h1>
         <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-2xl">
-          Technical AI Creator. Mastering the intersection of prompt engineering and cinematic design.
+          Software Engineer. AI Builder. Turning complex technology into things people can understand and use.
         </p>
         <div className="mt-8 flex items-center gap-6">
           {SOCIAL_PLATFORMS.map(({ key, href, label, brandColor, Icon }) => (
@@ -191,10 +191,10 @@ export default async function Home() {
         <div className="glass-panel rounded-3xl p-12 md:p-20 flex flex-col items-center text-center gap-6">
           <span className="type-label-caps text-[var(--color-on-surface-variant)]">Creator Story</span>
           <h2 className="type-headline-md text-gradient max-w-2xl">
-            Building at the intersection of AI and cinematic design
+            Engineer first. Creator always.
           </h2>
           <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-xl">
-            From prompt engineering to visual storytelling — exploring what&apos;s possible when technology meets art.
+            I build software, explore emerging technologies, and turn complex technical concepts into practical insights for developers and tech enthusiasts.
           </p>
           <a
             href="/about"
