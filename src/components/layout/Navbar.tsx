@@ -68,12 +68,12 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <a
-          href="https://www.instagram.com/createwithanmol"
+          href="https://www.linkedin.com/in/behlanmol/"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:block type-label-caps bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-2.5 rounded hover:scale-[1.02] active:scale-[0.98] transition-transform"
         >
-          Follow on Instagram
+          Follow on LinkedIn
         </a>
 
         {/* Mobile actions */}
@@ -126,12 +126,12 @@ export default function Navbar() {
             )
           })}
           <a
-            href="https://www.instagram.com/createwithanmol"
+            href="https://www.linkedin.com/in/behlanmol/"
             target="_blank"
             rel="noopener noreferrer"
             className="type-label-caps mt-2 bg-[var(--color-primary)] text-[var(--color-on-primary)] px-6 py-3 rounded text-center"
           >
-            Follow on Instagram
+            Follow on LinkedIn
           </a>
         </div>
       )}

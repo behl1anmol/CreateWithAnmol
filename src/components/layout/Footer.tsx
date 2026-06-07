@@ -46,7 +46,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="type-mono-technical text-[var(--color-secondary)] uppercase tracking-widest text-center">
-          &copy; 2025 Create with Anmol
+          &copy; 2026 Create with Anmol
         </p>
       </div>
     </footer>

@@ -47,6 +47,30 @@ The orchestrator agent coordinates subagents via the `Agent` tool. Key design:
 
 ---
 
+## Session: 2026-06-03 — Brand Messaging Pivot
+
+### Canonical Brand Voice (current)
+Site describes Anmol as: "Software Engineer. AI Builder. Turning complex technology into things people can understand and use."
+
+This description appears in 3 places — keep them in sync:
+1. `src/app/layout.tsx` — `metadata.description` + `openGraph.description`
+2. `src/app/page.tsx` — hero `<p>` subtitle
+3. `src/app/about/page.tsx` — hero subtitle paragraph
+
+### Core Principles (current — About page PRINCIPLES const)
+| # | Title | Angle |
+|---|-------|-------|
+| 01 | Build to Understand | learning-by-building |
+| 02 | Share the Journey | knowledge sharing |
+| 03 | Simplicity Scales | engineering clarity |
+
+Old principles (Restraint over Abundance / Liquid Lighting / Deterministic Outcomes) were AI-aesthete framing — replaced entirely.
+
+### Copy Update Rule
+When updating any bio/description copy, update all 3 sync points above in a single commit. Do not let `layout.tsx` metadata drift from `page.tsx` hero text.
+
+---
+
 ## Session: 2026-05-30 — UI Bug Fixes
 
 ### Navbar Brand: Always Use `whitespace-nowrap`

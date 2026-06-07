@@ -10,21 +10,21 @@ const STATS = [
 const PRINCIPLES = [
   {
     number: '01',
-    title: 'Restraint over Abundance',
+    title: 'Build to Understand',
     description:
-      'Every element earns its place. Negative space is not emptiness — it is precision. The most powerful creative decisions are the ones you choose not to make.',
+      'The fastest way to learn technology is to create with it. Every project, experiment, and prototype is an opportunity to deepen understanding and discover what works in practice.',
   },
   {
     number: '02',
-    title: 'Liquid Lighting',
+    title: 'Share the Journey',
     description:
-      'Light is not decoration. It is architecture. Every surface, every interface, every generation is built around how light behaves against material — real or simulated.',
+      "Knowledge becomes more valuable when it's shared. From technical articles to project breakdowns, documenting lessons learned helps others grow while reinforcing my own learning.",
   },
   {
     number: '03',
-    title: 'Deterministic Outcomes',
+    title: 'Simplicity Scales',
     description:
-      'Creativity at scale requires systems. Every workflow, prompt chain, and design decision is engineered for repeatability without sacrificing the edge of surprise.',
+      'The best solutions are often the simplest ones. Whether designing software, workflows, or content, clarity and maintainability matter more than complexity for its own sake.',
   },
 ]
 
@@ -48,19 +48,19 @@ export default function AboutPage() {
             </span>
           </div>
           <h1 className="type-display-mobile md:type-display-lg text-gradient tracking-tight">
-            Architecting digital realities
+            Building things that teach
           </h1>
           <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-xl">
-            Operating at the intersection of generative AI and high-end editorial design. Building tools, products, and creative systems that define what comes next.
+            Whether it's a developer tool, an AI workflow, or a technical deep dive, my goal is the same: create something useful and help others understand the technology behind it.
           </p>
           <div className="pt-2">
             <a
-              href="https://www.instagram.com/thestudioprompts.ai/"
+              href="https://www.linkedin.com/in/behlanmol/"
               target="_blank"
               rel="noopener noreferrer"
               className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap inline-flex items-center gap-2 hover:gap-3 transition-all duration-300"
             >
-              Follow the Work
+              Follow me
               <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
             </a>
           </div>
@@ -80,7 +80,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Strip */}
-      <section className="glass-panel rounded-2xl p-8 md:p-10 mb-24 md:mb-32 relative z-10">
+      {/* <section className="glass-panel rounded-2xl p-8 md:p-10 mb-24 md:mb-32 relative z-10">
         <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-white/10">
           {STATS.map((stat) => (
             <div key={stat.label} className="flex-1 flex flex-col items-center justify-center py-6 sm:py-0 text-center">
@@ -91,7 +91,7 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section>*/}
 
       {/* The Architect */}
       <section className="mb-0 relative z-10">
@@ -101,18 +101,18 @@ export default function AboutPage() {
         <div className="flex flex-col md:flex-row gap-12 md:gap-24">
           <div className="md:w-1/3">
             <h2 className="type-headline-md text-[var(--color-primary)] font-semibold leading-tight">
-              Designer.<br />Engineer.<br />Creator.
+              Engineer.<br />Builder.<br />Creator.
             </h2>
           </div>
           <div className="md:w-2/3">
             <p className="type-body-lg text-[var(--color-on-surface-variant)] mb-6">
-              Anmol Behl is a technical AI creator and digital architect operating at the bleeding edge of generative design. With a background spanning prompt engineering, editorial UI systems, and cinematic visual production, he builds products that redefine creative possibility.
-            </p>
+              I’m a software engineer passionate about building useful things and sharing what I learn along the way.
+              </p>
             <p className="type-body-lg text-[var(--color-on-surface-variant)] mb-6">
-              His work is defined by precision over volume — every prompt, product, and article distilled to its essential truth. He believes the next era of digital creativity belongs to those who understand both the model and the medium.
+             Whether I'm creating an application, experimenting with AI workflows, or writing about technology, I'm driven by curiosity and a desire to make complex ideas easier to understand.
             </p>
             <p className="type-body-lg text-[var(--color-on-surface-variant)]">
-              Based on the internet. Building for creators who refuse to compromise between technical depth and aesthetic excellence.
+              I believe technology is best learned through building. Every project, article, and experiment here is part of an ongoing journey to explore, create, and help others do the same.
             </p>
           </div>
         </div>
@@ -203,12 +203,12 @@ export default function AboutPage() {
           </p>
         </div>
         <a
-          href="https://www.instagram.com/thestudioprompts.ai/"
+          href="https://www.linkedin.com/in/behlanmol/"
           target="_blank"
           rel="noopener noreferrer"
           className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap flex items-center gap-2 hover:gap-3 transition-all duration-300"
         >
-          Connect on Instagram
+          Connect on LinkedIn
           <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
         </a>
       </div>
