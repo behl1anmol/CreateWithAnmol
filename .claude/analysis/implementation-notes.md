@@ -1,5 +1,42 @@
 # Implementation Notes
 
+## Session: 2026-06-08 — Homepage Hero Background Image (scroll-fade)
+
+### New component: `src/components/home/HeroBackground.tsx`
+`'use client'` decorative layer (`aria-hidden`) added to the homepage only. Renders an `absolute inset-x-0 top-0 z-0` full-bleed background-image (`/images/anmol-cover.png`) inside the existing `relative z-10` wrapper in `src/app/page.tsx`. Layer stack back→front: image (`bg-cover bg-center`) → dark wash (`bg-[#07090c]/40`) → radial vignette → bottom blend gradient to `#07090c` (page base color).
+
+### Why `absolute` not `fixed`
+User wanted "scrolls away + fades". An `absolute z-0` child of the `relative z-10` wrapper scrolls with the page and paints behind all `z-10` sections but above body/orbs. Hero text (z-10) stays readable above the image.
+
+### Scroll/measure mechanics
+- Boundary marker `<div id="hero-bg-end" aria-hidden />` is a **direct child** of the `relative z-10` wrapper, placed between the Hero `</section>` and Instagram Prompts `<section>`. Must be a direct child so `offsetTop` measures against the wrapper (the offsetParent).
+- Height = `sentinel.offsetTop` → image covers exactly the hero region, never bleeds behind featured/About/footer.
+- Opacity = `clamp01((boundaryTop - vh*0.15) / (vh*0.7 - vh*0.15))` recomputed every scroll → fades out as boundary rises, fades back in on scroll up.
+- Scroll throttled via single `requestAnimationFrame` ref (guard `if rafRef.current !== null return`); scroll+resize listeners `{ passive: true }`; full cleanup (removeEventListener + cancelAnimationFrame) in the effect return — mirrors `SearchClient.tsx` useEffect/ref convention.
+
+### Reduced motion
+`matchMedia('(prefers-reduced-motion: reduce)')`: when true, scroll listener is NOT attached and opacity stays 1 (image still scrolls away + bottom-blends). Resize→re-measure still attached in both modes.
+
+### SSR / perf notes
+No `window` access at module/render time — only inside `useEffect`. Default state `height: null` (renders `'100vh'`), `opacity: 1` → no CLS (layer is out of flow). Opacity-only CSS transition (`120ms linear`), no animation library. No `next/image` (matches project convention; `images.unoptimized: true`).
+
+### Tunables (for future visual review)
+Vignette strength, dark-wash % (`/40`), fade `start`/`end` ratios (0.7 / 0.15), and `bg-center` focal point on mobile.
+
+### Bottom-seam blend — iterations (same session, post-review)
+User flagged the boundary where the image meets the Instagram Prompts section as a hard, "cheap" horizontal line. Two iterations:
+
+1. **(rejected)** Per-image `mask-image` bottom fade + a separate tall `bg-gradient-to-b ... to-[#07090c]` "bottom blend" div. This darkened the lower image into a flat dark band, and the gradient's **solid `#07090c` fill did not match the body's fixed radial gradient** behind the featured section (body uses `background-attachment: fixed`, so the color under the boundary varies with scroll) → a visible horizontal line remained.
+
+2. **(final)** Removed the bottom-blend div **and** the per-image mask. Moved a single `mask-image: linear-gradient(to bottom, #000 60%, transparent 100%)` (+ `-webkit-`) onto the **outer layer wrapper**, so the entire composite (image + wash + vignette) alpha-fades to fully transparent at the bottom. No solid color is introduced, so the body gradient shows through continuously across the boundary — no dark band, no hard line.
+
+**Key insight:** to dissolve a finite-height overlay into a page whose background is a *fixed* gradient, fade the overlay's **alpha** (mask) — do **not** fade to a solid color, because any solid will mismatch the scroll-varying body gradient and re-introduce a seam.
+
+### Final layer composition (`HeroBackground.tsx`)
+Outer wrapper: `absolute inset-x-0 top-0 z-0 overflow-hidden`, inline `height/opacity/transition` **+ `maskImage`/`WebkitMaskImage` bottom alpha fade**. Children: image (`bg-cover bg-center`) → dark wash (`bg-[#07090c]/40`, for hero text contrast) → radial vignette. No bottom-blend div. Build passes clean.
+
+---
+
 ## Session: 2026-05-30 — Workspace Automation Setup
 
 ### Claude Code Skill File Pattern

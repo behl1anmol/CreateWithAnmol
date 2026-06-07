@@ -1,5 +1,21 @@
 # Session Handoff
 
+## Session: 2026-06-08 — Homepage Hero Background Image (scroll-fade)
+
+### Branch
+`Dev`
+
+### What Changed
+Added a scroll-fading background image behind the homepage hero.
+- **New:** `src/components/home/HeroBackground.tsx` — `'use client'` decorative `aria-hidden` layer. `absolute z-0` inside the `relative z-10` wrapper; image `/images/anmol-cover.png` + dark wash + vignette; whole layer alpha-masked at the bottom to dissolve into the page (no seam). Height measured from `#hero-bg-end`; opacity scroll-driven (rAF-throttled, passive, `prefers-reduced-motion` aware).
+- **Edited:** `src/app/page.tsx` — import + `<HeroBackground />` after the ambient-orb div; boundary marker `<div id="hero-bg-end" aria-hidden />` as a direct child of the wrapper between Hero and Instagram Prompts sections. Still a server component.
+- **Asset:** `public/images/anmol-cover.png` (1920×1080).
+
+### State
+`npm run build` passes clean (ISR `/` revalidate 1h intact). Manual visual review recommended (`npm run dev`). No Playwright test added (decorative, scroll/viewport-metric dependent — `/tester` optional). Details + the bottom-seam fix rationale in `implementation-notes.md` and `lessons-learned.md` (2026-06-08 entries).
+
+---
+
 ## Session: 2026-06-03 — Brand Messaging Pivot (Copy-Only)
 
 ### Branch

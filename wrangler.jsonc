@@ -23,5 +23,8 @@
 		// Enable image optimization
 		// see https://opennext.js.org/cloudflare/howtos/image
 		"binding": "IMAGES"
-	}
+	},
+	"vars": {
+    	"APPS_SCRIPT_URL": "https://script.google.com/macros/s/AKfycbxDKNTVNysBLTP8Qpc1GxCHnQfcL4_hOtXnu2p7cMqGDN8ADqAVaPwSae6j6xDH68UJ/exec"
+  	}
 }

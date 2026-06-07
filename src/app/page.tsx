@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { getHomepageData } from '@/lib/api'
 import type { Product, Blog, Prompt } from '@/lib/types'
 import { SOCIAL_PLATFORMS } from '@/lib/social'
+import HeroBackground from '@/components/home/HeroBackground'
 
 export const revalidate = 3600
 
@@ -15,6 +16,9 @@ export default async function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-white/5 blur-[120px] mix-blend-screen" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[100px] mix-blend-screen" />
       </div>
+
+      {/* Hero background image (scrolls away + scroll-driven opacity fade) */}
+      <HeroBackground />
 
       {/* Hero */}
       <section className="relative z-10 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto min-h-[716px] flex flex-col justify-center items-center text-center gap-8 mb-40">
@@ -40,6 +44,9 @@ export default async function Home() {
           ))}
         </div>
       </section>
+
+      {/* Hero background fade boundary (measured by HeroBackground) */}
+      <div id="hero-bg-end" aria-hidden="true" />
 
       {/* Instagram Prompts */}
       <section className="relative z-10 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto mb-40">

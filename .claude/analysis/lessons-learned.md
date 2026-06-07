@@ -1,5 +1,15 @@
 # Lessons Learned
 
+## Session: 2026-06-08 — Scroll-Fade Hero Background
+
+### Dissolve Overlays with Alpha (mask), Not a Solid-Color Gradient
+When fading a finite-height decorative overlay (e.g. the hero background image) into the page, fade its **alpha** via `mask-image: linear-gradient(to bottom, #000 X%, transparent 100%)` — never fade to a solid color fill. The body uses `background-attachment: fixed` with a radial gradient, so the color under any boundary **changes as you scroll**. A solid-color blend (even the base `#07090c`) will mismatch that scroll-varying gradient and re-introduce a visible horizontal seam. Mask the whole layer (image + wash + vignette) as one group so they dissolve together.
+
+### Scroll-Driven Effects: Opacity-Only, rAF-Throttled, Passive, Cleaned-Up
+Project rules forbid animation libraries. For scroll effects: `requestAnimationFrame`-throttle the scroll handler (single ref as the throttle guard), register listeners `{ passive: true }`, recompute opacity from `getBoundingClientRect()` vs `window.innerHeight`, and tear everything down in the `useEffect` return. Honor `prefers-reduced-motion` by not attaching the scroll listener. Keep the page a server component — isolate the interactivity in a small `'use client'` child.
+
+---
+
 ## Session: 2026-05-30 — UI Bug Fixes
 
 ### Always `whitespace-nowrap` Brand Links
