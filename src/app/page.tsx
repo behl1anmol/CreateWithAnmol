@@ -19,7 +19,7 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative z-10 px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] max-w-[var(--spacing-container-max)] mx-auto min-h-[716px] flex flex-col justify-center items-center text-center gap-8 mb-40">
         <h1 className="type-display-mobile md:type-display-lg text-gradient max-w-4xl">
-          Create with Anmol
+          Anmol Behl
         </h1>
         <p className="type-body-lg text-[var(--color-on-surface-variant)] max-w-2xl">
           Software Engineer. AI Builder. Turning complex technology into things people can understand and use.

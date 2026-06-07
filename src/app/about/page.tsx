@@ -55,12 +55,12 @@ export default function AboutPage() {
           </p>
           <div className="pt-2">
             <a
-              href="https://www.instagram.com/thestudioprompts.ai/"
+              href="https://www.linkedin.com/in/behlanmol/"
               target="_blank"
               rel="noopener noreferrer"
               className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap inline-flex items-center gap-2 hover:gap-3 transition-all duration-300"
             >
-              Follow the Work
+              Follow me
               <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
             </a>
           </div>
@@ -80,7 +80,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Strip */}
-      <section className="glass-panel rounded-2xl p-8 md:p-10 mb-24 md:mb-32 relative z-10">
+      {/* <section className="glass-panel rounded-2xl p-8 md:p-10 mb-24 md:mb-32 relative z-10">
         <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-white/10">
           {STATS.map((stat) => (
             <div key={stat.label} className="flex-1 flex flex-col items-center justify-center py-6 sm:py-0 text-center">
@@ -91,7 +91,7 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section>*/}
 
       {/* The Architect */}
       <section className="mb-0 relative z-10">
@@ -203,12 +203,12 @@ export default function AboutPage() {
           </p>
         </div>
         <a
-          href="https://www.instagram.com/thestudioprompts.ai/"
+          href="https://www.linkedin.com/in/behlanmol/"
           target="_blank"
           rel="noopener noreferrer"
           className="pill-filter type-label-caps px-6 py-3 rounded-full text-[var(--color-primary)] whitespace-nowrap flex items-center gap-2 hover:gap-3 transition-all duration-300"
         >
-          Connect on Instagram
+          Connect on LinkedIn
           <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
         </a>
       </div>
